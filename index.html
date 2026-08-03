@@ -9723,6 +9723,7 @@ function ProspectDashboard() {
         const currentYear = new Date().getFullYear();
         const p1 = `You are a sales intelligence analyst researching "${acc.companyName}" (industry: ${acc.industry || "unknown"}). CRITICAL: Today is ${new Date().toISOString().split("T")[0]}. You MUST provide the most recent data available — use ${currentYear - 1} and ${currentYear} figures, NOT outdated data from earlier years. If ${currentYear} data is not available, state the most recent year explicitly. Return ONLY valid JSON (no markdown). Use "" for unknown fields. Be concise but factual with LATEST public data:
 {
+  "industry": "The company's primary industry / sector in 2-5 words (e.g. 'Automotive Manufacturing', 'Retail Banking', 'SaaS / HR Technology', 'Pharmaceuticals')",
   "atAGlance": "2-3 sentence company overview with ${currentYear - 1}/${currentYear} revenue and current employee count — state the year of data explicitly",
   "revenue": "Most recent annual revenue with currency — MUST include the fiscal year (e.g. FY${currentYear - 1}). Do NOT use data older than ${currentYear - 2}",
   "revenueGrowth": "YoY growth % and trend",
@@ -9949,7 +9950,8 @@ Return this exact JSON structure:
             }
             // Authoritative replace: fresh web-verified text overwrites stale content (no accumulation, no tags)
             else if (typeof v === "string" && v.length > 2) {
-              updated[k] = v;
+              if (k === "industry" && a.industry && a.industry.trim()) { /* keep existing/user-set industry */ }
+              else updated[k] = v;
             }
           }
           return updated;
