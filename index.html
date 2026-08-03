@@ -2452,7 +2452,7 @@ function buildAccountHTML(account) {
           .join("") +
         "</div>"
       : "";
-  return (
+  var _html = (
     '<!DOCTYPE html><html><head><meta charset="utf-8">' +
     "<title>" +
     (account.companyName || "Account") +
@@ -2556,6 +2556,18 @@ function buildAccountHTML(account) {
       : "") +
     "</body></html>"
   );
+  _html = _html.replace(/<p>([\s\S]*?)<\/p>/g, function (m, inner) {
+    if (/[<]/.test(inner)) return m;
+    var pz = paragraphize(inner);
+    if (pz.indexOf("\n\n") === -1) return m;
+    return "<p>" + pz.split("\n\n").join("</p><p>") + "</p>";
+  }).replace(/(<div class="box">)([\s\S]*?)(<\/div>)/g, function (m, a, inner, b) {
+    if (/[<]/.test(inner)) return m;
+    var pz = paragraphize(inner);
+    if (pz.indexOf("\n\n") === -1) return m;
+    return a + pz.split("\n\n").join("<br><br>") + b;
+  });
+  return _html;
 } // ─── PDF: open in new window → browser Print → Save as PDF ───────────────────
 async function exportToPDF(account) {
   var html = buildAccountHTML(account); // Inject print-trigger script into the HTML before </body>
@@ -3082,12 +3094,38 @@ const initAccounts = () => [
   acc27,
   acc28,
 ]; // ─── Reusable components ───────────────────────────────────────────────────────
+function paragraphize(text) {
+  if (!text || typeof text !== "string") return text || "";
+  var t = text.trim();
+  if (!t) return "";
+  if (t.indexOf("\n\n") !== -1) return t;
+  t = t.replace(/\s*\n\s*/g, " ").replace(/[ \t]{2,}/g, " ");
+  var parts = t.match(/[^.!?]+[.!?]+["'\)\]]*\s*/g);
+  if (!parts) return t;
+  parts = parts.map(function (s) { return s.trim(); }).filter(Boolean);
+  if (parts.length <= 2) return parts.join(" ");
+  var cues = /^(First|Second|Third|Fourth|Fifth|Sixth|Finally|Lastly|Additionally|Also|Moreover|Furthermore|However|In addition|On the other hand|Meanwhile|Notably|Importantly|As a result|Consequently|Therefore|For example|For instance|In contrast|Overall|Separately|Beyond that|Looking ahead|By contrast|At the same time|Crucially|Together|Ultimately)[,:\s]/i;
+  var paras = [], cur = [];
+  for (var i = 0; i < parts.length; i++) {
+    var s = parts[i];
+    if (cur.length && (cues.test(s) || cur.length >= 3)) { paras.push(cur.join(" ")); cur = []; }
+    cur.push(s);
+  }
+  if (cur.length) paras.push(cur.join(" "));
+  return paras.join("\n\n");
+}
 function TextArea({ value, onChange, placeholder, rows = 3 }) {
+  var _fs = React.useState(false);
+  var focused = _fs[0], setFocused = _fs[1];
+  var formatted = paragraphize(value || "");
+  var shown = focused ? (value || "") : formatted;
+  var lineCount = formatted ? formatted.split("\n").length : 1;
+  var autoRows = Math.max(rows, Math.min(30, lineCount + Math.ceil((formatted.length || 0) / 95)));
   return /*#__PURE__*/ React.createElement("textarea", {
-    value: value,
+    value: shown,
     onChange: (e) => onChange(e.target.value),
     placeholder: placeholder,
-    rows: rows,
+    rows: autoRows,
     style: {
       width: "100%",
       padding: "8px 10px",
@@ -3097,13 +3135,14 @@ function TextArea({ value, onChange, placeholder, rows = 3 }) {
       color: C.text,
       resize: "vertical",
       fontFamily: "inherit",
-      lineHeight: 1.5,
+      lineHeight: 1.6,
+      whiteSpace: "pre-wrap",
       outline: "none",
       boxSizing: "border-box",
       background: "#FAFAFA",
     },
-    onFocus: (e) => (e.target.style.borderColor = C.teal),
-    onBlur: (e) => (e.target.style.borderColor = C.border),
+    onFocus: (e) => { setFocused(true); e.target.style.borderColor = C.teal; },
+    onBlur: (e) => { setFocused(false); e.target.style.borderColor = C.border; },
   });
 }
 function Input({ value, onChange, placeholder, width = "100%" }) {
