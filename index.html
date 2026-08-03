@@ -542,6 +542,7 @@ function dlBlob(blob, filename) {
 const PPTX_CDN = "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js";
 const XLSX_CDN = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
 const SEV_COLOR = { CRITICAL: "DC2626", HIGH: "D97706", MEDIUM: "2563EB" };
+const COMPANY_BRAND = { name: "ClearEqual", color: "1D4ED8" };
 async function exportToPPTX(account) {
   await loadScript(PPTX_CDN, "pptx");
   if (!window.PptxGenJS) throw new Error("PptxGenJS library not loaded — check internet connection");
@@ -553,7 +554,7 @@ async function exportToPPTX(account) {
   pptx.defaultFont = { name: 'Calibri', size: 11, color: '1E293B' };
 
   // Brand color
-  const brandColor = (account.brandColor || '1A73E8').toUpperCase();
+  const brandColor = COMPANY_BRAND.color.toUpperCase();
   const brandColorLight = tintColor(brandColor, 0.85);
   const brandColorDark = tintColor(brandColor, -0.3);
 
@@ -649,6 +650,11 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
+  // Vendor identity
+  slide1.addText('Account Intelligence  \u00b7  Prepared by ' + COMPANY_BRAND.name, {
+    x: 0.5, y: 3.55, w: 12.33, h: 0.35, fontSize: 14, color: 'FFFFFF', align: 'center', fontFace: 'Calibri'
+  });
+
   // Key metrics row
   const metrics = [
     `Revenue: ${account.revenue || 'N/A'}`,
@@ -668,7 +674,7 @@ async function exportToPPTX(account) {
   });
 
   // Footer
-  slide1.addText('PHENOM CONFIDENTIAL', {
+  slide1.addText('CLEAREQUAL CONFIDENTIAL', {
     x: 0.5,
     y: 6.9,
     w: 12.33,
@@ -947,7 +953,7 @@ async function exportToPPTX(account) {
     }
   }
 
-  // ========== SLIDE 4: WHERE PHENOM HAS IMPACT ==========
+  // ========== SLIDE 4: WHERE CLEAREQUAL HAS IMPACT ==========
   const slide4 = pptx.addSlide();
   slide4.background = { color: 'FFFFFF' };
 
@@ -2351,7 +2357,7 @@ async function exportToPPTX(account) {
   });
 
   // Confidential footer
-  slide12.addText('PHENOM CONFIDENTIAL', {
+  slide12.addText('CLEAREQUAL CONFIDENTIAL', {
     x: 0.5,
     y: 6.9,
     w: 12.33,
@@ -3914,7 +3920,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
           hyperCellTitle: "Single highest-value ClearEqual opportunity for this account — one sentence",
           hyperCellNarrative: "Executive narrative: why this specific ClearEqual capability is the #1 priority for this account. Reference their specific workforce data, industry benchmarks, and ClearEqual ROI metrics. Include: the business problem, the ClearEqual solution, quantified expected impact, and the urgency driver."
         }
-      }) + "\n\nPHENOM DATA/CONTENT:\n" + truncated + "\n\nCRITICAL RULES:\n1. Use REAL ClearEqual metrics and benchmarks (e.g. 37% internal hires, 11x internal applications, 50% faster time-to-fill, 3x career site conversions, 62% learning platform increase).\n2. Reference ClearEqual product modules by name: Intelligent Talent Experience, CX (Career Site), Hiring Manager, CRM, Fit Score, Talent Marketplace, Workforce Intelligence, AI Agents.\n3. Map challenges to ClearEqual ROI data: customers see avg 30-50% reduction in TTF, 2-3x improvement in apply rates, 40%+ increase in internal mobility.\n4. If the content doesn't contain company-specific data, use ClearEqual industry benchmarks and frameworks to ENRICH the existing account intel.\n5. For businessChallenges, provide 2-4 challenges. Each must have a ClearEqual-specific solution and proof point.\n6. APPEND to existing intelligence, don't replace. Prefix new insights with '[ClearEqual Intel]' tag.";
+      }) + "\n\nCLEAREQUAL DATA/CONTENT:\n" + truncated + "\n\nCRITICAL RULES:\n1. Use REAL ClearEqual metrics and benchmarks (e.g. 37% internal hires, 11x internal applications, 50% faster time-to-fill, 3x career site conversions, 62% learning platform increase).\n2. Reference ClearEqual product modules by name: Intelligent Talent Experience, CX (Career Site), Hiring Manager, CRM, Fit Score, Talent Marketplace, Workforce Intelligence, AI Agents.\n3. Map challenges to ClearEqual ROI data: customers see avg 30-50% reduction in TTF, 2-3x improvement in apply rates, 40%+ increase in internal mobility.\n4. If the content doesn't contain company-specific data, use ClearEqual industry benchmarks and frameworks to ENRICH the existing account intel.\n5. For businessChallenges, provide 2-4 challenges. Each must have a ClearEqual-specific solution and proof point.\n6. APPEND to existing intelligence, don't replace. Prefix new insights with '[ClearEqual Intel]' tag.";
 
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -6935,14 +6941,14 @@ function GeoPoliSection({ account, update }) {
     ),
   );
 } // ─── ClearEqual Proof Points Database (Industry-Matched Customer Stories) ─────────
-const PHENOM_PROOF_POINTS = []; // ─── Industry matching logic ─────────────────────────────────────────────────
+const CLEAREQUAL_PROOF_POINTS = []; // ─── Industry matching logic ─────────────────────────────────────────────────
 function matchProofPoints(accountIndustry) {
-  if (!accountIndustry) return PHENOM_PROOF_POINTS;
+  if (!accountIndustry) return CLEAREQUAL_PROOF_POINTS;
   const terms = accountIndustry
     .toLowerCase()
     .split(/[\s\/,&|]+/)
     .filter(Boolean);
-  const scored = PHENOM_PROOF_POINTS.map((pp) => {
+  const scored = CLEAREQUAL_PROOF_POINTS.map((pp) => {
     const tagStr = pp.tags.join(" ").toLowerCase() + " " + pp.industry.toLowerCase();
     let score = 0;
     terms.forEach((t) => {
