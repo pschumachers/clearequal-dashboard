@@ -92,6 +92,7 @@ const extractJSON = (raw) => {
   }
   throw new Error("No valid JSON found in API response");
 };
+const apiText = (data) => (data && data.content || []).filter(function(b){ return b && b.type === "text" && b.text; }).map(function(b){ return b.text; }).join("\n").replace(/\u2014/g, ", ").replace(/\u2013/g, "-");
 const fetchWithRetry = async (url, options, maxRetries, statusCb) => {
   for (var attempt = 0; attempt <= maxRetries; attempt++) {
     var resp = null;
@@ -3474,12 +3475,12 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 4000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let respText = data.content[0].text.trim();
+      let respText = apiText(data).trim();
       if (respText.startsWith("\`\`\`")) respText = respText.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(respText);
 
@@ -3706,12 +3707,12 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 4000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let respText = data.content[0].text.trim();
+      let respText = apiText(data).trim();
       if (respText.startsWith("\`\`\`")) respText = respText.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(respText);
 
@@ -3918,12 +3919,12 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 4000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let rawText = data.content[0].text.trim();
+      let rawText = apiText(data).trim();
       if (rawText.startsWith("\`\`\`")) rawText = rawText.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(rawText);
 
@@ -3937,7 +3938,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
         wFields.forEach(([field, val]) => {
           if (val && typeof val === "string" && val.length > 5) {
             const existing = account[field] || "";
-            const newVal = existing ? existing + "\n\n[ClearEqual Intel] " + val : "[ClearEqual Intel] " + val;
+            const newVal = val;
             update(field, newVal);
             updatedCount++;
             updatedFields.push(field);
@@ -3952,7 +3953,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
         pFields.forEach(([field, val]) => {
           if (val && typeof val === "string" && val.length > 5) {
             const existing = account[field] || "";
-            const newVal = existing ? existing + "\n\n[ClearEqual Intel] " + val : "[ClearEqual Intel] " + val;
+            const newVal = val;
             update(field, newVal);
             updatedCount++;
             updatedFields.push(field);
@@ -3967,7 +3968,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
         uFields.forEach(([field, val]) => {
           if (val && typeof val === "string" && val.length > 5) {
             const existing = account[field] || "";
-            const newVal = existing ? existing + "\n\n[ClearEqual Intel] " + val : "[ClearEqual Intel] " + val;
+            const newVal = val;
             update(field, newVal);
             updatedCount++;
             updatedFields.push(field);
@@ -4165,7 +4166,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp1 = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: p1 }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: p1 }] }),
       });
       if (!resp1.ok) throw new Error("API error: " + resp1.status);
       const data1 = await resp1.json();
@@ -4200,7 +4201,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp2 = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: p2 }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: p2 }] }),
       });
       if (!resp2.ok) throw new Error("API error: " + resp2.status);
       const data2 = await resp2.json();
@@ -4386,7 +4387,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp1 = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: p1 }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: p1 }] }),
       });
       if (!resp1.ok) throw new Error("API error: " + resp1.status);
       const data1 = await resp1.json();
@@ -4422,7 +4423,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       const resp2 = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: p2 }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: p2 }] }),
       });
       if (!resp2.ok) throw new Error("API error: " + resp2.status);
       const data2 = await resp2.json();
@@ -4886,22 +4887,22 @@ function ExecutiveBriefSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let raw = data.content[0].text.trim();
+      let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(raw);
       let count = 0;
-      if (result.atAGlance && result.atAGlance.length > 10) { const ex = account.atAGlance || ""; update("atAGlance", ex ? ex + "\n\n[Enriched] " + result.atAGlance : result.atAGlance); count++; }
-      if (result.hypothesis && result.hypothesis.length > 10) { const ex = account.hypothesis || ""; update("hypothesis", ex ? ex + "\n\n[Enriched] " + result.hypothesis : result.hypothesis); count++; }
+      if (result.atAGlance && result.atAGlance.length > 10) { const ex = account.atAGlance || ""; update("atAGlance", result.atAGlance); count++; }
+      if (result.hypothesis && result.hypothesis.length > 10) { const ex = account.hypothesis || ""; update("hypothesis", result.hypothesis); count++; }
       if (result.keySignals && Array.isArray(result.keySignals)) { const existing = account.keySignals || []; const merged = [...existing, ...result.keySignals.filter(s => typeof s === "string" && s.length > 5 && !existing.includes(s))]; update("keySignals", merged); count++; }
       ["primarySponsor", "leadNarrative", "discoveryAngle", "proofPoint"].forEach(f => {
         if (result[f] && typeof result[f] === "string" && result[f].length > 5) {
           const ex = account[f] || "";
-          update(f, ex ? ex + "\n\n[Enriched] " + result[f] : result[f]);
+          update(f, result[f]);
           count++;
         }
       });
@@ -5298,7 +5299,7 @@ function SectionFileUpload({ label, icon, claudeApiKey, prompt, onResult }) {
         const resp = await fetch("https://api.anthropic.com/v1/messages", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-          body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: [
+          body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: [
             { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
             { type: "text", text: prompt }
           ] }] }),
@@ -5306,7 +5307,7 @@ function SectionFileUpload({ label, icon, claudeApiKey, prompt, onResult }) {
         if (!resp.ok) throw new Error("API error: " + resp.status);
         const data = await resp.json();
         if (data.error) throw new Error(data.error.message);
-        let text = data.content[0].text.trim();
+        let text = apiText(data).trim();
         const result = extractJSON(text);
         onResult(result, file.name);
         setStatus("\u2705 Extracted from " + file.name);
@@ -5322,12 +5323,12 @@ function SectionFileUpload({ label, icon, claudeApiKey, prompt, onResult }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: fullPrompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: fullPrompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const result = extractJSON(text);
       onResult(result, file.name);
       setStatus("\u2705 Extracted from " + file.name);
@@ -5551,12 +5552,12 @@ function WorkforceSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let raw = data.content[0].text.trim();
+      let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(raw);
       let count = 0;
@@ -5727,12 +5728,12 @@ function ExecutiveMappingSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const result = extractJSON(text);
       const updated = [...team];
       const current = { ...updated[i] };
@@ -5763,12 +5764,12 @@ function ExecutiveMappingSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const result = extractJSON(text);
       if (result.teamMembers && result.teamMembers.length > 0) {
         const existing = [...team];
@@ -5858,12 +5859,12 @@ If CONFIRMED still at company, return ONLY valid JSON (no markdown):
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 2000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const result = extractJSON(text);
 
       // Update only empty/blank fields — preserve anything user already filled in
@@ -5934,12 +5935,12 @@ INCLUSION RULES:
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 4000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const result = extractJSON(text);
       if (result.leaders && result.leaders.length > 0) {
         const merged = [...account.executives];
@@ -6277,12 +6278,12 @@ function ProblemIdentificationSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let raw = data.content[0].text.trim();
+      let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(raw);
       let count = 0;
@@ -6377,12 +6378,12 @@ function UseCaseMappingSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let raw = data.content[0].text.trim();
+      let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(raw);
       let count = 0;
@@ -6467,12 +6468,12 @@ function BusinessChallengesSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let raw = data.content[0].text.trim();
+      let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(raw);
       if (result.challenges && Array.isArray(result.challenges)) {
@@ -6717,23 +6718,23 @@ function HyperCellSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 2000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let raw = data.content[0].text.trim();
+      let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
       const result = JSON.parse(raw);
       let count = 0;
       if (result.hyperCellTitle) {
         const existing = account.hyperCellTitle || "";
-        update("hyperCellTitle", existing ? existing + " | [ClearEqual] " + result.hyperCellTitle : "[ClearEqual] " + result.hyperCellTitle);
+        update("hyperCellTitle", result.hyperCellTitle);
         count++;
       }
       if (result.hyperCellNarrative) {
         const existing = account.hyperCellNarrative || "";
-        update("hyperCellNarrative", existing ? existing + "\n\n[ClearEqual Intel] " + result.hyperCellNarrative : "[ClearEqual Intel] " + result.hyperCellNarrative);
+        update("hyperCellNarrative", result.hyperCellNarrative);
         count++;
       }
       setEnrichStatus("\u2705 Hyper-cell enriched with ClearEqual opportunity");
@@ -7254,12 +7255,12 @@ function CampaignSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 4500, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const campaign = extractJSON(text);
       campaign.generatedAt = new Date().toISOString();
 
@@ -7520,7 +7521,7 @@ function OutreachSection({ account, update, claudeApiKey = "" }) {
         return `Error: ${err.error?.message || "API request failed"}`;
       }
       const data = await response.json();
-      return data.content[0].text || "";
+      return apiText(data) || "";
     } catch (error) {
       console.error("Error calling Claude API:", error);
       return `Error: ${error.message}`;
@@ -8103,7 +8104,7 @@ ${text}`;
         },
         body: JSON.stringify({
           model: "claude-sonnet-4-6",
-          max_tokens: 2000,
+          max_tokens: 9000,
           messages: [{ role: "user", content: prompt }],
         }),
       });
@@ -8114,7 +8115,7 @@ ${text}`;
         return;
       }
       const data = await response.json();
-      const analysisText = data.content[0].text || "";
+      const analysisText = apiText(data) || "";
       const newTranscript = {
         id: transcripts.length,
         timestamp: new Date().toLocaleString(),
@@ -8377,12 +8378,12 @@ Return ONLY valid JSON array (no markdown):
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
-      let text = data.content[0].text.trim();
+      let text = apiText(data).trim();
       const items = extractJSON(text);
       const newItems = items.map(it => ({
         id: Date.now() + Math.random(),
@@ -8503,17 +8504,17 @@ function BUGrowthClearEqualSection({ account, update, claudeApiKey }) {
       var resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 4000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: "Research \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ". Use ONLY current-year data and publicly available information.\n\nDEEP ACCOUNT INTELLIGENCE ALREADY GATHERED:\n- At a Glance: " + safeStr(account.atAGlance).substring(0, 400) + "\n- Business Segments: " + safeStr(account.businessSegments).substring(0, 400) + "\n- CEO Priorities: " + safeStr(account.ceoPriorities).substring(0, 300) + "\n- Revenue & Growth: " + safeStr(account.revenueGrowth).substring(0, 300) + "\n- Strategy: " + safeStr(account.strategy).substring(0, 300) + "\n- Key Signals: " + safeStr(account.keySignals).substring(0, 400) + "\n- Challenges: " + safeStr(account.challenges).substring(0, 400) + "\n- Workforce Strategy: " + safeStr(account.workforceStrategy).substring(0, 300) + "\n- Hiring Trends: " + safeStr(account.hiringTrends).substring(0, 300) + "\n- Employees: " + safeStr(account.employees) + "\n- Open Roles: " + safeStr(account.openRoles) + "\n- Problems: " + safeStr(account.problems).substring(0, 300) + "\n- Use Cases: " + safeStr(account.useCases).substring(0, 300) + "\n\nIMPORTANT: Cross-reference ALL the above intelligence. Your BU analysis must be CONSISTENT with the challenges, strategy, and signals already identified. Reference specific facts from this intelligence to ground your analysis.\n\nClearEqual's products: Article 9 Disclosure Dashboard (gender pay-gap analytics — mean & median, variable pay, quartile distribution, category breakdowns, regulator-ready PDF export), Article 10 Joint Assessment Workflow (5% pay-gap trigger logic, RBAC routing to works-council reps and management, approver gate, audit log), Article 7 Employee Self-Service Portal (verified right-to-information, peer comparison, five EU languages), Salary Band Management (AI-assisted band recommendations and pay progression), AI Insights (EU AI Act-aligned, bias-mitigated skill matching with decision audit trail), GDPR Retention Engine (k-anonymity, jurisdiction-specific retention, legal hold, right-to-be-forgotten). Multi-tenant, EU-hosted, white-label.\n\nReturn this exact JSON structure:\n{\n  \"fastestGrowingBU\": \"Name the SPECIFIC fastest-growing BU at " + account.companyName + " with growth rate, revenue, and strategic importance. Must be grounded in their actual publicly reported segments and strategy.\",\n  \"buGrowthDrivers\": \"What drives this BU's growth — cite specific recent acquisitions, product launches, or market moves from " + new Date().getFullYear() + ". Connect to the key signals and strategy above.\",\n  \"buTalentNeeds\": \"What talent this BU urgently needs — specific roles, volumes, skill sets. Reference their actual open roles and hiring trends above.\",\n  \"phenomProductMatch\": \"Map 4-5 SPECIFIC ClearEqual products to THIS company's SPECIFIC challenges listed above: '[Product] → [Their specific challenge/use case] → [Expected impact with numbers]'\",\n  \"phenomQuickWins\": \"3 concrete things ClearEqual delivers in FIRST 90 DAYS that directly address the challenges identified above. Include timelines and metrics.\",\n  \"phenomROIStory\": \"12-month ROI narrative using their actual employee count (" + safeStr(account.employees) + ") and open roles (" + safeStr(account.openRoles) + "). Be specific with $ amounts.\",\n  \"wowInsights\": \"5 jaw-drop insights that connect dots across the intelligence above in ways the CHRO wouldn't expect — each 2-3 sentences with specific data from their public filings, earnings calls, or news. Include: (1) recent event most missed, (2) competitive threat to their talent brand, (3) hidden cost they're not tracking, (4) connection between two of their initiatives creating urgency, (5) prediction for next 6-12 months\"\n}" }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: "Research \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ". Use ONLY current-year data and publicly available information.\n\nDEEP ACCOUNT INTELLIGENCE ALREADY GATHERED:\n- At a Glance: " + safeStr(account.atAGlance).substring(0, 400) + "\n- Business Segments: " + safeStr(account.businessSegments).substring(0, 400) + "\n- CEO Priorities: " + safeStr(account.ceoPriorities).substring(0, 300) + "\n- Revenue & Growth: " + safeStr(account.revenueGrowth).substring(0, 300) + "\n- Strategy: " + safeStr(account.strategy).substring(0, 300) + "\n- Key Signals: " + safeStr(account.keySignals).substring(0, 400) + "\n- Challenges: " + safeStr(account.challenges).substring(0, 400) + "\n- Workforce Strategy: " + safeStr(account.workforceStrategy).substring(0, 300) + "\n- Hiring Trends: " + safeStr(account.hiringTrends).substring(0, 300) + "\n- Employees: " + safeStr(account.employees) + "\n- Open Roles: " + safeStr(account.openRoles) + "\n- Problems: " + safeStr(account.problems).substring(0, 300) + "\n- Use Cases: " + safeStr(account.useCases).substring(0, 300) + "\n\nIMPORTANT: Cross-reference ALL the above intelligence. Your BU analysis must be CONSISTENT with the challenges, strategy, and signals already identified. Reference specific facts from this intelligence to ground your analysis.\n\nClearEqual's products: Article 9 Disclosure Dashboard (gender pay-gap analytics — mean & median, variable pay, quartile distribution, category breakdowns, regulator-ready PDF export), Article 10 Joint Assessment Workflow (5% pay-gap trigger logic, RBAC routing to works-council reps and management, approver gate, audit log), Article 7 Employee Self-Service Portal (verified right-to-information, peer comparison, five EU languages), Salary Band Management (AI-assisted band recommendations and pay progression), AI Insights (EU AI Act-aligned, bias-mitigated skill matching with decision audit trail), GDPR Retention Engine (k-anonymity, jurisdiction-specific retention, legal hold, right-to-be-forgotten). Multi-tenant, EU-hosted, white-label.\n\nReturn this exact JSON structure:\n{\n  \"fastestGrowingBU\": \"Name the SPECIFIC fastest-growing BU at " + account.companyName + " with growth rate, revenue, and strategic importance. Must be grounded in their actual publicly reported segments and strategy.\",\n  \"buGrowthDrivers\": \"What drives this BU's growth — cite specific recent acquisitions, product launches, or market moves from " + new Date().getFullYear() + ". Connect to the key signals and strategy above.\",\n  \"buTalentNeeds\": \"What talent this BU urgently needs — specific roles, volumes, skill sets. Reference their actual open roles and hiring trends above.\",\n  \"phenomProductMatch\": \"Map 4-5 SPECIFIC ClearEqual products to THIS company's SPECIFIC challenges listed above: '[Product] → [Their specific challenge/use case] → [Expected impact with numbers]'\",\n  \"phenomQuickWins\": \"3 concrete things ClearEqual delivers in FIRST 90 DAYS that directly address the challenges identified above. Include timelines and metrics.\",\n  \"phenomROIStory\": \"12-month ROI narrative using their actual employee count (" + safeStr(account.employees) + ") and open roles (" + safeStr(account.openRoles) + "). Be specific with $ amounts.\",\n  \"wowInsights\": \"5 jaw-drop insights that connect dots across the intelligence above in ways the CHRO wouldn't expect — each 2-3 sentences with specific data from their public filings, earnings calls, or news. Include: (1) recent event most missed, (2) competitive threat to their talent brand, (3) hidden cost they're not tracking, (4) connection between two of their initiatives creating urgency, (5) prediction for next 6-12 months\"\n}" }] }),
       }, 3, function(msg) { setEnrichStatus(msg); });
       var data = await resp.json();
-      var rawText = (data.content[0].text || "");
+      var rawText = (apiText(data) || "");
       var parsed = extractJSON(rawText);
       var fields = ["fastestGrowingBU", "buGrowthDrivers", "buTalentNeeds", "phenomProductMatch", "phenomQuickWins", "phenomROIStory", "wowInsights"];
       fields.forEach(function(f) {
         if (parsed[f] && parsed[f].length > 5) {
           var existing = (account[f] || "").trim();
           if (!existing || existing.length < 5) { update(f, parsed[f]); }
-          else { update(f, existing + "\n\n[AI Enriched " + new Date().toISOString().split("T")[0] + "] " + parsed[f]); }
+          else { update(f, parsed[f]); }
         }
       });
       setEnrichStatus("Done! BU growth intel and ClearEqual match updated.");
@@ -8579,10 +8580,10 @@ function BULeadersSection({ account, update, claudeApiKey }) {
       var resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 3000, system: "You are a JSON API endpoint with a 90% ACCURACY MANDATE. You ONLY output valid JSON objects. Never include any text outside the JSON. For EVERY person you include, you must have verified them against at least 2 public sources (LinkedIn, Xing, company website, press). Never guess or fabricate names.", messages: [{ role: "user", content: "Research current Business Unit leaders at \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ".\n\nInclude: division/BU heads, SVPs running business lines, procurement/vendor management leaders, and anyone with P&L responsibility.\n\n90% ACCURACY VERIFICATION PROTOCOL:\n1. For EACH person, verify via: (a) LinkedIn: \"{name}\" site:linkedin.com \"" + account.companyName + "\" (b) Xing: \"{name}\" site:xing.com \"" + account.companyName + "\" (c) Company website: \"" + account.companyName + "\" Vorstand OR management board (d) Departure check: \"{name}\" leaves OR verlässt \"" + account.companyName + "\"\n2. ONLY include if confirmed via AT LEAST 2 sources. State sources in mandate field: 'VERIFIED: [source1] + [source2]'\n3. If only 1 source, prefix name with '⚠️ ' and note 'SINGLE SOURCE'\n4. If ZERO sources confirm → DO NOT INCLUDE. Never guess names.\n5. Search for departures explicitly — anyone who left in 24 months must NOT be included.\n6. Better to return 2-3 verified leaders than 6 guessed names.\n\nReturn this exact JSON structure:\n{\"buLeaders\": [{\"name\": \"Full name (VERIFIED)\", \"title\": \"Current title\", \"bu\": \"Business Unit name\", \"mandate\": \"VERIFIED: [LinkedIn + company website]. Their strategic mandate\", \"talentChallenge\": \"Their hiring challenge\", \"phenomAngle\": \"How to position ClearEqual\", \"linkedinUrl\": \"Actual LinkedIn URL or empty string\"}]}" }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, system: "You are a JSON API endpoint with a 90% ACCURACY MANDATE. You ONLY output valid JSON objects. Never include any text outside the JSON. For EVERY person you include, you must have verified them against at least 2 public sources (LinkedIn, Xing, company website, press). Never guess or fabricate names.", messages: [{ role: "user", content: "Research current Business Unit leaders at \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ".\n\nInclude: division/BU heads, SVPs running business lines, procurement/vendor management leaders, and anyone with P&L responsibility.\n\n90% ACCURACY VERIFICATION PROTOCOL:\n1. For EACH person, verify via: (a) LinkedIn: \"{name}\" site:linkedin.com \"" + account.companyName + "\" (b) Xing: \"{name}\" site:xing.com \"" + account.companyName + "\" (c) Company website: \"" + account.companyName + "\" Vorstand OR management board (d) Departure check: \"{name}\" leaves OR verlässt \"" + account.companyName + "\"\n2. ONLY include if confirmed via AT LEAST 2 sources. State sources in mandate field: 'VERIFIED: [source1] + [source2]'\n3. If only 1 source, prefix name with '⚠️ ' and note 'SINGLE SOURCE'\n4. If ZERO sources confirm → DO NOT INCLUDE. Never guess names.\n5. Search for departures explicitly — anyone who left in 24 months must NOT be included.\n6. Better to return 2-3 verified leaders than 6 guessed names.\n\nReturn this exact JSON structure:\n{\"buLeaders\": [{\"name\": \"Full name (VERIFIED)\", \"title\": \"Current title\", \"bu\": \"Business Unit name\", \"mandate\": \"VERIFIED: [LinkedIn + company website]. Their strategic mandate\", \"talentChallenge\": \"Their hiring challenge\", \"phenomAngle\": \"How to position ClearEqual\", \"linkedinUrl\": \"Actual LinkedIn URL or empty string\"}]}" }] }),
       }, 3, function(msg) { setEnrichStatus(msg); });
       var data = await resp.json();
-      var rawText = (data.content[0].text || "");
+      var rawText = (apiText(data) || "");
       var parsed = extractJSON(rawText);
       if (parsed.buLeaders && Array.isArray(parsed.buLeaders)) {
         var existing = [...leaders];
@@ -9606,7 +9607,7 @@ function ProspectDashboard() {
           body: JSON.stringify({
             model: "claude-sonnet-4-6",
             max_tokens: Math.max(maxTokens || 2000, 12000),
-            system: "You are a sales-intelligence research assistant WITH LIVE WEB SEARCH. Before answering, use web_search to VERIFY every person, job title, leadership change, recent news item, and financial figure — never rely on memory for people or current facts. Only include an executive if a current-year source confirms they are still in that role; if a search shows they have left or you cannot confirm, exclude them or mark them clearly. After researching, output ONLY one valid JSON object as your final message — no commentary around it.",
+            system: "You are a sales-intelligence researcher for ClearEqual, which sells an EU pay-equity compliance platform aligned to Directive (EU) 2023/970, and you have live web search. Follow these rules strictly. (1) COMPANY FOCUS: every field must describe how ClearEqual's own product (an EU pay-equity compliance platform aligned to Directive (EU) 2023/970) helps THIS specific prospect. Frame all value strictly in terms of ClearEqual's real capabilities. Do not borrow terminology, use cases, or metrics from other vendor categories, and do not invent capabilities ClearEqual does not offer. (2) VERIFY: use web_search to confirm every person, job title, leadership change, news item and figure before you write it, and exclude anyone you cannot confirm is currently in that exact role this year. (3) STYLE: write each description as clear, well-structured prose in full sentences and short paragraphs, using a blank line between separate ideas. Never use the em dash character anywhere in your output; use commas, colons, or full stops instead. (4) COMPLETE: fill EVERY field in the requested JSON with specific, substantive content grounded in this prospect, and never leave brackets, template markers, or values like X percent. Output ONLY the final JSON object.",
             messages: [{ role: "user", content: prompt }],
             tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }]
           })
@@ -9615,9 +9616,7 @@ function ProspectDashboard() {
         if (data.error) throw new Error(data.error.message || JSON.stringify(data.error).substring(0, 200));
         // Web search returns multiple content blocks (reasoning, tool calls, results, final answer).
         // Concatenate all text blocks; extractJSON finds the JSON object among them.
-        var textBlocks = (data.content || []).filter(function(b){ return b && b.type === "text" && b.text; }).map(function(b){ return b.text; });
-        if (!textBlocks.length) throw new Error("Empty response from API");
-        return extractJSON(textBlocks.join("\n"));
+        return extractJSON(apiText(data));
       } catch (e) {
         lastErr = e;
         // Retry on network drop, empty response, or unparseable/truncated JSON
@@ -9873,58 +9872,30 @@ Return this exact JSON structure:
                 });
                 updated[k] = existingStack;
               } else if (k === "keySignals") {
-                // Merge key signals: keep existing, add truly new ones
-                const existing = [...(a.keySignals || [])];
-                const existingLower = existing.map(s => s.toLowerCase().substring(0, 40));
+                // Replace with fresh web-verified signals (dedup within the new set); no accumulation
+                const seen = new Set(); const fresh = [];
                 v.forEach(sig => {
                   if (!sig || sig.length < 5) return;
-                  const sigLower = sig.toLowerCase().substring(0, 40);
-                  if (!existingLower.some(e => e === sigLower || sigLower.includes(e) || e.includes(sigLower))) {
-                    existing.push(sig);
-                  }
+                  const key = sig.toLowerCase().replace(/\s+/g, " ").substring(0, 60);
+                  if (seen.has(key)) return; seen.add(key); fresh.push(sig);
                 });
-                updated[k] = existing;
+                updated[k] = fresh.length ? fresh : (a.keySignals || []);
               } else if (k === "challenges") {
-                // Merge challenges: keep existing, add new by title
-                const existing = [...(a.challenges || [])];
-                const existingTitles = existing.map(c => (c.title || "").toLowerCase());
-                v.forEach(ch => {
-                  if (!ch.title || ch.title.length < 3) return;
-                  if (!existingTitles.includes(ch.title.toLowerCase())) {
-                    existing.push(ch);
-                  }
-                });
-                updated[k] = existing;
+                // Replace with fresh challenges; no accumulation
+                updated[k] = (Array.isArray(v) && v.length) ? v : (a.challenges || []);
               } else if (k === "buLeaders") {
-                // Merge BU leaders by name
-                const existing = [...(a.buLeaders || [])];
-                const existingNames = existing.map(l => (l.name || "").toLowerCase());
-                v.forEach(leader => {
-                  if (!leader.name || leader.name.length < 3) return;
-                  const nameLower = leader.name.toLowerCase();
-                  if (!existingNames.includes(nameLower)) {
-                    existing.push(leader);
-                    existingNames.push(nameLower);
-                  }
-                });
-                updated[k] = existing;
+                // Replace with fresh verified BU leaders; keep any the user added by hand (_manual)
+                const fresh = v.filter(l => l && l.name && l.name.length >= 3);
+                const fN = new Set(fresh.map(l => l.name.toLowerCase()));
+                const manual = (a.buLeaders || []).filter(l => l && l._manual && l.name && !fN.has(l.name.toLowerCase()));
+                updated[k] = fresh.length ? [...fresh, ...manual] : (a.buLeaders || []);
               } else {
                 updated[k] = v;
               }
             }
-            // Handle non-empty strings — APPEND instead of overwrite
+            // Authoritative replace: fresh web-verified text overwrites stale content (no accumulation, no tags)
             else if (typeof v === "string" && v.length > 2) {
-              const existing = (a[k] || "").trim();
-              if (!existing || existing.length < 3) {
-                // Field was empty — set fresh
-                updated[k] = v;
-              } else if (existing === v || existing.includes(v) || v.includes(existing)) {
-                // Identical or subset — keep the longer one
-                updated[k] = v.length > existing.length ? v : existing;
-              } else {
-                // Both have content — append with refresh tag
-                updated[k] = existing + "\n\n[Refreshed " + now + "] " + v;
-              }
+              updated[k] = v;
             }
           }
           return updated;
@@ -11172,7 +11143,7 @@ Return this exact JSON structure:
                       });
                       if (response.ok) {
                         const data = await response.json();
-                        const text = data.content[0].text || "";
+                        const text = apiText(data) || "";
                         try {
                           const jsonMatch = text.match(/\{[\s\S]*\}/);
                           if (jsonMatch) {
