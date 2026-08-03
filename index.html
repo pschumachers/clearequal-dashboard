@@ -9392,7 +9392,7 @@ function ProspectDashboard() {
       // Also save to Firestore for cross-device sync
       if (db && auth && auth.currentUser) {
         const uid = auth.currentUser.uid;
-        db.collection("clearequal_users").doc(uid).collection("data").doc("settings").set(
+        db.collection("users").doc(uid).collection("clearequal_data").doc("settings").set(
           { claudeApiKey: claudeApiKey, updatedAt: new Date().toISOString() },
           { merge: true }
         ).catch(e => console.warn("API key cloud save failed:", e));
@@ -9416,7 +9416,7 @@ function ProspectDashboard() {
       // If we already have a key from localStorage, skip
       if (claudeApiKey) return;
       try {
-        const settingsSnap = await db.collection("clearequal_users").doc(user.uid).collection("data").doc("settings").get();
+        const settingsSnap = await db.collection("users").doc(user.uid).collection("clearequal_data").doc("settings").get();
         if (settingsSnap.exists && settingsSnap.data().claudeApiKey) {
           setClaudeApiKey(settingsSnap.data().claudeApiKey);
           try { localStorage.setItem("prospect_claude_api_key", settingsSnap.data().claudeApiKey); } catch(e) {}
@@ -9437,7 +9437,7 @@ function ProspectDashboard() {
       setSaveError("");
       setSyncStatus("saving");
       // Save index first
-      const indexRef = db.collection("clearequal_users").doc(uid).collection("data").doc("accountIndex");
+      const indexRef = db.collection("users").doc(uid).collection("clearequal_data").doc("accountIndex");
       await indexRef.set({
         ids: accs.map(a => ({ id: a.id, name: a.companyName, priority: a.priority || "Medium", _archived: a._archived || false })),
         updatedAt: new Date().toISOString(),
@@ -9447,7 +9447,7 @@ function ProspectDashboard() {
         const chunk = accs.slice(i, i + 10);
         const batch = db.batch();
         for (const acc of chunk) {
-          const accRef = db.collection("clearequal_users").doc(uid).collection("accounts").doc(String(acc.id));
+          const accRef = db.collection("users").doc(uid).collection("clearequal_accounts").doc(String(acc.id));
           batch.set(accRef, JSON.parse(JSON.stringify(acc)));
         }
         await batch.commit();
@@ -9466,13 +9466,13 @@ function ProspectDashboard() {
     if (!db || !auth || !auth.currentUser) return null;
     const uid = auth.currentUser.uid;
     try {
-      const indexSnap = await db.collection("clearequal_users").doc(uid).collection("data").doc("accountIndex").get();
+      const indexSnap = await db.collection("users").doc(uid).collection("clearequal_data").doc("accountIndex").get();
       if (!indexSnap.exists) return null;
       const index = indexSnap.data();
       if (!index.ids || index.ids.length === 0) return null;
       const accs = [];
       for (const meta of index.ids) {
-        const accSnap = await db.collection("clearequal_users").doc(uid).collection("accounts").doc(String(meta.id)).get();
+        const accSnap = await db.collection("users").doc(uid).collection("clearequal_accounts").doc(String(meta.id)).get();
         if (accSnap.exists) {
           accs.push(accSnap.data());
         }
@@ -9556,7 +9556,7 @@ function ProspectDashboard() {
       if (!user) return;
       const uid = user.uid;
       // Listen to the accountIndex document for changes
-      unsubIndex = db.collection("clearequal_users").doc(uid).collection("data").doc("accountIndex")
+      unsubIndex = db.collection("users").doc(uid).collection("clearequal_data").doc("accountIndex")
         .onSnapshot(async (snap) => {
           if (!snap.exists) return;
           const data = snap.data();
@@ -9570,7 +9570,7 @@ function ProspectDashboard() {
           try {
             const accs = [];
             for (const meta of (data.ids || [])) {
-              const accSnap = await db.collection("clearequal_users").doc(uid).collection("accounts").doc(String(meta.id)).get();
+              const accSnap = await db.collection("users").doc(uid).collection("clearequal_accounts").doc(String(meta.id)).get();
               if (accSnap.exists) accs.push(accSnap.data());
             }
             if (accs.length > 0) {
