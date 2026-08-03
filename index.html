@@ -3482,7 +3482,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let respText = apiText(data).trim();
       if (respText.startsWith("\`\`\`")) respText = respText.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(respText);
+      const result = extractJSON(respText);
 
       // Merge results
       let updatedCount = 0;
@@ -3714,7 +3714,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let respText = apiText(data).trim();
       if (respText.startsWith("\`\`\`")) respText = respText.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(respText);
+      const result = extractJSON(respText);
 
       // Merge results — same logic as conversation import
       let updatedCount = 0;
@@ -3926,7 +3926,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let rawText = apiText(data).trim();
       if (rawText.startsWith("\`\`\`")) rawText = rawText.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(rawText);
+      const result = extractJSON(rawText);
 
       let updatedCount = 0;
       const updatedFields = [];
@@ -4171,9 +4171,9 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (!resp1.ok) throw new Error("API error: " + resp1.status);
       const data1 = await resp1.json();
       if (data1.error) throw new Error(data1.error.message);
-      let text1 = data1.content[0].text.trim();
+      let text1 = apiText(data1).trim();
       if (text1.startsWith("\`\`\`")) text1 = text1.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const d1 = JSON.parse(text1);
+      const d1 = extractJSON(text1);
 
       setUploadProgress("Analyzing URL content with Claude API (2/2)...");
 
@@ -4206,9 +4206,9 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (!resp2.ok) throw new Error("API error: " + resp2.status);
       const data2 = await resp2.json();
       if (data2.error) throw new Error(data2.error.message);
-      let text2 = data2.content[0].text.trim();
+      let text2 = apiText(data2).trim();
       if (text2.startsWith("\`\`\`")) text2 = text2.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const d2 = JSON.parse(text2);
+      const d2 = extractJSON(text2);
 
       setUploadProgress("Updating account fields...");
 
@@ -4392,9 +4392,9 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (!resp1.ok) throw new Error("API error: " + resp1.status);
       const data1 = await resp1.json();
       if (data1.error) throw new Error(data1.error.message);
-      let text1 = data1.content[0].text.trim();
+      let text1 = apiText(data1).trim();
       if (text1.startsWith("\`\`\`")) text1 = text1.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const d1 = JSON.parse(text1);
+      const d1 = extractJSON(text1);
 
       setUploadProgress("Analyzing with Claude API (2/2)...");
 
@@ -4428,9 +4428,9 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       if (!resp2.ok) throw new Error("API error: " + resp2.status);
       const data2 = await resp2.json();
       if (data2.error) throw new Error(data2.error.message);
-      let text2 = data2.content[0].text.trim();
+      let text2 = apiText(data2).trim();
       if (text2.startsWith("\`\`\`")) text2 = text2.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const d2 = JSON.parse(text2);
+      const d2 = extractJSON(text2);
 
       setUploadProgress("Updating account fields...");
 
@@ -4894,7 +4894,7 @@ function ExecutiveBriefSection({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(raw);
+      const result = extractJSON(raw);
       let count = 0;
       if (result.atAGlance && result.atAGlance.length > 10) { const ex = account.atAGlance || ""; update("atAGlance", result.atAGlance); count++; }
       if (result.hypothesis && result.hypothesis.length > 10) { const ex = account.hypothesis || ""; update("hypothesis", result.hypothesis); count++; }
@@ -5559,7 +5559,7 @@ function WorkforceSection({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(raw);
+      const result = extractJSON(raw);
       let count = 0;
       ["workforceScale", "hiringShape", "criticalRoles", "geoPatterns", "talentPressure"].forEach(f => {
         if (result[f] && typeof result[f] === "string" && result[f].length > 10) { update(f, result[f]); count++; }
@@ -6285,7 +6285,7 @@ function ProblemIdentificationSection({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(raw);
+      const result = extractJSON(raw);
       let count = 0;
       ["cioProblems", "chroProblems", "businessPain", "whyNow", "problemHypothesis"].forEach(f => {
         if (result[f] && typeof result[f] === "string" && result[f].length > 10) { update(f, result[f]); count++; }
@@ -6385,7 +6385,7 @@ function UseCaseMappingSection({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(raw);
+      const result = extractJSON(raw);
       let count = 0;
       ["workflowAssessment", "highestOpportunity", "capabilityMatch", "proofPoints", "personaValueMap"].forEach(f => {
         if (result[f] && typeof result[f] === "string" && result[f].length > 10) { update(f, result[f]); count++; }
@@ -6475,7 +6475,7 @@ function BusinessChallengesSection({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(raw);
+      const result = extractJSON(raw);
       if (result.challenges && Array.isArray(result.challenges)) {
         const merged = [...(account.challenges || [])];
         const existTitlesLower = merged.map(c => (c.title || "").toLowerCase());
@@ -6725,7 +6725,7 @@ function HyperCellSection({ account, update, claudeApiKey }) {
       if (data.error) throw new Error(data.error.message);
       let raw = apiText(data).trim();
       if (raw.startsWith("\`\`\`")) raw = raw.replace(/^\`\`\`(?:json)?\n?/, "").replace(/\n?\`\`\`$/, "").trim();
-      const result = JSON.parse(raw);
+      const result = extractJSON(raw);
       let count = 0;
       if (result.hyperCellTitle) {
         const existing = account.hyperCellTitle || "";
