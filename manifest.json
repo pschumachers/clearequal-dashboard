@@ -1,0 +1,26 @@
+{
+  "name": "ClearEqual — Prospect Intelligence",
+  "short_name": "ClearEqual",
+  "description": "Pay-Equity Compliance Prospect Intelligence Dashboard (EU Directive 2023/970)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1D4ED8",
+  "background_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231D4ED8' width='192' height='192'/><text x='50%' y='50%' font-size='72' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>CE</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%231D4ED8' width='512' height='512'/><text x='50%' y='50%' font-size='190' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>CE</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"]
+}
