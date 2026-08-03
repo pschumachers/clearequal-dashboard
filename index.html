@@ -3259,9 +3259,9 @@ function MetricCard({ value, label, sub }) {
         textAlign: "center",
       },
     },
-    /*#__PURE__*/ React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: C.blue } }, value || "—"),
+    /*#__PURE__*/ React.createElement("div", { style: { fontSize: (value && value.length > 60) ? 13 : 22, fontWeight: 700, color: C.blue, whiteSpace: "pre-wrap", lineHeight: 1.5, textAlign: (value && value.length > 60) ? "left" : "center" } }, value || "—"),
     /*#__PURE__*/ React.createElement("div", { style: { fontSize: 11, color: C.muted, marginTop: 2 } }, label),
-    sub && /*#__PURE__*/ React.createElement("div", { style: { fontSize: 11, color: C.teal, marginTop: 2 } }, sub),
+    sub && /*#__PURE__*/ React.createElement("div", { style: { fontSize: 11, color: C.teal, marginTop: 2, whiteSpace: "pre-wrap", lineHeight: 1.5, textAlign: "left" } }, sub),
   );
 }
 function TagInput({ tags, onChange, placeholder }) {
@@ -5734,7 +5734,7 @@ function ExecutiveMappingSection({ account, update, claudeApiKey }) {
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 1000, messages: [{ role: "user", content: prompt }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 4000, messages: [{ role: "user", content: prompt }] }),
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
@@ -8384,16 +8384,25 @@ Return ONLY valid JSON array (no markdown):
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 4000, messages: [{ role: "user", content: prompt }] })
       });
       if (!resp.ok) throw new Error("API error: " + resp.status);
       const data = await resp.json();
       if (data.error) throw new Error(data.error.message);
       let text = apiText(data).trim();
-      const items = extractJSON(text);
-      const newItems = items.map(it => ({
+      const parsed = extractJSON(text);
+      const items = Array.isArray(parsed) ? parsed
+        : (parsed && Array.isArray(parsed.actions)) ? parsed.actions
+        : (parsed && Array.isArray(parsed.items)) ? parsed.items
+        : (parsed && Array.isArray(parsed.steps)) ? parsed.steps
+        : (parsed && Array.isArray(parsed.actionItems)) ? parsed.actionItems
+        : (parsed && typeof parsed === "object" && parsed.text) ? [parsed]
+        : [];
+      const cleanItems = items.filter(function (it) { return it && (it.text || typeof it === "string"); });
+      if (!cleanItems.length) throw new Error("No actions returned - please try again");
+      const newItems = cleanItems.map(it => ({
         id: Date.now() + Math.random(),
-        text: it.text,
+        text: (typeof it === "string") ? it : it.text,
         due: it.due || "",
         priority: it.priority || "Medium",
         status: "pending",
