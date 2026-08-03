@@ -9803,17 +9803,26 @@ function ProspectDashboard() {
         const resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-          body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: maxTokens || 2000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: prompt }] })
+          body: JSON.stringify({
+            model: "claude-sonnet-4-6",
+            max_tokens: maxTokens || 2000,
+            system: "You are a sales-intelligence research assistant WITH LIVE WEB SEARCH. Before answering, use web_search to VERIFY every person, job title, leadership change, recent news item, and financial figure — never rely on memory for people or current facts. Only include an executive if a current-year source confirms they are still in that role; if a search shows they have left or you cannot confirm, exclude them or mark them clearly. After researching, output ONLY one valid JSON object as your final message — no commentary around it.",
+            messages: [{ role: "user", content: prompt }],
+            tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }]
+          })
         }, 3, statusCb);
         const data = await resp.json();
         if (data.error) throw new Error(data.error.message || JSON.stringify(data.error).substring(0, 200));
-        if (!data.content || !data.content[0]) throw new Error("Empty response from API");
-        return extractJSON(data.content[0].text);
+        // Web search returns multiple content blocks (reasoning, tool calls, results, final answer).
+        // Concatenate all text blocks; extractJSON finds the JSON object among them.
+        var textBlocks = (data.content || []).filter(function(b){ return b && b.type === "text" && b.text; }).map(function(b){ return b.text; });
+        if (!textBlocks.length) throw new Error("Empty response from API");
+        return extractJSON(textBlocks.join("\n"));
       } catch (e) {
         lastErr = e;
         // Retry on network drop, empty response, or unparseable/truncated JSON
         if (tries < 2) {
-          if (statusCb) statusCb("Response issue, retrying (" + (tries + 2) + "/3)...");
+          if (statusCb) statusCb("Researching, retrying (" + (tries + 2) + "/3)...");
           await new Promise(function(r) { setTimeout(r, 1200 * (tries + 1)); });
           continue;
         }
