@@ -1,7 +1,7 @@
 // Service Worker for ClearEqual Prospect Intelligence
 // Provides offline support and caching strategy
 
-const CACHE_NAME = 'clearequal-dashboard-v1';
+const CACHE_NAME = 'clearequal-dashboard-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -40,31 +40,17 @@ self.addEventListener('activate', function(event) {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', function(event) {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
-    return;
-  }
-
+  if (event.request.method !== 'GET') { return; }
+  // Network-first: always try the network so new deploys load immediately; fall back to cache offline.
   event.respondWith(
-    caches.match(event.request).then(function(response) {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request).then(function(response) {
-        // Don't cache if not a success response
-        if (!response || response.status !== 200 || response.type === 'error') {
-          return response;
-        }
-        // Clone the response
+    fetch(event.request).then(function(response) {
+      if (response && response.status === 200 && response.type !== 'error') {
         var responseToCache = response.clone();
-        caches.open(CACHE_NAME).then(function(cache) {
-          cache.put(event.request, responseToCache);
-        });
-        return response;
-      }).catch(function() {
-        // Return offline page or default response
-        return caches.match('./index.html');
-      });
+        caches.open(CACHE_NAME).then(function(cache) { cache.put(event.request, responseToCache); });
+      }
+      return response;
+    }).catch(function() {
+      return caches.match(event.request).then(function(r) { return r || caches.match('./index.html'); });
     })
   );
 });

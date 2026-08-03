@@ -10037,31 +10037,29 @@ Return this exact JSON structure:
             // Handle arrays (keySignals, executives, challenges)
             if (Array.isArray(v) && v.length > 0) {
               if (k === "executives") {
-                // Merge: keep all existing executives, enrich empty fields, add new ones
-                const existing = [...(a.executives || [])];
+                // Web-verified REPLACE: the freshly-searched list is authoritative for AI-sourced people.
+                // Drops stale names no longer confirmed (and empty "Unnamed" cards); keeps hand-added (_manual)
+                // people and respects deletions. Only runs when the refresh returned a non-empty verified list.
                 const deletedList = (a._deletedExecs || []).map(n => n.toLowerCase());
-                const existingNames = existing.map(e => (e.name || "").toLowerCase()).filter(n => n.length > 0);
+                const oldByName = {};
+                (a.executives || []).forEach(e => { if (e && e.name) oldByName[e.name.toLowerCase()] = e; });
+                const enrichFields = ["title", "department", "roleType", "background", "priorities", "keyQuote", "relevance", "outreachAngles", "linkedinUrl", "reportsTo"];
+                const result = [];
+                const seen = new Set();
                 v.forEach(newExec => {
                   if (!newExec.name || newExec.name.length < 3) return;
                   const nameLower = newExec.name.toLowerCase();
-                  if (deletedList.includes(nameLower)) return;
-                  const existIdx = existing.findIndex(e => e.name && e.name.toLowerCase() === nameLower);
-                  if (existIdx >= 0) {
-                    // Update empty fields on existing exec (don't overwrite user-entered data)
-                    const cur = existing[existIdx];
-                    const enrichFields = ["title", "department", "roleType", "background", "priorities", "keyQuote", "relevance", "outreachAngles", "linkedinUrl", "reportsTo"];
-                    enrichFields.forEach(f => {
-                      if (newExec[f] && newExec[f].length > 0 && (!cur[f] || cur[f].length === 0)) {
-                        cur[f] = newExec[f];
-                      }
-                    });
-                    existing[existIdx] = cur;
-                  } else {
-                    existing.push({ ...newExec, department: newExec.department || "Other", linkedinUrl: newExec.linkedinUrl || "", reportsTo: newExec.reportsTo || "" });
-                    existingNames.push(nameLower);
-                  }
+                  if (deletedList.includes(nameLower) || seen.has(nameLower)) return;
+                  seen.add(nameLower);
+                  const cur = oldByName[nameLower];
+                  let merged = { ...newExec };
+                  if (cur) { enrichFields.forEach(f => { if (cur[f] && cur[f].length > 0) merged[f] = cur[f]; }); if (cur._manual) merged._manual = true; }
+                  result.push({ ...merged, department: merged.department || "Other", linkedinUrl: merged.linkedinUrl || "", reportsTo: merged.reportsTo || "" });
                 });
-                updated[k] = existing;
+                (a.executives || []).forEach(e => {
+                  if (e && e._manual && e.name && !seen.has(e.name.toLowerCase())) { result.push(e); seen.add(e.name.toLowerCase()); }
+                });
+                updated[k] = result;
               } else if (k === "hrTechStack") {
                 // Merge HR tech stack: add new tools, don't overwrite existing
                 const existingStack = [...(a.hrTechStack || [])];
