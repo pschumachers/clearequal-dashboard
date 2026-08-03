@@ -94,9 +94,21 @@ const extractJSON = (raw) => {
 };
 const fetchWithRetry = async (url, options, maxRetries, statusCb) => {
   for (var attempt = 0; attempt <= maxRetries; attempt++) {
-    var resp = await fetch(url, options);
+    var resp = null;
+    try {
+      resp = await fetch(url, options);
+    } catch (netErr) {
+      // Network-level failure (e.g. "Load failed" / dropped connection) — retry with backoff
+      if (attempt < maxRetries) {
+        var wn = Math.min(1500 * Math.pow(2, attempt), 12000);
+        if (statusCb) statusCb("Network hiccup, retrying in " + Math.round(wn/1000) + "s... (attempt " + (attempt+2) + "/" + (maxRetries+1) + ")");
+        await new Promise(function(r) { setTimeout(r, wn); });
+        continue;
+      }
+      throw new Error("Network error: " + ((netErr && netErr.message) || "Load failed"));
+    }
     if (resp.ok) return resp;
-    if (resp.status === 529 || resp.status === 529 || resp.status === 503 || resp.status === 429) {
+    if (resp.status === 529 || resp.status === 503 || resp.status === 429 || resp.status >= 500) {
       if (attempt < maxRetries) {
         var wait = Math.min(2000 * Math.pow(2, attempt), 15000);
         if (statusCb) statusCb("API busy ("+resp.status+"), retrying in " + Math.round(wait/1000) + "s... (attempt " + (attempt+2) + "/" + (maxRetries+1) + ")");
@@ -106,6 +118,7 @@ const fetchWithRetry = async (url, options, maxRetries, statusCb) => {
     }
     throw new Error("API error: " + resp.status);
   }
+  throw new Error("Request failed after retries");
 };
 // ─── Login Page Component ────────────────────────────────────────────────────
 function LoginPage({ onLogin }) {
@@ -9784,15 +9797,30 @@ function ProspectDashboard() {
   }, []);
 
   const callClaudeAPI = async (key, prompt, maxTokens, statusCb) => {
-    const resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: maxTokens || 2000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: prompt }] })
-    }, 3, statusCb);
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error).substring(0, 200));
-    if (!data.content || !data.content[0]) throw new Error("Empty response from API");
-    return extractJSON(data.content[0].text);
+    var lastErr = null;
+    for (var tries = 0; tries < 3; tries++) {
+      try {
+        const resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+          body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: maxTokens || 2000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: prompt }] })
+        }, 3, statusCb);
+        const data = await resp.json();
+        if (data.error) throw new Error(data.error.message || JSON.stringify(data.error).substring(0, 200));
+        if (!data.content || !data.content[0]) throw new Error("Empty response from API");
+        return extractJSON(data.content[0].text);
+      } catch (e) {
+        lastErr = e;
+        // Retry on network drop, empty response, or unparseable/truncated JSON
+        if (tries < 2) {
+          if (statusCb) statusCb("Response issue, retrying (" + (tries + 2) + "/3)...");
+          await new Promise(function(r) { setTimeout(r, 1200 * (tries + 1)); });
+          continue;
+        }
+        throw e;
+      }
+    }
+    throw (lastErr || new Error("API call failed"));
   };
 
   const openRefreshSelector = () => {
