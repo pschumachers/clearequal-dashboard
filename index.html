@@ -9565,7 +9565,7 @@ function ProspectDashboard() {
   const [showArchived, setShowArchived] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [claudeApiKey, setClaudeApiKey] = useState(() => {
-    try { return localStorage.getItem("clearequal_claude_api_key") || ""; } catch(e) { return ""; }
+    try { return localStorage.getItem("prospect_claude_api_key") || ""; } catch(e) { return ""; }
   });
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showAddAccountModal, setShowAddAccountModal] = useState(false);
@@ -9587,7 +9587,7 @@ function ProspectDashboard() {
   // --- Persist API key to localStorage + Firestore ---
   useEffect(() => {
     if (claudeApiKey) {
-      try { localStorage.setItem("clearequal_claude_api_key", claudeApiKey); } catch(e) {}
+      try { localStorage.setItem("prospect_claude_api_key", claudeApiKey); } catch(e) {}
       // Also save to Firestore for cross-device sync
       if (db && auth && auth.currentUser) {
         const uid = auth.currentUser.uid;
@@ -9618,7 +9618,7 @@ function ProspectDashboard() {
         const settingsSnap = await db.collection("clearequal_users").doc(user.uid).collection("data").doc("settings").get();
         if (settingsSnap.exists && settingsSnap.data().claudeApiKey) {
           setClaudeApiKey(settingsSnap.data().claudeApiKey);
-          try { localStorage.setItem("clearequal_claude_api_key", settingsSnap.data().claudeApiKey); } catch(e) {}
+          try { localStorage.setItem("prospect_claude_api_key", settingsSnap.data().claudeApiKey); } catch(e) {}
         }
       } catch(e) { console.warn("API key cloud load failed:", e); }
     };
