@@ -9752,7 +9752,7 @@ function ProspectDashboard() {
   "geoPatterns": "HQ location and key geographic hubs",
   "talentPressure": "Employer brand strength, retention challenges, talent competition"
 }`;
-        const d1 = await callClaudeAPI(key, p1, 3000);
+        const d1p = callClaudeAPI(key, p1, 3000);
 
         // --- CALL 2: Executives, Problems, Use Cases, Challenges, Outcomes ---
         const p2 = `You are a B2B sales strategist researching "${acc.companyName}" (industry: ${acc.industry || "unknown"}). CRITICAL: Today is ${new Date().toISOString().split("T")[0]}. Use the LATEST available data from ${currentYear - 1}-${currentYear}, not outdated information. Reference current leadership, recent strategic initiatives, and up-to-date market conditions. Return ONLY valid JSON. Use "" for unknown. Be specific to this company:
@@ -9782,7 +9782,7 @@ function ProspectDashboard() {
   "phenomGeoPlay": "How a pay-equity compliance platform addresses geopolitical talent challenges",
   "geoTalentShift": "Talent market shifts caused by geopolitical or demographic changes"
 }`;
-        const d2 = await callClaudeAPI(key, p2, 3500);
+        const d2p = callClaudeAPI(key, p2, 3500);
 
         // --- CALL 3: Key Signals + Executives array ---
         const p3 = `For "${acc.companyName}" (${acc.industry || "unknown"}), return ONLY valid JSON. Today is ${new Date().toISOString().split("T")[0]} — use CURRENT data only, verify all executives are CURRENTLY employed as of ${currentYear - 1}-${currentYear}.
@@ -9823,7 +9823,9 @@ INCLUSION RULES:
     {"severity": "MEDIUM", "title": "Challenge title", "businessChallenge": "Description", "solution": "Solution", "proofPoint": ""}
   ]
 }`;
-        const d3 = await callClaudeAPI(key, p3, 3500);
+        const d3p = callClaudeAPI(key, p3, 3500);
+        // Calls 1-3 are independent — run them concurrently to cut new-account time ~3x
+        const [d1, d2, d3] = await Promise.all([d1p, d2p, d3p]);
 
         // --- CALL 4: Fastest Growing BU, ClearEqual Product Match, BU Leaders, Wow Insights ---
         // Build context from Calls 1-3 results + existing account data for maximum accuracy
