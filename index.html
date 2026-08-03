@@ -9648,14 +9648,14 @@ function ProspectDashboard() {
     runIntelRefresh(ids);
   };
 
-  const runIntelRefresh = async (accountIds) => {
+  const runIntelRefresh = async (accountIds, accountsOverride) => {
     const key = claudeApiKey;
     if (!key) { setShowApiKeyModal(true); return; }
     setShowRefreshIntelModal(true);
     setRefreshing(true);
     setRefreshLog([]);
     setRefreshProgress(0);
-    const accs = accountIds ? accounts.filter(a => accountIds.includes(a.id)) : [...accounts];
+    const accs = accountIds ? (accountsOverride || accounts).filter(a => accountIds.includes(a.id)) : [...(accountsOverride || accounts)];
     setRefreshTotal(accs.length);
 
     for (let i = 0; i < accs.length; i++) {
@@ -11118,54 +11118,15 @@ Return this exact JSON structure:
                   const newId = Math.max(...accounts.map((a) => a.id), 0) + 1;
                   let newAccount = emptyAccount(newId, addAccountName);
                   if (addAccountIndustry) newAccount.industry = addAccountIndustry;
-                  if (addAccountAutoPopulate) {
-                    const keyToUse = claudeApiKey || addAccountApiKey;
-                    if (!keyToUse) {
-                      alert("Please provide an API key for auto-population");
-                      return;
-                    }
-                    setAddAccountLoading(true);
-                    const prompt = `Given the company name '${addAccountName}' in the '${addAccountIndustry}' industry, provide data for a sales prospect account. Return a JSON object with these fields: revenue, revenueGrowth, employees, atAGlance, coreBusiness, industryPosition, ceoPriorities, recentNews, keySignals (array of 5-8 strings). Be concise and factual, use latest publicly available data.`;
-                    try {
-                      const response = await fetch("https://api.anthropic.com/v1/messages", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                          "x-api-key": keyToUse,
-                          "anthropic-version": "2023-06-01",
-                          "anthropic-dangerous-direct-browser-access": "true",
-                        },
-                        body: JSON.stringify({
-                          model: "claude-sonnet-4-6",
-                          max_tokens: 800,
-                          messages: [{ role: "user", content: prompt }],
-                        }),
-                      });
-                      if (response.ok) {
-                        const data = await response.json();
-                        const text = apiText(data) || "";
-                        try {
-                          const jsonMatch = text.match(/\{[\s\S]*\}/);
-                          if (jsonMatch) {
-                            const popData = JSON.parse(jsonMatch[0]);
-                            newAccount = { ...newAccount, ...popData };
-                          }
-                        } catch (parseError) {
-                          console.log("Could not parse JSON response");
-                        }
-                      }
-                    } catch (error) {
-                      console.log("Auto-populate error:", error.message);
-                    }
-                    setAddAccountLoading(false);
-                  }
-                  setAccounts((prev) => [...prev, newAccount]);
+                                    setAccounts((prev) => [...prev, newAccount]);
                   setSelectedId(newAccount.id);
                   setShowAddAccountModal(false);
                   setAddAccountName("");
                   setAddAccountIndustry("");
                   setAddAccountAutoPopulate(false);
                   setAddAccountApiKey("");
+                  // Auto-populate Executive Brief, Fundamentals, Revenue & Strategy with full web-verified intelligence
+                  setTimeout(function(){ runIntelRefresh([newAccount.id], [...accounts, newAccount]); }, 50);
                 },
                 disabled: addAccountLoading,
                 style: {
