@@ -719,14 +719,14 @@ async function exportToPPTX(account) {
       tags: ['Expansion', 'Market', 'Velocity']
     },
     {
-      title: 'Talent & Workforce',
-      body: truncate(`${account.talentPressure || 'Talent challenges'}\n\nWorkforce Scale: ${account.workforceScale || 'N/A'}\n\nCHRO Focus: ${account.chroProblems || 'N/A'}`, 180),
-      tags: ['Hiring', 'Retention', 'Growth']
+      title: 'Pay Equity & Compliance',
+      body: truncate(`${account.talentPressure || 'Regulatory exposure'}\n\nWorkforce & Pay Structure: ${account.workforceScale || 'N/A'}\n\nReward Focus: ${account.chroProblems || 'N/A'}`, 180),
+      tags: ['Pay Gap', 'Directive 2023/970', 'Remediation']
     },
     {
-      title: 'Talent Acquisition',
-      body: truncate(`Hiring Shape: ${account.hiringShape || 'N/A'}\n\nCritical Roles: ${account.criticalRoles || 'N/A'}\n\nWorkflow: ${account.workflowAssessment || 'N/A'}`, 180),
-      tags: ['Staffing', 'Process', 'Skills']
+      title: 'Pay Gap Position',
+      body: truncate(`Pay & Reward Programme: ${account.hiringShape || 'N/A'}\n\nHighest-Risk Pay Gaps: ${account.criticalRoles || 'N/A'}\n\nWorkflow: ${account.workflowAssessment || 'N/A'}`, 180),
+      tags: ['Pay Equity', 'Job Architecture', 'Disclosure']
     },
     {
       title: 'ClearEqual Entry Angle',
@@ -858,9 +858,9 @@ async function exportToPPTX(account) {
     },
     {
       num: 4,
-      question: 'Which job families or workflows are tied to that strategy?',
-      body: truncate(`Critical Roles: ${account.criticalRoles || 'N/A'}\n\nHiring Shape: ${account.hiringShape || 'N/A'}\n\nWorkflow: ${account.workflowAssessment || 'N/A'}`, 200),
-      tags: ['Roles', 'Hiring', 'Process']
+      question: 'Which job families or pay structures are tied to that strategy?',
+      body: truncate(`Highest-Risk Pay Gaps: ${account.criticalRoles || 'N/A'}\n\nPay & Reward Programme: ${account.hiringShape || 'N/A'}\n\nWorkflow: ${account.workflowAssessment || 'N/A'}`, 200),
+      tags: ['Job Families', 'Pay Structure', 'Process']
     }
   ];
 
@@ -984,7 +984,7 @@ async function exportToPPTX(account) {
     {
       title: 'Business Pain',
       body: truncate(account.businessPain || 'Primary business challenge', 150),
-      phenomImpact: 'Addresses core hiring and talent challenges',
+      phenomImpact: 'Addresses core pay-equity and compliance challenges',
       question: 'How are you currently solving this?'
     },
     {
@@ -996,14 +996,14 @@ async function exportToPPTX(account) {
     {
       title: 'Growth Area',
       body: truncate(account.microGrowthArea || 'Key growth opportunity', 150),
-      phenomImpact: 'Talent to scale growth initiatives',
-      question: 'What talent gaps exist?'
+      phenomImpact: 'Pay-equity readiness to scale growth initiatives',
+      question: 'What pay-gap risks exist?'
     },
     {
       title: 'Geo Impact',
       body: truncate(account.geoConflictImpact || 'Geographic considerations', 150),
-      phenomImpact: 'Localized talent strategies',
-      question: 'Where are hiring challenges concentrated?'
+      phenomImpact: 'Per-country compliance strategies',
+      question: 'Where is reporting exposure concentrated?'
     }
   ];
 
@@ -1382,12 +1382,12 @@ async function exportToPPTX(account) {
     });
   });
 
-  // ========== SLIDE 7: HIRING PROCESS - ZONE 1 (HIGH VOLUME) ==========
+  // ========== SLIDE 7: PAY EQUITY PROCESS - ZONE 1 (BROAD-BASED) ==========
   const slide7 = pptx.addSlide();
   slide7.background = { color: 'FFFFFF' };
 
   // Title
-  slide7.addText('Hiring Process — Zone 1', {
+  slide7.addText('Pay Equity Process — Zone 1', {
     x: 0.5,
     y: 0.3,
     w: 12.33,
@@ -1398,7 +1398,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  slide7.addText('High Volume, Entry-Level Roles', {
+  slide7.addText('Broad-Based Pay Bands & High-Volume Job Families', {
     x: 0.5,
     y: 0.75,
     w: 12.33,
@@ -1408,8 +1408,8 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  // Current ATS layer
-  slide7.addText('Current ATS (Cornerstone/SAP/Oracle):', {
+  // Current HRIS/Payroll layer
+  slide7.addText('Current HRIS / Payroll (SAP/Oracle/Workday):', {
     x: 0.5,
     y: 1.15,
     w: 12.33,
@@ -1420,7 +1420,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const atsSteps = ['Job Posted', 'Apply', 'Screening', 'Interview', 'Offer', 'Hired'];
+  const atsSteps = ['Pay Data', 'Job Mapping', 'Grouping', 'Gap Calc', 'Review', 'Report'];
   const atsStepX = [0.7, 1.8, 2.9, 4.0, 5.1, 6.2];
 
   atsSteps.forEach((step, idx) => {
@@ -1460,7 +1460,7 @@ async function exportToPPTX(account) {
   });
 
   // ClearEqual layer
-  slide7.addText('ClearEqual Layer (AI-Driven Screening):', {
+  slide7.addText('ClearEqual Layer (AI-Driven Pay-Gap Analysis):', {
     x: 0.5,
     y: 2.25,
     w: 12.33,
@@ -1471,7 +1471,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const phenomSteps = ['Job in ClearEqual', 'Job Matching', 'Smart Apply', 'AI Screening', 'Routing', 'Interview Insights'];
+  const phenomSteps = ['Data in ClearEqual', 'Job Leveling', 'Equal-Value Groups', 'Gap Analytics', 'Driver Analysis', 'Remediation'];
   const phenomStepX = [0.7, 1.8, 2.9, 4.0, 5.1, 6.2];
 
   phenomSteps.forEach((step, idx) => {
@@ -1512,7 +1512,7 @@ async function exportToPPTX(account) {
   });
 
   // Decision outcomes
-  slide7.addText('AI Screening Results:', {
+  slide7.addText('Pay-Gap Analysis Results:', {
     x: 0.5,
     y: 3.35,
     w: 12.33,
@@ -1524,9 +1524,9 @@ async function exportToPPTX(account) {
   });
 
   const outcomes = [
-    { label: 'HIGH SCORE', color: '10B981', path: '→ Interview' },
-    { label: 'MEDIUM SCORE', color: 'FFD700', path: '→ Phone Screen' },
-    { label: 'LOW SCORE', color: 'EF4444', path: '→ Nurture Pool' }
+    { label: 'NO UNEXPLAINED GAP', color: '10B981', path: '→ Compliant' },
+    { label: 'GAP 1–5%', color: 'FFD700', path: '→ Remediation Plan' },
+    { label: 'GAP > 5%', color: 'EF4444', path: '→ Joint Pay Assessment' }
   ];
 
   outcomes.forEach((outcome, idx) => {
@@ -1555,7 +1555,7 @@ async function exportToPPTX(account) {
   });
 
   // Metrics at bottom
-  slide7.addText('Automation: Level 3 | Intelligence: Level 2 | Time to Hire: -40% | Quality of Hire: +25%', {
+  slide7.addText('Automation: Level 3 | Intelligence: Level 2 | Time to Report: -60% | Audit Readiness: +100%', {
     x: 0.5,
     y: 4.5,
     w: 12.33,
@@ -1569,9 +1569,9 @@ async function exportToPPTX(account) {
 
   // Benefits boxes
   const benefits = [
-    'Reduces screening time from 2-3 days to 2-3 hours',
-    'Improves first-round interview quality by 35%',
-    'Enables 24/7 candidate engagement & feedback'
+    'Reduces pay-gap analysis from weeks to hours',
+    'Explains 35% more of the raw gap via driver analysis',
+    'Enables continuous pay-equity monitoring & alerts'
   ];
 
   benefits.forEach((benefit, idx) => {
@@ -1598,12 +1598,12 @@ async function exportToPPTX(account) {
     });
   });
 
-  // ========== SLIDE 8: HIRING PROCESS - ZONE 3 (TECHNICAL) ==========
+  // ========== SLIDE 8: PAY EQUITY PROCESS - ZONE 3 (COMPLEX FAMILIES) ==========
   const slide8 = pptx.addSlide();
   slide8.background = { color: 'FFFFFF' };
 
   // Title
-  slide8.addText('Hiring Process — Zone 3', {
+  slide8.addText('Pay Equity Process — Zone 3', {
     x: 0.5,
     y: 0.3,
     w: 12.33,
@@ -1614,7 +1614,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  slide8.addText('Technical & Mid-to-Senior Roles', {
+  slide8.addText('Complex Job Families & Multi-Country Roles', {
     x: 0.5,
     y: 0.75,
     w: 12.33,
@@ -1624,8 +1624,8 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  // Source channels
-  slide8.addText('Source Channels:', {
+  // Pay data sources
+  slide8.addText('Pay Data Sources:', {
     x: 0.5,
     y: 1.15,
     w: 12.33,
@@ -1636,7 +1636,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const sources = ['CRM + Talent Pool', 'Career Site + LinkedIn', 'Internal Mobility'];
+  const sources = ['HRIS + Payroll', 'Comp Management + Grades', 'Job Architecture'];
   const sourceX = [0.7, 3.5, 6.5];
 
   sources.forEach((source, idx) => {
@@ -1663,8 +1663,8 @@ async function exportToPPTX(account) {
     });
   });
 
-  // Interview funnel
-  slide8.addText('Interview Process:', {
+  // Assessment funnel
+  slide8.addText('Assessment Process:', {
     x: 0.5,
     y: 2.25,
     w: 12.33,
@@ -1675,7 +1675,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const interviews = ['Phone Screen', 'Technical Assessment', 'Manager Interview', 'Culture Panel', 'Offer'];
+  const interviews = ['Data Validation', 'Job Leveling', 'Regression Analysis', 'Works Council Review', 'Disclosure'];
   let interviewX = 0.7;
   interviews.forEach((interview, idx) => {
     const boxWidth = 2.0;
@@ -1729,10 +1729,10 @@ async function exportToPPTX(account) {
   });
 
   const enhancements = [
-    { title: 'Smart Matching', desc: 'AI ranks candidates by skill-fit & cultural alignment' },
-    { title: 'Interview Insights', desc: 'Real-time feedback during interviews with AI notes' },
-    { title: 'Pipeline Nurturing', desc: 'Engage passive candidates over months/years' },
-    { title: 'Offer Analytics', desc: 'Predict acceptance rates and optimize packages' }
+    { title: 'Equal-Value Grouping', desc: 'AI groups roles of equal value for like-for-like pay comparison' },
+    { title: 'Driver Analysis', desc: 'Isolates legitimate pay drivers vs the unexplained gender gap' },
+    { title: 'Remediation Modelling', desc: 'Model gap-closure scenarios and budget over time' },
+    { title: 'Disclosure Analytics', desc: 'Generate Directive-ready reports and pay-range disclosures' }
   ];
 
   enhancements.forEach((enh, idx) => {
@@ -1785,12 +1785,12 @@ async function exportToPPTX(account) {
     });
   });
 
-  // ========== SLIDE 9: HIRING PROCESS - ZONE 4 (SPECIALIST) ==========
+  // ========== SLIDE 9: PAY EQUITY PROCESS - ZONE 4 (HIGH-RISK) ==========
   const slide9 = pptx.addSlide();
   slide9.background = { color: 'FFFFFF' };
 
   // Title
-  slide9.addText('Hiring Process — Zone 4', {
+  slide9.addText('Pay Equity Process — Zone 4', {
     x: 0.5,
     y: 0.3,
     w: 12.33,
@@ -1801,7 +1801,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  slide9.addText('Specialist & Hard-to-Fill Roles', {
+  slide9.addText('High-Risk Pay Gaps & Executive Reward', {
     x: 0.5,
     y: 0.75,
     w: 12.33,
@@ -1811,8 +1811,8 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  // Sourcing approach
-  slide9.addText('Sourcing Approach:', {
+  // Data & analysis approach
+  slide9.addText('Data & Analysis Approach:', {
     x: 0.5,
     y: 1.15,
     w: 12.33,
@@ -1823,7 +1823,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const zone4Sources = ['CRM + Talent Pool Sourcing', 'Executive Recruiter Collaboration', 'Industry Community Partnerships'];
+  const zone4Sources = ['HRIS + Payroll Consolidation', 'Reward & Comp Committee Collaboration', 'Benchmark & Market Data Partnerships'];
   const zone4SourceX = [0.7, 4.0, 7.8];
 
   zone4Sources.forEach((source, idx) => {
@@ -1850,8 +1850,8 @@ async function exportToPPTX(account) {
     });
   });
 
-  // Interview process
-  slide9.addText('Interview & Assessment Process:', {
+  // Analysis process
+  slide9.addText('Analysis & Remediation Process:', {
     x: 0.5,
     y: 2.25,
     w: 12.33,
@@ -1862,7 +1862,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const zone4Interviews = ['Phone Screen', 'Deep Technical', 'Scenario/Case Study', 'Expert Panel', 'Executive Round', 'Final Decision'];
+  const zone4Interviews = ['Data Validation', 'Deep Regression', 'Scenario Modelling', 'Reward Committee', 'Board Review', 'Final Disclosure'];
   let zone4IntX = 0.7;
   zone4Interviews.forEach((int, idx) => {
     const iw = 1.85;
@@ -1914,10 +1914,10 @@ async function exportToPPTX(account) {
   });
 
   const zone4Features = [
-    { title: 'Talent Pool Intelligence', desc: 'Maintain 200+ qualified specialists in pipeline even when not hiring' },
-    { title: 'Expert Interview Coordination', desc: 'AI-assisted panel coordination, real-time feedback aggregation' },
-    { title: 'Long-Cycle Nurturing', desc: 'Engage passive candidates over 6-24 month cycles with tailored content' },
-    { title: 'Negotiation Support', desc: 'Offer prediction and acceptance modeling for competitive markets' }
+    { title: 'Pay Equity Intelligence', desc: 'Maintain a continuously monitored view of pay gaps across all job families' },
+    { title: 'Joint Assessment Coordination', desc: 'AI-assisted joint pay assessment with works-council-ready evidence' },
+    { title: 'Multi-Year Remediation', desc: 'Phase pay-gap closure over 6-24 month cycles within budget' },
+    { title: 'Disclosure Support', desc: 'Model reporting outcomes and pay-range disclosures for each market' }
   ];
 
   zone4Features.forEach((feat, idx) => {
@@ -1990,10 +1990,10 @@ async function exportToPPTX(account) {
   const levels = [
     { level: '0', name: 'Stone Age', desc: 'Manual, spreadsheet-based' },
     { level: '1', name: 'Elimination', desc: 'Basic automation' },
-    { level: '2', name: 'Assimilation', desc: 'AI-assisted screening' },
+    { level: '2', name: 'Assimilation', desc: 'AI-assisted pay-gap analysis' },
     { level: '3', name: 'Automation', desc: 'End-to-end automated workflows' },
     { level: '4', name: 'Augmentation', desc: 'AI coaches & predictive' },
-    { level: '5', name: 'Domination', desc: 'Autonomous hiring agents' }
+    { level: '5', name: 'Domination', desc: 'Autonomous pay-equity agents' }
   ];
 
   const maturityX = 0.5;
@@ -2269,7 +2269,7 @@ async function exportToPPTX(account) {
     fontFace: 'Calibri'
   });
 
-  const stepsText = account.nextSteps || 'Schedule initial discovery meeting to align on hiring challenges and ClearEqual solution fit.\nConduct deep-dive assessment of current talent workflows.\nDevelop implementation roadmap and quick-win opportunities.';
+  const stepsText = account.nextSteps || 'Schedule initial discovery meeting to align on pay-equity and Directive 2023/970 challenges and ClearEqual solution fit.\nConduct deep-dive assessment of current pay-gap analysis and reporting workflows.\nDevelop implementation roadmap and quick-win opportunities.';
 
   slide12.addText(stepsText, {
     x: 0.5,
@@ -2514,11 +2514,11 @@ function buildAccountHTML(account) {
     (account.growthInvestments ? "<h3>Growth Investments</h3><p>" + account.growthInvestments + "</p>" : "") +
     (account.techBets ? "<h3>Tech Bets</h3><p>" + account.techBets + "</p>" : "") +
     (account.workforceScale
-      ? "<h2>Workforce Intelligence</h2><h3>Scale</h3><p>" + account.workforceScale + "</p>"
+      ? "<h2>Pay Equity Intelligence</h2><h3>Workforce &amp; Pay Structure</h3><p>" + account.workforceScale + "</p>"
       : "") +
-    (account.hiringShape ? "<h3>Hiring Shape</h3><p>" + account.hiringShape + "</p>" : "") +
-    (account.criticalRoles ? "<h3>Critical Roles</h3><p>" + account.criticalRoles + "</p>" : "") +
-    (account.talentPressure ? "<h3>Talent Pressure</h3><p>" + account.talentPressure + "</p>" : "") +
+    (account.hiringShape ? "<h3>Pay Gap &amp; Pay Equity Position</h3><p>" + account.hiringShape + "</p>" : "") +
+    (account.criticalRoles ? "<h3>Highest-Risk Pay Gaps &amp; Job Families</h3><p>" + account.criticalRoles + "</p>" : "") +
+    (account.talentPressure ? "<h3>Regulatory Exposure &amp; Deadlines</h3><p>" + account.talentPressure + "</p>" : "") +
     (execRows
       ? "<h2>Executive Mapping</h2><table><thead><tr><th>Executive</th><th>Priorities</th><th>Outreach Angles</th></tr></thead><tbody>" +
         execRows +
@@ -2528,7 +2528,7 @@ function buildAccountHTML(account) {
       ? '<h2>Problem Identification</h2><div class="box">' + account.problemHypothesis + "</div>"
       : "") +
     (account.whyNow ? "<h3>Why Now</h3><p>" + account.whyNow + "</p>" : "") +
-    (account.chroProblems ? "<h3>CHRO Pain</h3><p>" + account.chroProblems + "</p>" : "") +
+    (account.chroProblems ? "<h3>Reward &amp; HR Leadership Pain</h3><p>" + account.chroProblems + "</p>" : "") +
     (account.businessPain ? "<h3>Business Pain</h3><p>" + account.businessPain + "</p>" : "") +
     (account.workflowAssessment
       ? "<h2>Use Case Mapping</h2><h3>Workflow Assessment</h3><p>" + account.workflowAssessment + "</p>"
@@ -2652,10 +2652,10 @@ async function exportToXLSX(account) {
     ["", ""],
     ["CEO PRIORITIES", account.ceoPriorities || ""],
     ["TECH BETS", account.techBets || ""],
-    ["WORKFORCE SCALE", account.workforceScale || ""],
-    ["HIRING SHAPE", account.hiringShape || ""],
-    ["CRITICAL ROLES", account.criticalRoles || ""],
-    ["TALENT PRESSURE", account.talentPressure || ""],
+    ["WORKFORCE & PAY STRUCTURE", account.workforceScale || ""],
+    ["PAY GAP & PAY EQUITY POSITION", account.hiringShape || ""],
+    ["HIGHEST-RISK PAY GAPS & JOB FAMILIES", account.criticalRoles || ""],
+    ["REGULATORY EXPOSURE & DEADLINES", account.talentPressure || ""],
   ];
   var wsFinancials = XLSX.utils.aoa_to_sheet(finRows);
   wsFinancials["!cols"] = [{ wch: 24 }, { wch: 90 }];
@@ -2695,8 +2695,8 @@ async function exportToXLSX(account) {
     ["PAIN ANALYSIS", ""],
     ["", ""],
     ["FIELD", "CONTENT"],
-    ["CIO Likely Problems", account.cioProblems || ""],
-    ["CHRO Likely Problems", account.chroProblems || ""],
+    ["Finance / CFO Likely Problems", account.cioProblems || ""],
+    ["Reward & HR Leadership Likely Problems", account.chroProblems || ""],
     ["Business Pain", account.businessPain || ""],
     ["Why Now Triggers", account.whyNow || ""],
     ["Problem Hypothesis", account.problemHypothesis || ""],
@@ -2727,13 +2727,13 @@ async function exportToXLSX(account) {
   wsPain["!cols"] = [{ wch: 22 }, { wch: 36 }, { wch: 70 }, { wch: 60 }, { wch: 40 }];
   XLSX.utils.book_append_sheet(wb, wsPain, "Pain & Challenges"); // ── Sheet 5: Geo & Strategy ──
   var geoRows = [
-    ["GEO-POLITICAL & STRATEGY", ""],
+    ["REGULATORY & REPORTING SHIFTS", ""],
     ["", ""],
     ["FIELD", "CONTENT"],
-    ["Geo Conflict Impact", account.geoConflictImpact || ""],
-    ["Micro Growth Area", account.microGrowthArea || ""],
-    ["ClearEqual Geo Play", account.phenomGeoPlay || ""],
-    ["Geo Talent Shift", account.geoTalentShift || ""],
+    ["Regulatory Impact", account.geoConflictImpact || ""],
+    ["Emerging Compliance Area", account.microGrowthArea || ""],
+    ["ClearEqual Regulatory Play", account.phenomGeoPlay || ""],
+    ["Regulatory & Reporting Shift", account.geoTalentShift || ""],
     ["", ""],
     ["HYPER-CELL TITLE", account.hyperCellTitle || ""],
     ["HYPER-CELL NARRATIVE", account.hyperCellNarrative || ""],
@@ -2950,7 +2950,7 @@ const emptyAccount = (id, name = "") => ({
       name: "",
       title: "",
       roleType: "Primary Sponsor",
-      department: "HR Leadership",
+      department: "Reward & Total Rewards",
       background: "",
       priorities: "",
       keyQuote: "",
@@ -2963,7 +2963,7 @@ const emptyAccount = (id, name = "") => ({
       name: "",
       title: "",
       roleType: "Key Influencer",
-      department: "Talent Acquisition",
+      department: "Legal & Compliance",
       background: "",
       priorities: "",
       keyQuote: "",
@@ -2976,7 +2976,7 @@ const emptyAccount = (id, name = "") => ({
       name: "",
       title: "",
       roleType: "Budget Authority",
-      department: "IT / Digital",
+      department: "Finance",
       background: "",
       priorities: "",
       keyQuote: "",
@@ -3501,20 +3501,20 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
           atAGlance: "Company overview insights from the conversation",
           hypothesis: "Sales hypothesis if discussed",
           ceoPriorities: "CEO/leadership priorities mentioned",
-          cioProblems: "CIO/CTO/tech challenges discussed",
-          chroProblems: "CHRO/HR challenges discussed",
-          businessPain: "Business pain points mentioned",
-          whyNow: "Why-now triggers or urgency signals",
+          cioProblems: "HRIS / People-Systems / pay-data challenges discussed (fragmented pay data, job-architecture gaps, GDPR/data residency)",
+          chroProblems: "CHRO / Head of Reward pay-equity challenges discussed (pay gaps, Article 9 reporting readiness, salary-band gaps, works-council pressure)",
+          businessPain: "Business pain points mentioned (remediation cost, litigation/back-pay exposure, non-compliance fines, reputational risk)",
+          whyNow: "Why-now triggers or urgency signals (Directive 2023/970 transposition, reporting deadline, new CHRO/Head of Reward, CSRD cycle)",
           problemHypothesis: "Problem hypothesis discussed",
-          workflowAssessment: "HR tech stack or workflow info mentioned",
+          workflowAssessment: "Reward & people-systems stack or pay-equity workflow info mentioned",
           highestOpportunity: "Biggest opportunity identified",
           outcomeStatement: "Outcome statements or value props discussed",
           quantifiedImpact: "Any ROI or metrics mentioned",
           recentNews: "Recent news or events discussed",
-          transformationPrograms: "Transformation initiatives mentioned",
+          transformationPrograms: "Transformation or compliance initiatives mentioned",
           executives: [{ name: "Person VERIFIED as employee of " + account.companyName, title: "Title", department: "Dept", background: "Context", priorities: "Priorities" }],
-          projectTeam: [{ name: "Person VERIFIED as employee in HR/TA/TM role", role: "HRIS/Talent Acquisition/Talent Management/Workforce Planning/Other", title: "Title", responsibility: "Domain", notes: "Context" }],
-          hrTechStack: "ONLY tools explicitly named as used by " + account.companyName + ". Format: [{category: ats/hcm/lms/perf/payroll/wfm/analytics/engagement, name: Tool name, notes: Context}] or empty array",
+          projectTeam: [{ name: "Person VERIFIED as employee in Reward/HRIS/Legal/DE&I role", role: "Reward & Total Rewards/People Analytics / HRIS/Legal & Compliance/DE&I / Inclusion/Other", title: "Title", responsibility: "Domain", notes: "Context" }],
+          hrTechStack: "ONLY tools explicitly named as used by " + account.companyName + ". Format: [{category: ats (HCM/Core HR)/hcm (Payroll)/lms (Compensation)/perf (Job Architecture)/payroll (Pay Equity/Analytics)/wfm (HR Analytics)/analytics (Benchmarking)/engagement (Reporting & Disclosure), name: Tool name, notes: Context}] or empty array",
           keySignals: ["Signal or insight 1 from conversation", "Signal 2", "Signal 3"],
           conversationSummary: "2-3 sentence summary of the key intelligence from this conversation",
         }) + "\n\nCONVERSATION:\n" + truncated;
@@ -3732,12 +3732,12 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
         JSON.stringify({
           atAGlance: "Key takeaways from this call",
           ceoPriorities: "Leadership priorities mentioned by prospect",
-          cioProblems: "Technical/IT challenges discussed",
-          chroProblems: "HR/people challenges discussed",
-          businessPain: "Specific pain points and their business impact",
-          whyNow: "Urgency signals, timeline drivers, trigger events mentioned",
+          cioProblems: "HRIS / People-Systems / pay-data challenges discussed",
+          chroProblems: "CHRO / Head of Reward / pay-equity challenges discussed",
+          businessPain: "Specific pain points and their business impact (remediation, litigation, fines, reputation)",
+          whyNow: "Urgency signals, timeline drivers, trigger events (Directive transposition, reporting deadline) mentioned",
           problemHypothesis: "Problem hypothesis validated or refined during call",
-          workflowAssessment: "Current tools, processes, or workflows mentioned",
+          workflowAssessment: "Current reward/people systems, pay-equity processes, or workflows mentioned",
           highestOpportunity: "Biggest opportunity identified from this call",
           outcomeStatement: "Desired outcomes expressed by prospect",
           quantifiedImpact: "Any numbers, metrics, or ROI discussed",
@@ -3745,8 +3745,8 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
           whyNowFraming: "Why-now framing based on call context",
           nextSteps: "Action items and next steps agreed on the call",
           executives: [{ name: "Prospect employee who spoke or was mentioned (NOT your team)", title: "Their title at " + account.companyName, department: "Department", background: "What we learned about them on the call", priorities: "Their stated priorities", relevance: "Their role in the deal" }],
-          projectTeam: [{ name: "Prospect employee in HR/TA/TM/WFP role mentioned", role: "HRIS/Talent Acquisition/Talent Management/Workforce Planning/Other", title: "Title", responsibility: "Their domain", notes: "Context from call" }],
-          hrTechStack: "ONLY tools explicitly named by the prospect as tools THEY use. Format: [{category: ats/hcm/lms/perf/payroll/wfm/analytics/engagement, name: Tool name, notes: Context from call}] or empty array",
+          projectTeam: [{ name: "Prospect employee in Reward/HRIS/Legal/DE&I role mentioned", role: "Reward & Total Rewards/People Analytics / HRIS/Legal & Compliance/DE&I / Inclusion/Other", title: "Title", responsibility: "Their domain", notes: "Context from call" }],
+          hrTechStack: "ONLY tools explicitly named by the prospect as tools THEY use. Format: [{category: ats (HCM/Core HR)/hcm (Payroll)/lms (Compensation)/perf (Job Architecture)/payroll (Pay Equity/Analytics)/wfm (HR Analytics)/analytics (Benchmarking)/engagement (Reporting & Disclosure), name: Tool name, notes: Context from call}] or empty array",
           keySignals: ["Buying signal or key insight 1", "Signal 2", "Signal 3"],
           callSummary: "3-4 sentence summary of the call: who was there, what was discussed, key outcomes, and recommended next actions",
         }) + "\n\nGONG CALL TRANSCRIPT:\n" + truncated;
@@ -3928,40 +3928,40 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
     if (!text || text.length < 30) { alert("Not enough content to analyze."); return; }
     setProcessingClearEqual(true);
     setUploading(true);
-    setUploadProgress("Analyzing ClearEqual workforce intelligence...");
+    setUploadProgress("Analyzing ClearEqual pay-equity intelligence...");
     try {
       const truncated = text.substring(0, 14000);
       const companyName = account.companyName || "this company";
       const existingWorkforce = [account.workforceScale, account.hiringShape, account.criticalRoles, account.geoPatterns, account.talentPressure].filter(Boolean).join(" | ");
       const existingProblems = [account.cioProblems, account.chroProblems, account.businessPain, account.whyNow].filter(Boolean).join(" | ");
 
-      const prompt = "You are an elite workforce intelligence analyst specialising in ClearEqual's talent experience platform. You have been given content from ClearEqual's Workforce Intelligence portal or related ClearEqual data about or relevant to \"" + companyName + "\".\n\nEXISTING ACCOUNT INTEL:\n- Industry: " + (account.industry || "unknown") + "\n- Workforce data: " + (existingWorkforce || "none yet") + "\n- Problems identified: " + (existingProblems || "none yet") + "\n\nAnalyse the ClearEqual content below and extract intelligence mapped to these EXACT sections. Use ClearEqual-specific terminology and metrics. Return ONLY valid JSON:\n\n" + JSON.stringify({
+      const prompt = "You are an elite pay-equity and pay-transparency intelligence analyst specialising in ClearEqual's EU Pay Transparency Directive (2023/970) compliance platform. You have been given content from ClearEqual's Pay Equity Intelligence portal or related ClearEqual data about or relevant to \"" + companyName + "\".\n\nEXISTING ACCOUNT INTEL:\n- Industry: " + (account.industry || "unknown") + "\n- Pay-equity data: " + (existingWorkforce || "none yet") + "\n- Problems identified: " + (existingProblems || "none yet") + "\n\nAnalyse the ClearEqual content below and extract intelligence mapped to these EXACT sections. Use ClearEqual-specific terminology and metrics. Return ONLY valid JSON:\n\n" + JSON.stringify({
         workforceIntelligence: {
-          workforceScale: "Workforce scale insights from ClearEqual data: headcount trends, skills gaps identified, workforce readiness scores, AI/automation maturity level, internal mobility rates",
-          hiringShape: "Hiring shape from ClearEqual lens: apply-to-hire ratios, candidate pipeline health, sourcing channel effectiveness, career site conversion, chatbot engagement rates",
-          criticalRoles: "Critical roles identified via ClearEqual skills intelligence: hardest-to-fill roles, skills gaps, emerging role families, succession planning gaps, skills adjacencies",
-          geoPatterns: "Geographic hiring patterns from ClearEqual data: regional talent density, remote work patterns, global talent marketplace utilisation, geo-specific skills availability",
-          talentPressure: "Talent pressure indicators: employer brand score, candidate experience benchmarks, competitor talent flows, Glassdoor/Indeed sentiment, internal vs external hire ratios"
+          workforceScale: "Workforce & pay structure: headcount by country/gender, distribution across pay grades and job levels, share of workforce above Directive reporting thresholds (250+/150+/100+ employees)",
+          hiringShape: "Pay & reward programme: fixed vs variable pay mix, bonus/equity, salary band and job-architecture maturity, pay-progression criteria, how transparent pay-setting is to employees",
+          criticalRoles: "Pay gaps & at-risk groups: known or likely gender and intersectional pay gaps, categories of workers with >5% unexplained gap, low-representation groups, equal-pay litigation exposure",
+          geoPatterns: "Multi-country pay & reporting footprint: EU member states of operation, per-country transposition timelines and thresholds, works-council structures, any existing national pay-gap reporting",
+          talentPressure: "Pay transparency & compliance pressure: Directive 2023/970 readiness, next reporting deadline, CSRD/ESG pay disclosure, union/works-council pressure, public pay-gap or reputational exposure"
         },
         problemIdentification: {
-          cioProblems: "CIO/CTO problems surfaced by ClearEqual analysis: HR tech stack fragmentation, lack of AI-powered talent intelligence, poor system integration, no skills taxonomy, data silos between ATS-HCM-LMS",
-          chroProblems: "CHRO problems from ClearEqual workforce intel: skills gap visibility, low internal mobility (<15% benchmark), poor candidate experience, manual screening bottlenecks, no talent marketplace, workforce planning blind spots",
-          businessPain: "Business-level pain quantified with ClearEqual proof points: cost-per-hire vs industry, time-to-fill vs benchmark (avg 42 days), quality-of-hire gaps, revenue impact of unfilled critical roles, attrition cost",
-          whyNow: "Why-now triggers from ClearEqual intelligence: skills obsolescence acceleration (AI/automation disrupting 40% of roles by 2027), competitor pay-equity compliance platform adoption, workforce planning gap (18-month lag between strategy and HR execution), regulatory skills requirements"
+          cioProblems: "HRIS/People-Systems problems surfaced by ClearEqual analysis: fragmented pay data across HRIS/payroll/comp systems, no single source of truth, poor job-architecture data, inability to compute mean/median gaps by category, GDPR/data-residency gaps",
+          chroProblems: "CHRO / Head of Reward problems: pay-gap exposure, no Article 9 reporting capability, unexplained pay disparities they cannot justify, no salary-band structure, works-council negotiation risk, DE&I / fair-pay commitments at risk",
+          businessPain: "Business-level pain quantified with ClearEqual proof points: remediation cost of an unmanaged pay gap, cost of manual gap reporting across entities, litigation and back-pay exposure, fines for non-compliance, reputational and CSRD-disclosure risk",
+          whyNow: "Why-now triggers: national transposition of Directive (EU) 2023/970 (deadline 7 June 2026), first reporting deadline, a new CHRO/Head of Reward, works-council pressure, CSRD reporting cycle, or a public pay-gap disclosure"
         },
         useCaseMapping: {
-          workflowAssessment: "Current state vs ClearEqual-enabled state: manual sourcing vs AI matching, reactive hiring vs proactive pipeline, no internal marketplace vs skills-based talent marketplace, basic career site vs personalised talent experience",
-          highestOpportunity: "Highest-impact ClearEqual use case for this account based on their specific workforce challenges. Map to ClearEqual modules: Intelligent Talent Experience, High-Volume Hiring, Employee Experience, Workforce Intelligence",
-          capabilityMatch: "ClearEqual capability-to-pain mapping: CX (career site AI) -> apply rate; Hiring Manager -> time-to-fill; CRM -> pipeline; Talent Marketplace -> internal mobility; Workforce Intelligence -> skills planning; AI Agents -> screening automation"
+          workflowAssessment: "Current state vs ClearEqual-enabled state: manual spreadsheet pay-gap analysis vs automated Article 9 Disclosure Dashboard, ad-hoc justification vs job-architecture-based 'work of equal value', no joint-assessment process vs Article 10 workflow, no employee right-to-information vs Article 7 self-service portal",
+          highestOpportunity: "Highest-impact ClearEqual use case for this account based on their specific pay-equity challenges. Map to ClearEqual modules: Article 9 Disclosure Dashboard, Article 10 Joint Assessment Workflow, Article 7 Employee Self-Service Portal, Salary Band Management, AI Insights, GDPR Retention Engine",
+          capabilityMatch: "ClearEqual capability-to-pain mapping: Article 9 Disclosure Dashboard -> mean/median & quartile gap reporting; Salary Band Management -> defensible pay structure; Article 10 Joint Assessment Workflow -> 5% trigger remediation; Article 7 Portal -> right-to-information; AI Insights -> bias-mitigated pay decisions; GDPR Retention Engine -> compliant data handling"
         },
         businessChallenges: [
-          { severity: "CRITICAL or HIGH or MEDIUM", title: "Challenge title from ClearEqual analysis", businessChallenge: "Specific challenge with ClearEqual workforce data and benchmarks", solution: "ClearEqual solution module and expected outcome with metrics (e.g. 37% increase in internal hires, 50% reduction in time-to-fill, 3x career site conversion)", proofPoint: "ClearEqual customer proof point (e.g. ClearEqual customers average 37% internal hire rate vs 15% industry benchmark)" }
+          { severity: "CRITICAL or HIGH or MEDIUM", title: "Challenge title from ClearEqual analysis", businessChallenge: "Specific challenge with pay-equity data and Directive 2023/970 obligations", solution: "ClearEqual solution module and expected outcome (e.g. regulator-ready mean & median gap report in weeks not months, automated 5% joint-assessment routing, defensible salary bands)", proofPoint: "ClearEqual customer proof point (e.g. multi-country retailer cut pay-gap reporting from 6 weeks to 3 days across 12 entities)" }
         ],
         hyperCell: {
           hyperCellTitle: "Single highest-value ClearEqual opportunity for this account — one sentence",
-          hyperCellNarrative: "Executive narrative: why this specific ClearEqual capability is the #1 priority for this account. Reference their specific workforce data, industry benchmarks, and ClearEqual ROI metrics. Include: the business problem, the ClearEqual solution, quantified expected impact, and the urgency driver."
+          hyperCellNarrative: "Executive narrative: why this specific ClearEqual capability is the #1 priority for this account. Reference their specific pay-equity data, Directive obligations, and ClearEqual outcomes. Include: the compliance/pay-gap problem, the ClearEqual solution, quantified expected impact, and the urgency driver."
         }
-      }) + "\n\nCLEAREQUAL DATA/CONTENT:\n" + truncated + "\n\nCRITICAL RULES:\n1. Use REAL ClearEqual metrics and benchmarks (e.g. 37% internal hires, 11x internal applications, 50% faster time-to-fill, 3x career site conversions, 62% learning platform increase).\n2. Reference ClearEqual product modules by name: Intelligent Talent Experience, CX (Career Site), Hiring Manager, CRM, Fit Score, Talent Marketplace, Workforce Intelligence, AI Agents.\n3. Map challenges to ClearEqual ROI data: customers see avg 30-50% reduction in TTF, 2-3x improvement in apply rates, 40%+ increase in internal mobility.\n4. If the content doesn't contain company-specific data, use ClearEqual industry benchmarks and frameworks to ENRICH the existing account intel.\n5. For businessChallenges, provide 2-4 challenges. Each must have a ClearEqual-specific solution and proof point.\n6. APPEND to existing intelligence, don't replace. Prefix new insights with '[ClearEqual Intel]' tag.";
+      }) + "\n\nCLEAREQUAL DATA/CONTENT:\n" + truncated + "\n\nCRITICAL RULES:\n1. Use REAL pay-equity metrics and Directive obligations (mean & median gender pay gap, quartile pay bands, 5% unexplained-gap joint-assessment trigger, reporting thresholds 250+/150+/100+, right-to-information, work of equal value).\n2. Reference ClearEqual product modules by name: Article 9 Disclosure Dashboard, Article 10 Joint Assessment Workflow, Article 7 Employee Self-Service Portal, Salary Band Management, AI Insights, GDPR Retention Engine.\n3. Map challenges to outcomes ClearEqual delivers: regulator-ready reporting, automated remediation modelling, defensible pay structures, works-council-ready audit trails.\n4. If the content doesn't contain company-specific data, use pay-equity/Directive frameworks to ENRICH the existing account intel.\n5. For businessChallenges, provide 2-4 challenges. Each must have a ClearEqual-specific solution and proof point.\n6. APPEND to existing intelligence, don't replace. Prefix new insights with '[ClearEqual Intel]' tag.";
 
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -4204,8 +4204,8 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
           transformationPrograms: "Transformation or change programmes",
           growthInvestments: "Investment areas, M&A, growth initiatives",
           techBets: "Technology investments, digital transformation, AI initiatives",
-          workforceScale: "Workforce breakdown, divisions, regions",
-          hiringShape: "Hiring volume, pace, focus areas",
+          workforceScale: "Workforce & pay structure: headcount by country/gender, pay grades, share above Directive reporting thresholds",
+          hiringShape: "Pay & reward programme: fixed/variable pay mix, salary-band and job-architecture maturity, pay-progression criteria",
           hypothesis: "Sales hypothesis: why this company needs a pay-equity compliance platform",
           keySignals: ["signal 1", "signal 2", "signal 3", "signal 4"],
         }) + "\n\nWEB PAGE CONTENT:\n" + truncated;
@@ -4226,8 +4226,8 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
 
       const p2 = "You are a B2B sales strategist. Based on this web content about or related to \"" + account.companyName + "\" (URL: " + url + "), extract sales positioning intelligence. IMPORTANT: For any people (executives, project team), ONLY include individuals who the content confirms work at " + account.companyName + ". Do NOT include external people, consultants, or anyone not verified as an employee. Return ONLY valid JSON:\n\n" +
         JSON.stringify({
-          cioProblems: "CIO/CTO challenges mentioned",
-          chroProblems: "CHRO/HR challenges mentioned",
+          cioProblems: "CFO / Finance challenges mentioned (remediation cost, pay-equity budget)",
+          chroProblems: "Reward / HR / pay-equity challenges mentioned",
           businessPain: "Quantified business pain points",
           whyNow: "Why-now triggers or urgency signals",
           problemHypothesis: "Problem hypothesis based on content",
@@ -4240,9 +4240,9 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
             { name: "Executive name ONLY if they verifiably work at this company - skip external people", title: "Title at the company", department: "Department", background: "Context confirming employment", priorities: "Priorities" }
           ],
           projectTeam: [
-            { name: "Person name ONLY if verified employee of this company in HRIS/TA/TM/WFP role", role: "One of: HRIS, Talent Acquisition, Talent Management, Workforce Planning, Other", title: "Their title at the company", responsibility: "Their domain", notes: "How verified as employee" }
+            { name: "Person name ONLY if verified employee of this company in a Reward/HRIS/Compliance/DE&I role", role: "One of: Reward & Total Rewards, People Analytics / HRIS, Legal & Compliance, DE&I / Inclusion, Other", title: "Their title at the company", responsibility: "Their domain", notes: "How verified as employee" }
           ],
-          hrTechStack: "ONLY include HR tools/vendors EXPLICITLY NAMED in the content. Return [] if none mentioned. Format: [{category: ats/hcm/lms/perf/payroll/wfm/analytics/engagement, name: Exact name, notes: Context}]",
+          hrTechStack: "ONLY include reward/pay/HR tools/vendors EXPLICITLY NAMED in the content. Return [] if none mentioned. Format: [{category: hris/payroll/comp/job-architecture/pay-gap-reporting/dei-analytics/analytics, name: Exact name, notes: Context}]",
         }) + "\n\nWEB CONTENT:\n" + truncated;
 
       const resp2 = await fetch("https://api.anthropic.com/v1/messages", {
@@ -4425,8 +4425,8 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
           transformationPrograms: "Transformation or change programmes",
           growthInvestments: "Investment areas, M&A, growth initiatives",
           techBets: "Technology investments, digital transformation, AI initiatives",
-          workforceScale: "Workforce breakdown, divisions, regions",
-          hiringShape: "Hiring volume, pace, focus areas",
+          workforceScale: "Workforce & pay structure: headcount by country/gender, pay grades, share above Directive reporting thresholds",
+          hiringShape: "Pay & reward programme: fixed/variable pay mix, salary-band and job-architecture maturity, pay-progression criteria",
           hypothesis: "Sales hypothesis: why this company needs a pay-equity compliance platform based on what the document reveals",
           keySignals: ["signal 1", "signal 2", "signal 3", "signal 4"],
         }) + "\n\nDOCUMENT CONTENT:\n" + truncated;
@@ -4448,8 +4448,8 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
       // Call 2: Extract problems, use cases, outcomes, executives
       const p2 = "You are a B2B sales strategist. Based on this document about \"" + account.companyName + "\", extract intelligence for sales positioning. IMPORTANT: For any people (executives, project team), ONLY include individuals who the document confirms work at " + account.companyName + ". Do NOT include external people, consultants, or anyone not verified as an employee. Return ONLY valid JSON:\n\n" +
         JSON.stringify({
-          cioProblems: "CIO/CTO challenges mentioned",
-          chroProblems: "CHRO/HR challenges mentioned",
+          cioProblems: "CFO / Finance challenges mentioned (remediation cost, pay-equity budget)",
+          chroProblems: "Reward / HR / pay-equity challenges mentioned",
           businessPain: "Quantified business pain points",
           whyNow: "Why-now triggers or urgency signals",
           problemHypothesis: "Problem hypothesis based on document",
@@ -4462,9 +4462,9 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
             { name: "Executive name ONLY if they verifiably work at this company", title: "Title at company", department: "Department", background: "Context confirming employment", priorities: "Priorities" }
           ],
           projectTeam: [
-            { name: "Person name ONLY if verified employee of this company in HRIS/TA/TM/WFP role", role: "One of: HRIS, Talent Acquisition, Talent Management, Workforce Planning, Other", title: "Their title at the company", responsibility: "Their domain", notes: "How verified as employee" }
+            { name: "Person name ONLY if verified employee of this company in a Reward/HRIS/Compliance/DE&I role", role: "One of: Reward & Total Rewards, People Analytics / HRIS, Legal & Compliance, DE&I / Inclusion, Other", title: "Their title at the company", responsibility: "Their domain", notes: "How verified as employee" }
           ],
-          hrTechStack: "ONLY include HR tools/vendors EXPLICITLY NAMED in the document. Return [] if none mentioned. Format: [{category: ats/hcm/lms/perf/payroll/wfm/analytics/engagement, name: Exact name, notes: Context}]",
+          hrTechStack: "ONLY include reward/pay/HR tools/vendors EXPLICITLY NAMED in the document. Return [] if none mentioned. Format: [{category: hris/payroll/comp/job-architecture/pay-gap-reporting/dei-analytics/analytics, name: Exact name, notes: Context}]",
         }) + "\n\nDOCUMENT:\n" + truncated;
 
       const resp2 = await fetch("https://api.anthropic.com/v1/messages", {
@@ -4858,7 +4858,7 @@ function IntelUploadCard({ account, update, claudeApiKey }) {
         /*#__PURE__*/ React.createElement("textarea", {
           value: phenomText,
           onChange: (e) => setClearEqualText(e.target.value),
-          placeholder: "Or paste ClearEqual workforce intelligence content here...\n\nTip: Go to clearequal.com, select the relevant company or industry report, copy the content and paste it here. You can also paste Skills Intelligence data, Talent Marketplace reports, or Workforce Readiness assessments.",
+          placeholder: "Or paste ClearEqual pay-equity intelligence content here...\n\nTip: Go to clearequal.com, select the relevant company or industry report, copy the content and paste it here. You can also paste gender pay-gap analyses, pay-equity driver reports, or Directive (EU) 2023/970 readiness assessments.",
           disabled: processingClearEqual,
           rows: 5,
           style: { width: "100%", padding: "8px 10px", border: "1px solid " + C.border, borderRadius: 6, background: C.card, color: C.text, fontSize: 11, fontFamily: "inherit", resize: "vertical", outline: "none", boxSizing: "border-box", marginBottom: 8 },
@@ -4923,7 +4923,7 @@ function ExecutiveBriefSection({ account, update, claudeApiKey }) {
         hyperCellTitle: account.hyperCellTitle || "",
       };
       const prompt = "You are a senior sales intelligence analyst. For \"" + context.companyName + "\", create a comprehensive executive brief by synthesising ALL available intelligence. Use public data, ClearEqual pay-equity frameworks, and any existing account data. CONTEXT:\n" + JSON.stringify(context) + "\n\nReturn ONLY valid JSON:\n" + JSON.stringify({
-        atAGlance: "2-3 sentence executive overview combining company fundamentals with talent/workforce positioning. Mention key ClearEqual-relevant signals.",
+        atAGlance: "2-3 sentence executive overview combining company fundamentals with pay-equity/reward positioning. Mention key ClearEqual-relevant signals.",
         hypothesis: "Sharp sales hypothesis: why this company needs ClearEqual NOW (ahead of the Directive (EU) 2023/970 deadline). Reference specific pain + urgency + capability match.",
         keySignals: ["signal 1 — [source]", "signal 2 — [source]", "signal 3 — [source]", "signal 4 — [source]"],
         primarySponsor: "Recommended primary sponsor (name + title if known, or role) with reasoning",
@@ -5004,7 +5004,7 @@ function ExecutiveBriefSection({ account, update, claudeApiKey }) {
       /*#__PURE__*/ React.createElement(MetricCard, {
         value: account.openRoles,
         label: "Open Roles",
-        sub: "Active Hiring",
+        sub: "Pay Ranges Now Required",
       }),
       /*#__PURE__*/ React.createElement(MetricCard, { value: account.glassdoorRating, label: "Glassdoor Rating" }),
     ),
@@ -5092,7 +5092,7 @@ function ExecutiveBriefSection({ account, update, claudeApiKey }) {
     /*#__PURE__*/ React.createElement(TagInput, {
       tags: account.keySignals,
       onChange: (v) => update("keySignals", v),
-      placeholder: "e.g. M&A integration, 700+ open roles, Employer brand issues\u2026",
+      placeholder: "e.g. M&A pay harmonisation, 250+ EU headcount, gender pay gap >5%\u2026",
     }),
     /*#__PURE__*/ React.createElement(
       "div",
@@ -5106,13 +5106,13 @@ function ExecutiveBriefSection({ account, update, claudeApiKey }) {
       /*#__PURE__*/ React.createElement(Input, {
         value: account.primarySponsor,
         onChange: (v) => update("primarySponsor", v),
-        placeholder: "e.g. Kristy Banas (CHRO) \u2014 owns HR transformation, talent retention, employer brand",
+        placeholder: "e.g. Kristy Banas (Head of Reward) \u2014 owns pay equity, Directive 2023/970 readiness, reward strategy",
       }),
       /*#__PURE__*/ React.createElement(FieldLabel, null, "Secondary Contacts"),
       /*#__PURE__*/ React.createElement(Input, {
         value: account.secondaryContacts,
         onChange: (v) => update("secondaryContacts", v),
-        placeholder: "e.g. VP of TA for operational validation, CFO for budget sign-off",
+        placeholder: "e.g. General Counsel for compliance sign-off, CFO for remediation budget",
       }),
       /*#__PURE__*/ React.createElement(FieldLabel, null, "Lead Narrative"),
       /*#__PURE__*/ React.createElement(TextArea, {
@@ -5421,14 +5421,14 @@ function SectionFileUpload({ label, icon, claudeApiKey, prompt, onResult }) {
 
 // ─── HR Tech Stack Section ──────────────────────────────────────────────────
 const HR_TECH_CATEGORIES = [
-  { key: "ats", label: "ATS / Recruiting", icon: "\uD83D\uDD0D", placeholder: "e.g. Workday Recruiting, SAP SuccessFactors, SmartRecruiters, Greenhouse..." },
-  { key: "hcm", label: "HCM / Core HR", icon: "\uD83C\uDFE2", placeholder: "e.g. SAP SuccessFactors, Workday HCM, Oracle HCM, Personio..." },
-  { key: "lms", label: "Learning & Development", icon: "\uD83C\uDF93", placeholder: "e.g. Cornerstone, SAP Litmos, LinkedIn Learning, Degreed..." },
-  { key: "perf", label: "Performance Management", icon: "\uD83C\uDFAF", placeholder: "e.g. SAP SuccessFactors PM, Betterworks, Lattice, 15Five..." },
-  { key: "payroll", label: "Payroll & Benefits", icon: "\uD83D\uDCB0", placeholder: "e.g. SAP Payroll, ADP, Paychex, Deel..." },
-  { key: "wfm", label: "Workforce Management", icon: "\u2699\uFE0F", placeholder: "e.g. Kronos/UKG, SAP Time Management, Quinyx..." },
-  { key: "analytics", label: "People Analytics", icon: "\uD83D\uDCCA", placeholder: "e.g. Visier, One Model, Crunchr, Power BI dashboards..." },
-  { key: "engagement", label: "Employee Experience", icon: "\uD83D\uDCAC", placeholder: "e.g. Qualtrics, Glint, Culture Amp, Peakon..." },
+  { key: "ats", label: "HCM / Core HR (HRIS)", icon: "\uD83C\uDFE2", placeholder: "e.g. Workday HCM, SAP SuccessFactors, Oracle HCM, Personio..." },
+  { key: "hcm", label: "Payroll", icon: "\uD83D\uDCB5", placeholder: "e.g. SAP Payroll, ADP, Alight, DATEV, SD Worx, Deel..." },
+  { key: "lms", label: "Compensation Management", icon: "\uD83D\uDCB0", placeholder: "e.g. Workday Compensation, SAP SuccessFactors Comp, Payfactors, beqom..." },
+  { key: "perf", label: "Job Architecture / Leveling", icon: "\uD83C\uDFD7\uFE0F", placeholder: "e.g. Mercer IPE, Korn Ferry (Hay), WTW Global Grading, Aon..." },
+  { key: "payroll", label: "Pay Equity / Analytics", icon: "\u2696\uFE0F", placeholder: "e.g. ClearEqual, PayAnalytics, Syndio, gapsquare, Trusaic..." },
+  { key: "wfm", label: "HR Analytics", icon: "\uD83D\uDCCA", placeholder: "e.g. Visier, One Model, Crunchr, Power BI dashboards..." },
+  { key: "analytics", label: "Survey Data / Benchmarking", icon: "\uD83D\uDCC8", placeholder: "e.g. Mercer, WTW, Korn Ferry, Aon, Radford pay surveys..." },
+  { key: "engagement", label: "Reporting & Disclosure", icon: "\uD83D\uDCD1", placeholder: "e.g. Workiva, CSRD/ESG reporting tools, national pay-gap portals..." },
 ];
 const HR_CAT_COLORS = {
   ats: { bg: "#DBEAFE", text: "#2563EB" },
@@ -5490,18 +5490,18 @@ function HRTechStackSection({ account, update, claudeApiKey }) {
     "div",
     null,
     /*#__PURE__*/ React.createElement(SectionHeader, {
-      title: "HR Tech Stack",
+      title: "Reward & People Systems",
       badge: "Intelligence",
       badgeColor: C.blue,
     }),
     // Upload to extract tech stack
     /*#__PURE__*/ React.createElement(SectionFileUpload, {
-      label: "Upload doc to extract HR tools",
+      label: "Upload doc to extract reward & people systems",
       icon: "\uD83D\uDCBB",
       claudeApiKey: claudeApiKey,
-      prompt: 'You are an HR tech analyst. Extract ALL HR technology tools, platforms, and vendors mentioned in this content for "' + account.companyName + '". Return ONLY valid JSON:\n' + JSON.stringify({
-        hrTechStack: [{ category: "One of: ats, hcm, lms, perf, payroll, wfm, analytics, engagement", name: "Exact tool/vendor name", notes: "Context from document" }],
-        hrTechNotes: "General observations about their HR tech landscape from this document",
+      prompt: 'You are a reward & people-systems analyst. Extract ALL HR, payroll, compensation, job-architecture, pay-equity/analytics, benchmarking, and reporting/disclosure systems and vendors mentioned in this content for "' + account.companyName + '". Return ONLY valid JSON:\n' + JSON.stringify({
+        hrTechStack: [{ category: "One of: ats (HCM/Core HR), hcm (Payroll), lms (Compensation Management), perf (Job Architecture/Leveling), payroll (Pay Equity/Analytics), wfm (HR Analytics), analytics (Survey Data/Benchmarking), engagement (Reporting & Disclosure)", name: "Exact tool/vendor name", notes: "Context from document" }],
+        hrTechNotes: "General observations about their reward & people-systems landscape (pay data readiness, system fragmentation, compensation/job-architecture maturity) from this document",
       }),
       onResult: handleTechUpload,
     }),
@@ -5576,11 +5576,11 @@ function HRTechStackSection({ account, update, claudeApiKey }) {
     // General notes
     /*#__PURE__*/ React.createElement(
       Accordion,
-      { icon: "\uD83D\uDCDD", title: "Tech Stack Notes & Observations" },
+      { icon: "\uD83D\uDCDD", title: "Reward & People Systems Notes & Observations" },
       /*#__PURE__*/ React.createElement(TextArea, {
         value: account.hrTechNotes,
         onChange: (v) => update("hrTechNotes", v),
-        placeholder: "General observations about their HR tech landscape, integration maturity, known pain points, contract renewal dates, transformation initiatives...",
+        placeholder: "Observations about their reward & people-systems landscape: pay-data readiness, HRIS/payroll/comp fragmentation, job-architecture maturity, integration gaps, contract renewals, pay-equity or disclosure initiatives...",
         rows: 4,
       }),
     ),
@@ -5592,10 +5592,10 @@ function WorkforceSection({ account, update, claudeApiKey }) {
   const [enrichStatus, setEnrichStatus] = useState("");
   const enrichWithClearEqual = async () => {
     if (!claudeApiKey) { alert("Set your API key first"); return; }
-    setEnriching(true); setEnrichStatus("Enriching workforce intelligence with ClearEqual frameworks...");
+    setEnriching(true); setEnrichStatus("Enriching pay-equity intelligence with ClearEqual frameworks...");
     try {
       const existing = { workforceScale: account.workforceScale || "", hiringShape: account.hiringShape || "", criticalRoles: account.criticalRoles || "", geoPatterns: account.geoPatterns || "", talentPressure: account.talentPressure || "" };
-      const prompt = "You are a ClearEqual workforce intelligence analyst. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), enrich these workforce fields using ClearEqual's frameworks, benchmarks and public data. EXISTING DATA:\n" + JSON.stringify(existing) + "\n\nReturn ONLY valid JSON with the SAME keys. For each field, APPEND new ClearEqual-sourced insights (prefixed with [ClearEqual Intel]) to the existing text. Use real ClearEqual metrics: skills intelligence gaps, internal mobility benchmarks (37% internal hires), talent marketplace adoption rates, AI readiness scores (83% of orgs have low AI maturity), workforce readiness frameworks, and industry-specific talent data. If existing data is empty, provide fresh ClearEqual-lens analysis.";
+      const prompt = "You are a ClearEqual pay-equity intelligence analyst. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), enrich these pay-equity fields using ClearEqual's frameworks, EU Pay Transparency Directive (EU) 2023/970 obligations, and public data. EXISTING DATA:\n" + JSON.stringify(existing) + "\n\nReturn ONLY valid JSON with the SAME keys (workforceScale = workforce & pay structure, hiringShape = pay & reward programme, criticalRoles = pay gaps & at-risk groups, geoPatterns = multi-country pay & reporting footprint, talentPressure = pay transparency & compliance pressure). For each field, APPEND new ClearEqual-sourced insights (prefixed with [ClearEqual Intel]) to the existing text. Reference the Directive's reporting thresholds (250+, 150+, 100+ employees), the 5% unexplained gender pay-gap trigger for a joint pay assessment, right-to-information, job architecture / work of equal value, quartile and category pay-gap analysis, and remediation budgeting. If existing data is empty, provide fresh ClearEqual-lens analysis.";
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
@@ -5621,7 +5621,7 @@ function WorkforceSection({ account, update, claudeApiKey }) {
     "div",
     null,
     /*#__PURE__*/ React.createElement(SectionHeader, {
-      title: "Workforce Intelligence",
+      title: "Pay Equity Intelligence",
       badge: "Research",
       badgeColor: C.teal,
     }),
@@ -5635,33 +5635,33 @@ function WorkforceSection({ account, update, claudeApiKey }) {
     [
       [
         "\uD83D\uDCCA",
-        "Workforce Scale & Trajectory",
+        "Workforce & Pay Structure",
         "workforceScale",
-        "Total headcount trend, recent hiring vs. layoffs, headcount by region\u2026",
+        "Headcount by country and gender, workforce split across pay grades / job levels, share of workforce above reporting thresholds (250+/150+/100+)\u2026",
       ],
       [
         "\uD83D\uDCCB",
-        "Current Hiring Shape",
+        "Pay & Reward Programme",
         "hiringShape",
-        "Volume of open roles, hiring velocity, time-to-fill benchmarks, ATS in use\u2026",
+        "How pay is set: fixed vs. variable, bonus and equity, salary bands / grading maturity, pay-progression rules, transparency of criteria to employees\u2026",
       ],
       [
         "\u2B50",
-        "Critical Role Families",
+        "Pay Gaps & At-Risk Groups",
         "criticalRoles",
-        "Most hard-to-fill roles: actuaries, engineers, sales specialists, etc. Why scarce?",
+        "Known or likely gender / intersectional pay gaps, categories of workers >5% unexplained gap, low-representation groups, equal-pay litigation exposure\u2026",
       ],
       [
         "\uD83C\uDF0D",
-        "Geographic Hiring Patterns",
+        "Multi-Country Pay & Reporting Footprint",
         "geoPatterns",
-        "Where are they hiring most? Remote vs. hybrid vs. onsite policy tensions\u2026",
+        "Which EU member states they operate in, transposition timelines and thresholds per country, works-council structures, existing national pay-gap reporting\u2026",
       ],
       [
         "\uD83D\uDD25",
-        "Talent Pressure & Employer Brand",
+        "Pay Transparency & Compliance Pressure",
         "talentPressure",
-        "Glassdoor trends, employer brand strength, competitor poaching, retention issues\u2026",
+        "Directive 2023/970 readiness, upcoming reporting deadline, CSRD/ESG pay disclosure, union / works-council pressure, public pay-gap or reputational exposure\u2026",
       ],
     ].map(([icon, title, field, placeholder]) =>
       /*#__PURE__*/ React.createElement(
@@ -5732,19 +5732,19 @@ function ExecutiveMappingSection({ account, update, claudeApiKey }) {
   };
 
   // --- Project Team ---
-  const TEAM_CATEGORIES = ["HRIS", "Talent Acquisition", "Talent Management", "Workforce Planning", "Other"];
+  const TEAM_CATEGORIES = ["Reward & Total Rewards", "People Analytics / HRIS", "Legal & Compliance", "DE&I / Inclusion", "Other"];
   const TEAM_CAT_COLORS = {
-    "HRIS": { bg: "#DBEAFE", text: "#2563EB", icon: "\uD83D\uDCBB" },
-    "Talent Acquisition": { bg: "#D1FAE5", text: "#059669", icon: "\uD83D\uDD0D" },
-    "Talent Management": { bg: "#EDE9FE", text: "#7C3AED", icon: "\uD83C\uDFAF" },
-    "Workforce Planning": { bg: "#FEF3C7", text: "#D97706", icon: "\u2699\uFE0F" },
+    "Reward & Total Rewards": { bg: "#EDE9FE", text: "#7C3AED", icon: "\uD83D\uDCB0" },
+    "People Analytics / HRIS": { bg: "#DBEAFE", text: "#2563EB", icon: "\uD83D\uDCBB" },
+    "Legal & Compliance": { bg: "#FEE2E2", text: "#DC2626", icon: "\u2696\uFE0F" },
+    "DE&I / Inclusion": { bg: "#CCFBF1", text: "#0D9488", icon: "\uD83C\uDF0D" },
     "Other": { bg: C.bg, text: C.muted, icon: "\uD83D\uDC64" },
   };
   const team = account.projectTeam || [];
 
   const addTeamMember = () => {
     update("projectTeam", [...team, {
-      name: "", role: "Talent Acquisition", title: "", email: "", phone: "", responsibility: "", notes: "", linkedinUrl: "",
+      name: "", role: "Reward & Total Rewards", title: "", email: "", phone: "", responsibility: "", notes: "", linkedinUrl: "",
     }]);
   };
 
@@ -5799,12 +5799,12 @@ function ExecutiveMappingSection({ account, update, claudeApiKey }) {
     if (!claudeApiKey) { alert("Set your API key first."); return; }
     setDiscoveringTeam(true);
     try {
-      const prompt = "You are a sales intelligence analyst with a 90% ACCURACY MANDATE. Research \"" + account.companyName + "\" (industry: " + (account.industry || "unknown") + ") and find key people responsible for HR/People domains who would evaluate or implement an HR technology platform. Return ONLY valid JSON (no markdown):\n\n" + JSON.stringify({
+      const prompt = "You are a sales intelligence analyst with a 90% ACCURACY MANDATE. Research \"" + account.companyName + "\" (industry: " + (account.industry || "unknown") + ") and find key people responsible for pay, reward, and compliance domains who would evaluate or implement a pay-equity / pay-transparency compliance platform. Return ONLY valid JSON (no markdown):\n\n" + JSON.stringify({
         teamMembers: [
-          { name: "Full Name", role: "HRIS", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [LinkedIn/Xing/company website URL or specific source confirming current employment]", linkedinUrl: "LinkedIn URL if found" },
-          { name: "Full Name", role: "Talent Acquisition", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [source]", linkedinUrl: "" },
-          { name: "Full Name", role: "Talent Management", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [source]", linkedinUrl: "" },
-          { name: "Full Name", role: "Workforce Planning", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [source]", linkedinUrl: "" },
+          { name: "Full Name", role: "Reward & Total Rewards", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [LinkedIn/Xing/company website URL or specific source confirming current employment]", linkedinUrl: "LinkedIn URL if found" },
+          { name: "Full Name", role: "People Analytics / HRIS", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [source]", linkedinUrl: "" },
+          { name: "Full Name", role: "Legal & Compliance", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [source]", linkedinUrl: "" },
+          { name: "Full Name", role: "DE&I / Inclusion", title: "Their exact current title", responsibility: "What they own", notes: "VERIFICATION: [source]", linkedinUrl: "" },
         ]
       }) + "\n\n90% ACCURACY VERIFICATION PROTOCOL — MANDATORY:\n1. For EACH person, you MUST perform these verification steps BEFORE including them:\n   a) Search: \"{person name}\" site:linkedin.com \"" + account.companyName + "\" — confirm CURRENT role on LinkedIn\n   b) Search: \"{person name}\" site:xing.com \"" + account.companyName + "\" — cross-reference on Xing (for German companies)\n   c) Search: \"" + account.companyName + "\" Vorstand OR leadership OR management team — check official company website\n   d) Search: \"{person name}\" leaves OR departure OR wechselt \"" + account.companyName + "\" — check for exit news\n2. ONLY include a person if you can confirm them through AT LEAST 2 of the above sources.\n3. In the notes field, you MUST state: 'VERIFIED via [source 1] + [source 2]' with specific verification evidence.\n4. If you find ONLY 1 source, prefix their name with '⚠️ ' and note 'SINGLE SOURCE — verify before outreach'.\n5. If you CANNOT verify a person through any source, DO NOT INCLUDE THEM. Zero tolerance for guessing.\n6. Do NOT include people who left in the last 2 years — search for departure news explicitly.\n7. Better to return 1-2 VERIFIED people than 6 guessed names.\n8. Return 2-6 team members maximum. Each MUST have verification evidence in the notes field.";
 
@@ -5839,13 +5839,13 @@ function ExecutiveMappingSection({ account, update, claudeApiKey }) {
   };
 
   const DEPT_COLORS = {
-    "AI Strategy": { bg: "#EDE9FE", text: "#7C3AED", icon: "\uD83E\uDD16" },
-    "Talent Management": { bg: "#DBEAFE", text: "#2563EB", icon: "\uD83C\uDFAF" },
-    "Talent Acquisition": { bg: "#D1FAE5", text: "#059669", icon: "\uD83D\uDD0D" },
-    "Workforce Management": { bg: "#FEF3C7", text: "#D97706", icon: "\u2699\uFE0F" },
-    "HR Leadership": { bg: "#FCE7F3", text: "#DB2777", icon: "\uD83D\uDC65" },
-    "IT / Digital": { bg: "#E0E7FF", text: "#4F46E5", icon: "\uD83D\uDCBB" },
-    "Finance": { bg: "#FEE2E2", text: "#DC2626", icon: "\uD83D\uDCB0" },
+    "Reward & Total Rewards": { bg: "#EDE9FE", text: "#7C3AED", icon: "\uD83D\uDCB0" },
+    "Legal & Compliance": { bg: "#FEE2E2", text: "#DC2626", icon: "\u2696\uFE0F" },
+    "People / HR Leadership": { bg: "#FCE7F3", text: "#DB2777", icon: "\uD83D\uDC65" },
+    "DE&I / Inclusion": { bg: "#CCFBF1", text: "#0D9488", icon: "\uD83C\uDF0D" },
+    "Finance": { bg: "#D1FAE5", text: "#059669", icon: "\uD83D\uDCCA" },
+    "People Analytics / HRIS": { bg: "#DBEAFE", text: "#2563EB", icon: "\uD83D\uDCBB" },
+    "Works Council / Employee Rep": { bg: "#FEF3C7", text: "#D97706", icon: "\uD83E\uDD1D" },
     "Other": { bg: C.bg, text: C.muted, icon: "\uD83D\uDC64" },
   };
 
@@ -5892,12 +5892,12 @@ If CONFIRMED still at company, return ONLY valid JSON (no markdown):
 
 {
   "title": "Their exact current title at ${account.companyName}",
-  "department": "One of: AI Strategy, Talent Management, Talent Acquisition, Workforce Management, HR Leadership, IT / Digital, Finance, Other",
+  "department": "One of: Reward & Total Rewards, Legal & Compliance, People / HR Leadership, DE&I / Inclusion, Finance, People Analytics / HRIS, Works Council / Employee Rep, Other",
   "roleType": "One of: Primary Sponsor, Key Influencer, Budget Authority, Tech Oversight, Compliance Gate, Integration Lead",
   "background": "VERIFIED: [LinkedIn/Xing/company website]. 2-3 sentence career background",
   "priorities": "Their top 3-4 stated priorities or focus areas",
   "keyQuote": "A REAL public quote with source attribution, or empty string. NEVER fabricate.",
-  "relevance": "Why this person matters for an HR/talent technology deal",
+  "relevance": "Why this person matters for a pay-equity / pay-transparency compliance deal",
   "outreachAngles": "2 specific outreach angles based on verified priorities",
   "linkedinUrl": "Actual LinkedIn URL (https://linkedin.com/in/...) or empty string",
   "reportsTo": "Name of their direct manager if known, or empty string"
@@ -5951,12 +5951,12 @@ If CONFIRMED still at company, return ONLY valid JSON (no markdown):
 
 {
   "leaders": [
-    {"name": "Full Name", "title": "Exact current title", "department": "AI Strategy", "roleType": "Tech Oversight", "background": "2-3 sentence career background", "priorities": "Their top priorities", "keyQuote": "A real public quote if available, or empty string", "relevance": "Why they matter for an HR/talent technology deal", "outreachAngles": "2 outreach angles", "linkedinUrl": "LinkedIn profile URL if known, or empty string", "reportsTo": "Name of their boss if known"},
-    {"name": "Full Name", "title": "Exact current title", "department": "Talent Management", "roleType": "Key Influencer", "background": "...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": ""},
-    {"name": "Full Name", "title": "Exact current title", "department": "Talent Acquisition", "roleType": "Primary Sponsor", "background": "...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": ""},
-    {"name": "Full Name", "title": "Exact current title", "department": "Workforce Management", "roleType": "Key Influencer", "background": "...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": ""},
-    {"name": "Full Name", "title": "Exact current title", "department": "HR Leadership", "roleType": "Primary Sponsor", "background": "CHRO or CPO background...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": "CEO name"},
-    {"name": "Full Name", "title": "Exact current title", "department": "IT / Digital", "roleType": "Tech Oversight", "background": "CIO/CTO background...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": "CEO name"}
+    {"name": "Full Name", "title": "Exact current title", "department": "Reward & Total Rewards", "roleType": "Primary Sponsor", "background": "2-3 sentence career background", "priorities": "Their top priorities", "keyQuote": "A real public quote if available, or empty string", "relevance": "Why they matter for a pay-equity / pay-transparency compliance deal", "outreachAngles": "2 outreach angles", "linkedinUrl": "LinkedIn profile URL if known, or empty string", "reportsTo": "Name of their boss if known"},
+    {"name": "Full Name", "title": "Exact current title", "department": "Legal & Compliance", "roleType": "Compliance Gate", "background": "...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": ""},
+    {"name": "Full Name", "title": "Exact current title", "department": "DE&I / Inclusion", "roleType": "Key Influencer", "background": "...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": ""},
+    {"name": "Full Name", "title": "Exact current title", "department": "People Analytics / HRIS", "roleType": "Integration Lead", "background": "...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": ""},
+    {"name": "Full Name", "title": "Exact current title", "department": "People / HR Leadership", "roleType": "Primary Sponsor", "background": "CHRO or CPO background...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": "CEO name"},
+    {"name": "Full Name", "title": "Exact current title", "department": "Finance", "roleType": "Budget Authority", "background": "CFO/Reward finance background...", "priorities": "...", "keyQuote": "", "relevance": "...", "outreachAngles": "...", "linkedinUrl": "", "reportsTo": "CEO name"}
   ]
 }
 
@@ -6170,7 +6170,7 @@ INCLUSION RULES:
       claudeApiKey: claudeApiKey,
       prompt: 'You are a B2B sales researcher. Extract people mentioned in this content who VERIFIABLY WORK AT "' + account.companyName + '". CRITICAL: ONLY include people who the document explicitly identifies as employees/leaders of ' + account.companyName + '. Do NOT include external consultants, vendors, partners, journalists, or anyone who does not work at this organisation. Classify each as either an executive/leader OR a project team member. Return ONLY valid JSON:\n' + JSON.stringify({
         executives: [{ name: "Full name (must be verified employee of the company)", title: "Job title at the company", department: "Department", roleType: "Primary Sponsor / Key Influencer / Budget Authority / Champion", background: "Context from document confirming they work here", priorities: "Their priorities", linkedinUrl: "", reportsTo: "" }],
-        projectTeam: [{ name: "Full name (must be verified employee)", role: "One of: HRIS, Talent Acquisition, Talent Management, Workforce Planning, Other", title: "Job title at the company", responsibility: "Their domain", notes: "Context from doc confirming employment" }],
+        projectTeam: [{ name: "Full name (must be verified employee)", role: "One of: Reward & Total Rewards, People Analytics / HRIS, Legal & Compliance, DE&I / Inclusion, Other", title: "Job title at the company", responsibility: "Their domain", notes: "Context from doc confirming employment" }],
       }) + '\n\nIMPORTANT: If a person is mentioned but you cannot confirm they work at ' + account.companyName + ', do NOT include them. Return empty arrays if no verified employees found.',
       onResult: handleExecUpload,
     }),
@@ -6219,7 +6219,7 @@ INCLUSION RULES:
         ),
       ),
       showTeamPanel && /*#__PURE__*/ React.createElement("div", null,
-        /*#__PURE__*/ React.createElement("p", { style: { fontSize: 11, color: C.muted, margin: "0 0 10px 0" } }, "Key stakeholders from HRIS, TA, TM, and Workforce Planning who would evaluate or implement a pay-equity compliance platform."),
+        /*#__PURE__*/ React.createElement("p", { style: { fontSize: 11, color: C.muted, margin: "0 0 10px 0" } }, "Key stakeholders from Reward, HRIS/People Systems, Legal & Compliance, and DE&I who would evaluate or implement a pay-equity compliance platform."),
 
         team.length === 0 && /*#__PURE__*/ React.createElement("div", {
           style: { padding: 20, textAlign: "center", border: "2px dashed " + C.border, borderRadius: 10, marginBottom: 10 },
@@ -6321,7 +6321,7 @@ function ProblemIdentificationSection({ account, update, claudeApiKey }) {
     setEnriching(true); setEnrichStatus("Enriching problems with ClearEqual analysis...");
     try {
       const existing = { cioProblems: account.cioProblems || "", chroProblems: account.chroProblems || "", businessPain: account.businessPain || "", whyNow: account.whyNow || "", problemHypothesis: account.problemHypothesis || "" };
-      const prompt = "You are a ClearEqual sales strategist. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), enrich problem identification using ClearEqual intelligence and public data. EXISTING DATA:\n" + JSON.stringify(existing) + "\n\nReturn ONLY valid JSON with same keys. APPEND [ClearEqual Intel] insights. Use ClearEqual proof points: 83% of orgs have low AI/automation maturity, 18-month lag between strategy-HR execution, average TTF 42 days, skills taxonomy gaps, internal mobility below 15% industry average vs ClearEqual 37% benchmark. Surface CIO problems (fragmented HR tech, no AI skills matching), CHRO problems (workforce planning gaps, retention, employer brand), business pain (cost-per-hire, unfilled roles revenue impact), and why-now triggers (AI disruption, skills obsolescence, competitor platform adoption).";
+      const prompt = "You are a ClearEqual sales strategist. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), enrich problem identification using ClearEqual intelligence and public data. EXISTING DATA:\n" + JSON.stringify(existing) + "\n\nReturn ONLY valid JSON with same keys. APPEND [ClearEqual Intel] insights. Use ClearEqual proof points: replaces €40–150K annual consultancy audits, 3–4x ROI with 3–4 month payback, EU-native end-to-end Directive (EU) 2023/970 coverage, audit-ready reporting, driver analysis that explains and defends the pay gap. Surface Finance/CFO problems (remediation budget exposure, fragmented pay data across HRIS/payroll/comp), Reward & HR Leadership problems (unexplained gender pay gap, Article 9 reporting readiness, no defensible salary-band structure, works-council pressure), business pain (back-pay/litigation exposure, Art. 23 penalties up to 5% of payroll, reputational/ESG risk), and why-now triggers (national transposition of the Directive, first reporting deadline, CSRD cycle, a new Head of Reward, or a public pay-gap disclosure).";
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
@@ -6361,21 +6361,21 @@ function ProblemIdentificationSection({ account, update, claudeApiKey }) {
     [
       [
         "\uD83D\uDCBB",
-        "CIO Likely Problems",
+        "Finance / CFO Likely Problems",
         "cioProblems",
-        "What tech/system problems is the CIO facing? Platform fragmentation, integration complexity, security gaps\u2026",
+        "What cost/data problems is the CFO facing? Remediation budget exposure, fragmented pay data, back-pay/litigation provisioning\u2026",
       ],
       [
         "\uD83D\uDC65",
-        "CHRO Likely Problems",
+        "Reward & HR Leadership Problems",
         "chroProblems",
-        "What people & talent problems is the CHRO facing? TTF, employer brand, retention, onboarding complexity\u2026",
+        "What pay-equity problems is the Head of Reward / CHRO facing? Unexplained gender pay gap, Directive 2023/970 reporting readiness, salary-band gaps, works-council pressure\u2026",
       ],
       [
         "\uD83C\uDFE2",
         "Business-Level Pain",
         "businessPain",
-        "Revenue impact, competitive disadvantage, cost inefficiency tied to talent/HR problems\u2026",
+        "Litigation/back-pay exposure, non-compliance fines, reputational and ESG risk tied to pay-equity gaps\u2026",
       ],
       [
         "\u23F0",
@@ -6421,7 +6421,7 @@ function UseCaseMappingSection({ account, update, claudeApiKey }) {
     setEnriching(true); setEnrichStatus("Mapping ClearEqual use cases...");
     try {
       const existing = { workflowAssessment: account.workflowAssessment || "", highestOpportunity: account.highestOpportunity || "", capabilityMatch: account.capabilityMatch || "", proofPoints: account.proofPoints || "", personaValueMap: account.personaValueMap || "" };
-      const prompt = "You are a ClearEqual solution architect. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), map ClearEqual use cases. EXISTING DATA:\n" + JSON.stringify(existing) + "\n\nReturn ONLY valid JSON with same keys. APPEND [ClearEqual Intel] insights. Map ClearEqual capabilities: Intelligent Talent Experience (CX career site, chatbot, personalisation), Hiring Manager (interview scheduling, collaboration), CRM (proactive pipeline), Fit Score (AI matching), Talent Marketplace (internal mobility, gigs, mentoring), Workforce Intelligence (skills gaps, succession), AI Agents (screening, sourcing, onboarding). Use proof points: 37% internal hires, 11x internal applications, 50% TTF reduction, 3x career site conversion, 62% learning engagement increase. Map persona value: CHRO (strategic workforce planning), CFO (cost-per-hire reduction, headcount avoidance), CIO (platform consolidation, AI), TA Leader (pipeline, automation), HM (time-to-fill, quality).";
+      const prompt = "You are a ClearEqual solution architect. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), map ClearEqual use cases. EXISTING DATA:\n" + JSON.stringify(existing) + "\n\nReturn ONLY valid JSON with same keys. APPEND [ClearEqual Intel] insights. Map ClearEqual modules: Pay Gap Analytics (gender/intersectional gap by category and quartile), Pay Equity Analysis & Drivers (regression isolating the unexplained gap), Remediation Modelling (budget-optimised gap closure), Job Architecture / Leveling (work of equal value grouping), Compliance Reporting & Disclosure (Directive 2023/970 and CSRD-ready), Ongoing Monitoring (continuous pay-equity alerts). Use proof points: replaces €40–150K consultancy audits, 3–4x ROI with 3–4 month payback, EU-native end-to-end Directive coverage, audit-ready reporting. Map persona value: Head of Reward (defensible pay structure), People/HR Leadership (fair-pay strategy), CFO (contained remediation budget), Legal & Compliance (Article 9/10 readiness, litigation risk down), People Analytics/HRIS (clean pay data, integration), Works Council (transparent, evidence-based negotiation).";
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
@@ -6463,7 +6463,7 @@ function UseCaseMappingSection({ account, update, claudeApiKey }) {
         "\uD83D\uDD04",
         "Current Workflow Assessment",
         "workflowAssessment",
-        "How are they doing it today? What tools, processes, pain points in their current TA workflow?",
+        "How are they doing pay-equity today? What tools, spreadsheets, consultancies, processes and pain points in their current pay-gap analysis and reporting workflow?",
       ],
       [
         "\uD83C\uDFAF",
@@ -6487,7 +6487,7 @@ function UseCaseMappingSection({ account, update, claudeApiKey }) {
         "\uD83D\uDC64",
         "Persona-Specific Value Map",
         "personaValueMap",
-        "CHRO Value: \u2026\nCFO Value: \u2026\nTA Leader Value: \u2026\nHiring Manager Value: \u2026",
+        "Head of Reward Value: \u2026\nPeople/HR Leadership Value: \u2026\nCFO Value: \u2026\nLegal & Compliance Value: \u2026\nWorks Council Value: \u2026",
       ],
     ].map(([icon, title, field, placeholder]) =>
       /*#__PURE__*/ React.createElement(
@@ -6511,7 +6511,7 @@ function BusinessChallengesSection({ account, update, claudeApiKey }) {
     setEnriching(true); setEnrichStatus("Generating ClearEqual-mapped challenges...");
     try {
       const existingTitles = (account.challenges || []).map(c => c.title || "").join(", ");
-      const prompt = "You are a ClearEqual sales strategist. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), generate 3-4 NEW business challenges with ClearEqual solutions. EXISTING CHALLENGE TITLES (do not duplicate): " + (existingTitles || "none") + "\n\nReturn ONLY valid JSON: { \"challenges\": [{ \"severity\": \"CRITICAL/HIGH/MEDIUM\", \"title\": \"Challenge title\", \"businessChallenge\": \"Specific challenge with data\", \"solution\": \"ClearEqual solution with expected metrics\", \"proofPoint\": \"ClearEqual customer proof point\" }] }\n\nUse ClearEqual ROI data: 37% internal hires, 50% TTF reduction, 3x career site conversion, 11x internal applications, 62% learning engagement, AI agents screening 80%+ of applicants. Map to ClearEqual modules: CX, Hiring Manager, CRM, Talent Marketplace, Workforce Intelligence, AI Agents, Fit Score.";
+      const prompt = "You are a ClearEqual sales strategist. For \"" + (account.companyName || "this company") + "\" (industry: " + (account.industry || "unknown") + ", employees: " + (account.employees || "unknown") + "), generate 3-4 NEW business challenges with ClearEqual solutions. EXISTING CHALLENGE TITLES (do not duplicate): " + (existingTitles || "none") + "\n\nReturn ONLY valid JSON: { \"challenges\": [{ \"severity\": \"CRITICAL/HIGH/MEDIUM\", \"title\": \"Challenge title\", \"businessChallenge\": \"Specific challenge with data\", \"solution\": \"ClearEqual solution with expected metrics\", \"proofPoint\": \"ClearEqual customer proof point\" }] }\n\nFocus on pay-equity challenges: unexplained gender pay gap, Directive 2023/970 reporting readiness, >5% joint pay assessment risk, remediation cost/budget, job architecture and leveling gaps, pay-transparency litigation & reputational risk, ESG/CSRD pay disclosure. Use ClearEqual ROI data: replaces €40–150K consultancy audits, 3–4x ROI, 3–4 month payback, audit-ready EU-native reporting. Map to ClearEqual modules: Pay Gap Analytics, Pay Equity Analysis & Drivers, Remediation Modelling, Job Architecture / Leveling, Compliance Reporting & Disclosure, Ongoing Monitoring.";
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
@@ -6704,7 +6704,7 @@ function OutcomeFramingSection({ account, update }) {
         value: account.outcomeStatement,
         onChange: (v) => update("outcomeStatement", v),
         placeholder:
-          "One paragraph that a CHRO or CEO could read and immediately understand the value. Focus on business outcomes, not features\u2026",
+          "One paragraph that a Head of Reward, CHRO or CEO could read and immediately understand the value. Focus on compliance and business outcomes, not features\u2026",
         rows: 4,
       }),
     ),
@@ -6713,7 +6713,7 @@ function OutcomeFramingSection({ account, update }) {
         "📊",
         "Quantified Impact Estimate",
         "quantifiedImpact",
-        "Revenue impact, cost savings, TTF reduction, headcount avoided. Show your math and flag assumptions to validate in discovery…",
+        "Remediation budget, avoided fines and back-pay exposure, consultancy audit savings, litigation risk reduction. Show your math and flag assumptions to validate in discovery…",
       ],
       [
         "🎤",
@@ -6761,7 +6761,7 @@ function HyperCellSection({ account, update, claudeApiKey }) {
     setEnriching(true); setEnrichStatus("Identifying ClearEqual hyper-cell opportunity...");
     try {
       const context = { companyName: account.companyName || "", industry: account.industry || "", employees: account.employees || "", workforceScale: safeStr(account.workforceScale).substring(0, 500), criticalRoles: safeStr(account.criticalRoles).substring(0, 300), businessPain: safeStr(account.businessPain).substring(0, 300), whyNow: safeStr(account.whyNow).substring(0, 300), existingTitle: account.hyperCellTitle || "", existingNarrative: safeStr(account.hyperCellNarrative).substring(0, 500) };
-      const prompt = "You are a ClearEqual strategic sales advisor. For \"" + context.companyName + "\", identify THE single highest-value ClearEqual opportunity — the executive-level entry point. CONTEXT:\n" + JSON.stringify(context) + "\n\nReturn ONLY valid JSON:\n{\"hyperCellTitle\": \"One-sentence ClearEqual opportunity title\", \"hyperCellNarrative\": \"3-4 paragraph executive narrative: business context, urgency driver, specific ClearEqual solution (name the module), quantified expected impact (use real ClearEqual proof points), competitive urgency, and the executive ask. This must be compelling enough for a C-suite conversation.\"}\n\nUse real ClearEqual data: 37% internal hires, 50% TTF reduction, 3x career site conversion, 11x internal mobility, AI Agents screening 80%+ candidates, Talent Marketplace reducing external hiring costs 20-30%, Workforce Intelligence enabling skills-based planning 18 months ahead. Reference the specific ClearEqual module that maps to their #1 pain.";
+      const prompt = "You are a ClearEqual strategic sales advisor. For \"" + context.companyName + "\", identify THE single highest-value ClearEqual opportunity — the executive-level entry point. CONTEXT:\n" + JSON.stringify(context) + "\n\nReturn ONLY valid JSON:\n{\"hyperCellTitle\": \"One-sentence ClearEqual opportunity title\", \"hyperCellNarrative\": \"3-4 paragraph executive narrative: business context, urgency driver (Directive 2023/970 deadline), specific ClearEqual module, quantified expected impact (use real ClearEqual proof points), compliance urgency, and the executive ask. This must be compelling enough for a C-suite conversation.\"}\n\nUse real ClearEqual data: replaces €40–150K consultancy audits, 3–4x ROI with 3–4 month payback, EU-native end-to-end Directive (EU) 2023/970 coverage, audit-ready reporting, driver analysis that explains and defends the pay gap, remediation modelling that closes >5% gaps within budget before the joint-assessment trigger. Reference the specific ClearEqual module (Pay Gap Analytics, Pay Equity Analysis & Drivers, Remediation Modelling, Job Architecture / Leveling, Compliance Reporting & Disclosure, Ongoing Monitoring) that maps to their #1 pain.";
       const resp = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
@@ -6814,7 +6814,7 @@ function HyperCellSection({ account, update, claudeApiKey }) {
     /*#__PURE__*/ React.createElement(Input, {
       value: account.hyperCellTitle,
       onChange: (v) => update("hyperCellTitle", v),
-      placeholder: "e.g. U.S. mid-market insurance producer recruitment, onboarding and cross-entity deployment\u2026",
+      placeholder: "e.g. Close a >5% unexplained gender pay gap across DACH engineering before the 2027 reporting deadline\u2026",
     }),
     /*#__PURE__*/ React.createElement(
       "div",
@@ -6888,14 +6888,14 @@ function GeoPoliSection({ account, update }) {
     "div",
     null,
     /*#__PURE__*/ React.createElement(SectionHeader, {
-      title: "Geo-Political Context",
+      title: "Regulatory & Reporting Shifts",
       badge: "Strategic Intelligence",
       badgeColor: "#7C3AED",
     }),
     /*#__PURE__*/ React.createElement(
       "p",
       { style: { fontSize: 12, color: C.muted, marginBottom: 16 } },
-      "How the Ukraine war, Middle East/Iran tensions, and shifting trade routes affect this account \u2014 and where ClearEqual creates measurable opportunity.",
+      "How the per-country transposition of the EU Pay Transparency Directive (EU) 2023/970, reporting thresholds and deadlines, and related ESG/CSRD regimes affect this account \u2014 and where ClearEqual creates measurable compliance value.",
     ),
     /*#__PURE__*/ React.createElement(
       "div",
@@ -6914,45 +6914,45 @@ function GeoPoliSection({ account, update }) {
       /*#__PURE__*/ React.createElement(
         "div",
         { style: { fontSize: 12, color: "#92400E", flex: "1 1 250px", minWidth: 250 } },
-        /*#__PURE__*/ React.createElement("strong", null, "Ukraine War"),
-        " \u2014 Supply chain disruption, energy price shock, reshoring pressure, defence spending, reconstruction opportunity, Eastern Europe talent shift",
+        /*#__PURE__*/ React.createElement("strong", null, "Directive (EU) 2023/970"),
+        " \u2014 National transposition due 7 June 2026; reporting from 2027 for 150+ employers (250+ annually), 100+ from 2031; 5% unexplained-gap joint-assessment trigger; right to information; pay ranges in job postings",
       ),
       /*#__PURE__*/ React.createElement(
         "div",
         { style: { fontSize: 12, color: "#92400E", flex: "1 1 250px", minWidth: 250 } },
-        /*#__PURE__*/ React.createElement("strong", null, "Middle East / Iran"),
-        " \u2014 Red Sea / Suez Canal disruption, Houthi attacks, oil price volatility, Gulf aviation rerouting, brand risk in conflict zones",
+        /*#__PURE__*/ React.createElement("strong", null, "CSRD / ESG & National Regimes"),
+        " \u2014 CSRD own-workforce pay-gap disclosure, national gender pay-gap laws (e.g. Germany EntgTranspG, France Index Egalit\u00e9), works-council co-determination, ban on salary-history questions",
       ),
     ),
     /*#__PURE__*/ React.createElement(GeoCard, {
       icon: "\uD83C\uDF0D",
-      title: "Geopolitical Business Impact",
+      title: "Regulatory Business Impact",
       color: "#DC2626",
       field: "geoConflictImpact",
       placeholder:
-        "How do the Ukraine war and Middle East/Iran tensions directly affect this company's revenue, supply chain, operations, and talent market? Be specific about cost impacts, market exits, and strategic pivots forced by geopolitics...",
+        "How does the EU Pay Transparency Directive (and related national/CSRD regimes) directly affect this company across its operating countries? Be specific about which entities cross reporting thresholds, transposition timelines, joint-assessment exposure, and the cost of non-compliance (fines, back-pay, litigation, reputational risk)...",
       pills: [
-        { label: "Ukraine", color: "#2563EB" },
-        { label: "Middle East", color: "#DC2626" },
+        { label: "Directive 2023/970", color: "#2563EB" },
+        { label: "CSRD / ESG", color: "#DC2626" },
       ],
     }),
     /*#__PURE__*/ React.createElement(GeoCard, {
       icon: "\uD83D\uDCCD",
-      title: "Micro Growth Areas with Talent Implications",
+      title: "Emerging Compliance Exposure by Country",
       color: "#0D9488",
       field: "microGrowthArea",
       placeholder:
-        "Which specific business areas, geographies, or product lines are growing BECAUSE of geopolitical shifts? (e.g. defence tech, renewables, reshoring, CEE expansion, Red Sea alternatives, hydrogen, NATO infrastructure...) What talent does each growth area need?",
-      pills: [{ label: "Growth Signal", color: "#0D9488" }],
+        "Which specific countries, legal entities, or business lines are moving into scope BECAUSE of regulatory shifts? (e.g. new EU market entry, entity crossing the 250+/150+/100+ threshold, earlier national transposition, first reporting cycle, works-council formation...) What pay-equity obligation does each trigger?",
+      pills: [{ label: "Compliance Signal", color: "#0D9488" }],
     }),
     /*#__PURE__*/ React.createElement(GeoCard, {
       icon: "\uD83D\uDD04",
-      title: "Talent Market Shift",
+      title: "Regulatory & Reporting Shift",
       color: "#7C3AED",
       field: "geoTalentShift",
       placeholder:
-        "How is geopolitics reshaping the talent market for this company? (e.g. Ukrainian engineers in Germany, defence-cleared talent scarcity, nearshoring workforce in new geographies, loss of Russian talent pool, Gulf talent competition for aviation/energy roles...)",
-      pills: [{ label: "Talent Dynamics", color: "#7C3AED" }],
+        "How is the regulatory landscape shifting for this company? (e.g. Germany transposing earlier than the 2026 deadline, France Index Egalit\u00E9 tightening, national portals going live, quartile/category reporting rules, right-to-information requests rising, salary-history bans, CSRD assurance requirements...)",
+      pills: [{ label: "Regulatory Dynamics", color: "#7C3AED" }],
     }),
     /*#__PURE__*/ React.createElement(
       "div",
@@ -6964,25 +6964,98 @@ function GeoPoliSection({ account, update }) {
         /*#__PURE__*/ React.createElement(
           "span",
           { style: { fontWeight: 700, fontSize: 14, color: "#00BFA5" } },
-          "ClearEqual Geo-Political Play \u2014 Measurable Business Outcome",
+          "ClearEqual Regulatory Play \u2014 Measurable Compliance Outcome",
         ),
       ),
       /*#__PURE__*/ React.createElement(
         "p",
         { style: { fontSize: 12, color: "#94A3B8", marginBottom: 12 } },
-        "How does ClearEqual specifically enable this company to win in geopolitically-driven growth areas? Define the outcome in metrics.",
+        "How does ClearEqual specifically enable this company to get ahead of the Directive and related regimes across its countries? Define the outcome in metrics.",
       ),
       /*#__PURE__*/ React.createElement(TextArea, {
         value: account.phenomGeoPlay,
         onChange: (v) => update("phenomGeoPlay", v),
         placeholder:
-          "Specific ClearEqual capability \u2192 Geo-driven growth area \u2192 Measurable outcome (e.g. 'AI-powered talent pipeline for hydrogen engineers reduces TTF from 90 to 45 days, enabling RWE to staff 3 offshore wind farms on schedule \u2014 worth \u20AC200M in deployment revenue that would otherwise slip 6-12 months...')",
+          "Specific ClearEqual module \u2192 Regulatory driver \u2192 Measurable outcome (e.g. 'Pay Equity Analysis & Remediation Modelling closes a 6.2% unexplained gap across DACH before the first 2027 report \u2014 avoiding a joint pay assessment and ~\u20AC1.5M in back-pay/litigation exposure, replacing a \u20AC120K annual consultancy audit...')",
         rows: 5,
       }),
     ),
   );
 } // ─── ClearEqual Proof Points Database (Industry-Matched Customer Stories) ─────────
-const CLEAREQUAL_PROOF_POINTS = []; // ─── Industry matching logic ─────────────────────────────────────────────────
+const CLEAREQUAL_PROOF_POINTS = [
+  {
+    company: "Global Automotive Manufacturer",
+    industry: "Automotive Manufacturing",
+    headline: "Analysed the gender pay gap across a 50,000+ DACH workforce and closed the unexplained gap ahead of the first Directive report",
+    metrics: ["Unexplained gap isolated across 200+ job groups", "Joint pay assessment risk avoided (gap < 5%)", "Replaced a 6-figure external audit"],
+    tags: ["Automotive", "Manufacturing", "Industrial", "DACH"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "European Retail Bank",
+    industry: "Retail Banking / Financial Services",
+    headline: "Built defensible pay structures and produced Article 9 category-level reporting across multiple EU entities",
+    metrics: ["Pay gap reported by category & quartile", "Right-to-information requests answered in minutes", "3–4× ROI vs. consultancy-led audits"],
+    tags: ["Banking", "Financial Services", "Insurance", "Regulated"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "Multinational Consumer Goods Group",
+    industry: "Retail / Consumer Goods",
+    headline: "Mapped job architecture to work of equal value and modelled remediation within a fixed reward budget",
+    metrics: ["Roles grouped by equal value across 15 countries", "Remediation phased over 24 months on budget", "CSRD own-workforce pay disclosure ready"],
+    tags: ["Retail", "Consumer Goods", "FMCG", "CSRD"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "Global Pharmaceutical Company",
+    industry: "Pharmaceuticals / Life Sciences",
+    headline: "Gave R&D and commercial leaders a driver analysis that explained and defended legitimate pay differences",
+    metrics: ["Explained vs. unexplained gap separated", "Intersectional gaps surfaced by cohort", "Audit-ready evidence for works councils"],
+    tags: ["Pharmaceuticals", "Life Sciences", "Healthcare", "R&D"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "Enterprise Technology / SaaS Firm",
+    industry: "Technology / SaaS",
+    headline: "Introduced pay ranges in job postings and continuous monitoring across a fast-scaling EU workforce",
+    metrics: ["Pay ranges published for all EU roles", "Continuous pay-equity alerts on new hires", "Salary-history bias designed out of offers"],
+    tags: ["Technology", "SaaS", "Software", "Scale-up"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "Global Professional Services Firm",
+    industry: "Professional Services / Consulting",
+    headline: "Replaced spreadsheet-based pay reviews with repeatable, audit-ready pay-equity reporting",
+    metrics: ["Reporting cut from weeks to hours", "Grade/leveling gaps remediated", "One evidence base across all member firms"],
+    tags: ["Professional Services", "Consulting", "Legal", "Advisory"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "Pan-European Logistics Operator",
+    industry: "Logistics / Transportation",
+    headline: "Brought a large blue-collar and operational workforce into scope with per-country threshold tracking",
+    metrics: ["Entities crossing 250+/150+/100+ tracked", "Multi-country reporting footprint mapped", "Works-council negotiation grounded in data"],
+    tags: ["Logistics", "Transportation", "Supply Chain", "Operations"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "European Energy & Utilities Group",
+    industry: "Energy / Utilities",
+    headline: "Aligned reward, DE&I and ESG teams around one pay-equity dataset for CSRD and Directive disclosure",
+    metrics: ["Single source for pay-gap disclosure", "ESG & fair-pay commitments evidenced", "Remediation cost quantified for the CFO"],
+    tags: ["Energy", "Utilities", "Infrastructure", "ESG"],
+    source: "Illustrative sector example — EU Pay Transparency Directive (EU) 2023/970",
+  },
+  {
+    company: "Cross-Industry Benchmark",
+    industry: "All Industries",
+    headline: "EU-native, end-to-end coverage of pay-gap analysis, remediation and Directive (EU) 2023/970 reporting",
+    metrics: ["Replaces €40–150K consultancy audits", "3–4× ROI, 3–4 month payback", "Audit-ready, continuously monitored"],
+    tags: ["All Industries"],
+    source: "ClearEqual positioning — pay-equity & pay-transparency compliance",
+  },
+]; // ─── Industry matching logic ─────────────────────────────────────────────────
 function matchProofPoints(accountIndustry) {
   if (!accountIndustry) return CLEAREQUAL_PROOF_POINTS;
   const terms = accountIndustry
@@ -6994,7 +7067,7 @@ function matchProofPoints(accountIndustry) {
     let score = 0;
     terms.forEach((t) => {
       if (tagStr.includes(t)) score += 2;
-    }); // Forrester TEI always relevant
+    }); // Cross-industry benchmark always relevant
     if (pp.tags.includes("All Industries")) score += 1;
     return { ...pp, score };
   });
@@ -7035,7 +7108,7 @@ function ProofPointsSection({ account, update }) {
         value: account.proofPoint || "",
         onChange: (v) => update("proofPoint", v),
         placeholder:
-          "Add a custom proof point specific to this account \u2014 e.g. 'A leading global insurer deployed ClearEqual and saw 13X apply click improvement\u2026'",
+          "Add a custom proof point specific to this account \u2014 e.g. 'A leading global insurer deployed ClearEqual and closed a 6% unexplained gender pay gap ahead of its first Directive report\u2026'",
         rows: 3,
       }),
     ),
@@ -7189,18 +7262,18 @@ function ProofPointsSection({ account, update }) {
         /*#__PURE__*/ React.createElement(
           "span",
           { style: { fontWeight: 700, fontSize: 14, color: "#00BFA5" } },
-          "Forrester Total Economic Impact \u2014 Cross-Industry Benchmark",
+          "ClearEqual Economic Impact \u2014 Cross-Industry Benchmark",
         ),
       ),
       /*#__PURE__*/ React.createElement(
         "div",
         { style: { display: "flex", flexWrap: "wrap", gap: 12 } },
         [
-          { val: "449%", label: "ROI over 3 years" },
-          { val: "<6 mo", label: "Payback period" },
-          { val: "$24M+", label: "Total savings" },
-          { val: "25%", label: "Faster time-to-fill" },
-          { val: "11 hrs", label: "Saved per recruiter/week" },
+          { val: "3\u20134\u00d7", label: "ROI vs. consultancy audits" },
+          { val: "3\u20134 mo", label: "Payback period" },
+          { val: "\u20ac40\u2013150K", label: "Audit cost replaced / yr" },
+          { val: ">5%", label: "Gap = joint-assessment trigger" },
+          { val: "EU-native", label: "End-to-end Directive coverage" },
         ].map((m, i) =>
           /*#__PURE__*/ React.createElement(
             "div",
@@ -7292,7 +7365,7 @@ function CampaignSection({ account, update, claudeApiKey }) {
             { id: "phone_voicemail", subject: "Call objective", body: "Phone script / voicemail script (30 seconds). Reference the email. Mention a specific business outcome.", timing: "Day 5", notes: "Best time to call and why" },
             { id: "content_share", subject: "Content share subject line", body: "Message sharing relevant content (case study, article, report). Explain why it is specifically relevant to their situation at " + account.companyName + ".", timing: "Day 8", notes: "What content to share and why" },
             { id: "exec_referral", subject: "Executive referral email subject", body: "Email leveraging an executive connection or internal referral. Reference a conversation or mutual connection. Add credibility.", timing: "Day 12", notes: "Which executive to reference and approach" },
-            { id: "trigger_event", subject: "Trigger-based outreach subject", body: "Message tied to a recent event, earnings call, news, hiring signal, or industry trend affecting " + account.companyName + ". Show you are paying attention to their world.", timing: "Day 16", notes: "Trigger event to monitor for" },
+            { id: "trigger_event", subject: "Trigger-based outreach subject", body: "Message tied to a recent event, earnings call, news, a reporting-deadline or pay-gap disclosure signal, or regulatory trend affecting " + account.companyName + ". Show you are paying attention to their world.", timing: "Day 16", notes: "Trigger event to monitor for" },
             { id: "final_value", subject: "Final value push subject line", body: "Final compelling message. Quantified value proposition specific to " + account.companyName + ". Include ROI estimate. Create urgency. Strong CTA.", timing: "Day 21", notes: "Key metrics and urgency drivers" },
           ],
           opportunityScore: "1-10 rating of deal likelihood based on intel",
@@ -7546,7 +7619,7 @@ function OutreachSection({ account, update, claudeApiKey = "" }) {
       .replace("{proof_point}", account.proofPoints || account.proofPoint || "")
       .replace("{recent_news}", account.recentNews || "")
       .replace("{priorities}", exec.priorities || "")
-      .replace("{target_area}", "HR Technology and Talent Management");
+      .replace("{target_area}", "Pay Equity and Pay Transparency Compliance");
     try {
       const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -8560,7 +8633,7 @@ function BUGrowthClearEqualSection({ account, update, claudeApiKey }) {
       var resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: "Research \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ". Use ONLY current-year data and publicly available information.\n\nDEEP ACCOUNT INTELLIGENCE ALREADY GATHERED:\n- At a Glance: " + safeStr(account.atAGlance).substring(0, 400) + "\n- Business Segments: " + safeStr(account.businessSegments).substring(0, 400) + "\n- CEO Priorities: " + safeStr(account.ceoPriorities).substring(0, 300) + "\n- Revenue & Growth: " + safeStr(account.revenueGrowth).substring(0, 300) + "\n- Strategy: " + safeStr(account.strategy).substring(0, 300) + "\n- Key Signals: " + safeStr(account.keySignals).substring(0, 400) + "\n- Challenges: " + safeStr(account.challenges).substring(0, 400) + "\n- Workforce Strategy: " + safeStr(account.workforceStrategy).substring(0, 300) + "\n- Hiring Trends: " + safeStr(account.hiringTrends).substring(0, 300) + "\n- Employees: " + safeStr(account.employees) + "\n- Open Roles: " + safeStr(account.openRoles) + "\n- Problems: " + safeStr(account.problems).substring(0, 300) + "\n- Use Cases: " + safeStr(account.useCases).substring(0, 300) + "\n\nIMPORTANT: Cross-reference ALL the above intelligence. Your BU analysis must be CONSISTENT with the challenges, strategy, and signals already identified. Reference specific facts from this intelligence to ground your analysis.\n\nClearEqual's products: Article 9 Disclosure Dashboard (gender pay-gap analytics — mean & median, variable pay, quartile distribution, category breakdowns, regulator-ready PDF export), Article 10 Joint Assessment Workflow (5% pay-gap trigger logic, RBAC routing to works-council reps and management, approver gate, audit log), Article 7 Employee Self-Service Portal (verified right-to-information, peer comparison, five EU languages), Salary Band Management (AI-assisted band recommendations and pay progression), AI Insights (EU AI Act-aligned, bias-mitigated skill matching with decision audit trail), GDPR Retention Engine (k-anonymity, jurisdiction-specific retention, legal hold, right-to-be-forgotten). Multi-tenant, EU-hosted, white-label.\n\nReturn this exact JSON structure:\n{\n  \"fastestGrowingBU\": \"Name the SPECIFIC fastest-growing BU at " + account.companyName + " with growth rate, revenue, and strategic importance. Must be grounded in their actual publicly reported segments and strategy.\",\n  \"buGrowthDrivers\": \"What drives this BU's growth — cite specific recent acquisitions, product launches, or market moves from " + new Date().getFullYear() + ". Connect to the key signals and strategy above.\",\n  \"buTalentNeeds\": \"What talent this BU urgently needs — specific roles, volumes, skill sets. Reference their actual open roles and hiring trends above.\",\n  \"phenomProductMatch\": \"Map 4-5 SPECIFIC ClearEqual products to THIS company's SPECIFIC challenges listed above: '[Product] → [Their specific challenge/use case] → [Expected impact with numbers]'\",\n  \"phenomQuickWins\": \"3 concrete things ClearEqual delivers in FIRST 90 DAYS that directly address the challenges identified above. Include timelines and metrics.\",\n  \"phenomROIStory\": \"12-month ROI narrative using their actual employee count (" + safeStr(account.employees) + ") and open roles (" + safeStr(account.openRoles) + "). Be specific with $ amounts.\",\n  \"wowInsights\": \"5 jaw-drop insights that connect dots across the intelligence above in ways the CHRO wouldn't expect — each 2-3 sentences with specific data from their public filings, earnings calls, or news. Include: (1) recent event most missed, (2) competitive threat to their talent brand, (3) hidden cost they're not tracking, (4) connection between two of their initiatives creating urgency, (5) prediction for next 6-12 months\"\n}" }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, system: "You are a JSON API endpoint. You ONLY output valid JSON objects. Never include any text, explanation, or commentary outside the JSON.", messages: [{ role: "user", content: "Research \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ". Use ONLY current-year data and publicly available information.\n\nDEEP ACCOUNT INTELLIGENCE ALREADY GATHERED:\n- At a Glance: " + safeStr(account.atAGlance).substring(0, 400) + "\n- Business Segments: " + safeStr(account.businessSegments).substring(0, 400) + "\n- CEO Priorities: " + safeStr(account.ceoPriorities).substring(0, 300) + "\n- Revenue & Growth: " + safeStr(account.revenueGrowth).substring(0, 300) + "\n- Strategy: " + safeStr(account.strategy).substring(0, 300) + "\n- Key Signals: " + safeStr(account.keySignals).substring(0, 400) + "\n- Challenges: " + safeStr(account.challenges).substring(0, 400) + "\n- Workforce Strategy: " + safeStr(account.workforceStrategy).substring(0, 300) + "\n- Hiring Trends: " + safeStr(account.hiringTrends).substring(0, 300) + "\n- Employees: " + safeStr(account.employees) + "\n- Open Roles: " + safeStr(account.openRoles) + "\n- Problems: " + safeStr(account.problems).substring(0, 300) + "\n- Use Cases: " + safeStr(account.useCases).substring(0, 300) + "\n\nIMPORTANT: Cross-reference ALL the above intelligence. Your BU analysis must be CONSISTENT with the challenges, strategy, and signals already identified. Reference specific facts from this intelligence to ground your analysis.\n\nClearEqual's products: Article 9 Disclosure Dashboard (gender pay-gap analytics — mean & median, variable pay, quartile distribution, category breakdowns, regulator-ready PDF export), Article 10 Joint Assessment Workflow (5% pay-gap trigger logic, RBAC routing to works-council reps and management, approver gate, audit log), Article 7 Employee Self-Service Portal (verified right-to-information, peer comparison, five EU languages), Salary Band Management (AI-assisted band recommendations and pay progression), AI Insights (EU AI Act-aligned, bias-mitigated skill matching with decision audit trail), GDPR Retention Engine (k-anonymity, jurisdiction-specific retention, legal hold, right-to-be-forgotten). Multi-tenant, EU-hosted, white-label.\n\nReturn this exact JSON structure:\n{\n  \"fastestGrowingBU\": \"Name the SPECIFIC fastest-growing BU at " + account.companyName + " with growth rate, revenue, and strategic importance. Must be grounded in their actual publicly reported segments and strategy.\",\n  \"buGrowthDrivers\": \"What drives this BU's growth — cite specific recent acquisitions, product launches, or market moves from " + new Date().getFullYear() + ". Connect to the key signals and strategy above.\",\n  \"buTalentNeeds\": \"This BU's pay-equity exposure — headcount by country/gender, where it crosses Directive reporting thresholds, likely unexplained pay gaps and job-architecture gaps. Reference their actual workforce and pay structure above.\",\n  \"phenomProductMatch\": \"Map 4-5 SPECIFIC ClearEqual modules to THIS company's SPECIFIC pay-equity challenges listed above: '[Module] → [Their specific challenge/use case] → [Expected impact with numbers]'\",\n  \"phenomQuickWins\": \"3 concrete things ClearEqual delivers in FIRST 90 DAYS that directly address the pay-equity challenges identified above. Include timelines and metrics.\",\n  \"phenomROIStory\": \"12-month ROI narrative using their actual employee count (" + safeStr(account.employees) + ") — remediation budget, avoided fines/back-pay, and consultancy-audit savings. Be specific with € amounts.\",\n  \"wowInsights\": \"5 jaw-drop insights that connect dots across the intelligence above in ways the Head of Reward wouldn't expect — each 2-3 sentences with specific data from their public filings, earnings calls, or news. Include: (1) recent event most missed, (2) pay-transparency/reputational risk they underestimate, (3) hidden remediation cost they're not tracking, (4) connection between two of their initiatives creating urgency, (5) prediction for next 6-12 months\"\n}" }] }),
       }, 3, function(msg) { setEnrichStatus(msg); });
       var data = await resp.json();
       var rawText = (apiText(data) || "");
@@ -8605,18 +8678,18 @@ function BUGrowthClearEqualSection({ account, update, claudeApiKey }) {
     // Fastest Growing BU
     React.createElement(Card, { icon: "\uD83D\uDCC8", title: "Fastest Growing Business Unit", color: "#7C3AED", field: "fastestGrowingBU", tag: "Growth Engine", placeholder: "Which BU is growing fastest? Include growth rate, revenue, strategic importance...", rows: 4, hint: "Name the specific division/BU, not just 'their tech division'" }),
     React.createElement(Card, { icon: "\u26A1", title: "BU Growth Drivers", color: "#3B82F6", field: "buGrowthDrivers", tag: "Market Intel", placeholder: "What's driving this growth? Acquisitions, product launches, market expansion...", rows: 3 }),
-    React.createElement(Card, { icon: "\uD83D\uDC65", title: "BU Talent Needs", color: "#0D9488", field: "buTalentNeeds", tag: "Hiring Signal", placeholder: "What talent does this BU urgently need? Specific roles, volume, skill sets...", rows: 3 }),
+    React.createElement(Card, { icon: "\uD83D\uDC65", title: "BU Pay Equity Exposure", color: "#0D9488", field: "buTalentNeeds", tag: "Compliance Signal", placeholder: "Where is this BU's pay-equity exposure? Headcount by country/gender, reporting thresholds crossed, likely unexplained gaps, job-architecture gaps...", rows: 3 }),
 
     // ClearEqual Product Match
     React.createElement("div", { style: { margin: "20px 0 10px", fontSize: 14, fontWeight: 700, color: "#1E293B" } }, "\uD83C\uDFAF ClearEqual Product \u2192 Company Match"),
-    React.createElement(Card, { icon: "\uD83E\uDDE9", title: "Product-to-Need Mapping", color: "#DC2626", field: "phenomProductMatch", tag: "Kill Sheet", placeholder: "[ClearEqual Product] \u2192 [Their specific use case] \u2192 [Expected impact]\nExample: ClearEqual Internal Mobility \u2192 Redeploy 200 displaced workers into growing Cloud BU \u2192 save $4M external hiring", rows: 6 }),
+    React.createElement(Card, { icon: "\uD83E\uDDE9", title: "Product-to-Need Mapping", color: "#DC2626", field: "phenomProductMatch", tag: "Kill Sheet", placeholder: "[ClearEqual Module] \u2192 [Their specific use case] \u2192 [Expected impact]\nExample: ClearEqual Article 10 Joint Assessment Workflow \u2192 Close a 6% unexplained gap in DACH engineering before the 2027 report \u2192 avoid a joint pay assessment and ~\u20AC1.5M back-pay exposure", rows: 6 }),
     React.createElement(Card, { icon: "\u23F1\uFE0F", title: "90-Day Quick Wins", color: "#F59E0B", field: "phenomQuickWins", tag: "First Impact", placeholder: "3 concrete deliverables in the first 90 days with specific timelines and metrics...", rows: 4 }),
-    React.createElement(Card, { icon: "\uD83D\uDCB0", title: "12-Month ROI Story", color: "#10B981", field: "phenomROIStory", tag: "Business Case", placeholder: "With [X employees] and [Y open roles], ClearEqual projects: X% time-to-fill reduction ($Y savings)...", rows: 4 }),
+    React.createElement(Card, { icon: "\uD83D\uDCB0", title: "12-Month ROI Story", color: "#10B981", field: "phenomROIStory", tag: "Business Case", placeholder: "With [X employees] across [Y EU countries], ClearEqual projects: \u20ACX remediation contained, consultancy-audit spend replaced, back-pay/litigation risk avoided...", rows: 4 }),
 
     // Wow Insights
     React.createElement("div", { style: { margin: "20px 0 10px", fontSize: 14, fontWeight: 700, color: "#1E293B" } }, "\uD83E\uDD2F \"How Do You Know That?\" Insights"),
     React.createElement("div", { style: { fontSize: 11, color: "#6B7280", marginBottom: 10, fontStyle: "italic" } }, "5 jaw-drop data points that make the customer think you know their business better than they do. Use in emails, LinkedIn, and opening statements."),
-    React.createElement(Card, { icon: "\uD83D\uDCA1", title: "Wow Insights", color: "#6366F1", field: "wowInsights", tag: "Conversation Opener", placeholder: "1) A specific recent event most people missed\n2) A competitive threat to their talent brand\n3) A hidden cost they're probably not tracking\n4) A connection between two initiatives that creates urgency\n5) A prediction for their next 6-12 months", rows: 10 }),
+    React.createElement(Card, { icon: "\uD83D\uDCA1", title: "Wow Insights", color: "#6366F1", field: "wowInsights", tag: "Conversation Opener", placeholder: "1) A specific recent event most people missed\n2) A pay-transparency or reputational risk they underestimate\n3) A hidden remediation cost they're probably not tracking\n4) A connection between two initiatives that creates urgency\n5) A prediction for their next 6-12 months", rows: 10 }),
   );
 }
 
@@ -8636,7 +8709,7 @@ function BULeadersSection({ account, update, claudeApiKey }) {
       var resp = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-api-key": claudeApiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, system: "You are a JSON API endpoint with a 90% ACCURACY MANDATE. You ONLY output valid JSON objects. Never include any text outside the JSON. For EVERY person you include, you must have verified them against at least 2 public sources (LinkedIn, Xing, company website, press). Never guess or fabricate names.", messages: [{ role: "user", content: "Research current Business Unit leaders at \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ".\n\nInclude: division/BU heads, SVPs running business lines, procurement/vendor management leaders, and anyone with P&L responsibility.\n\n90% ACCURACY VERIFICATION PROTOCOL:\n1. For EACH person, verify via: (a) LinkedIn: \"{name}\" site:linkedin.com \"" + account.companyName + "\" (b) Xing: \"{name}\" site:xing.com \"" + account.companyName + "\" (c) Company website: \"" + account.companyName + "\" Vorstand OR management board (d) Departure check: \"{name}\" leaves OR verlässt \"" + account.companyName + "\"\n2. ONLY include if confirmed via AT LEAST 2 sources. State sources in mandate field: 'VERIFIED: [source1] + [source2]'\n3. If only 1 source, prefix name with '⚠️ ' and note 'SINGLE SOURCE'\n4. If ZERO sources confirm → DO NOT INCLUDE. Never guess names.\n5. Search for departures explicitly — anyone who left in 24 months must NOT be included.\n6. Better to return 2-3 verified leaders than 6 guessed names.\n\nReturn this exact JSON structure:\n{\"buLeaders\": [{\"name\": \"Full name (VERIFIED)\", \"title\": \"Current title\", \"bu\": \"Business Unit name\", \"mandate\": \"VERIFIED: [LinkedIn + company website]. Their strategic mandate\", \"talentChallenge\": \"Their hiring challenge\", \"phenomAngle\": \"How to position ClearEqual\", \"linkedinUrl\": \"Actual LinkedIn URL or empty string\"}]}" }] }),
+        body: JSON.stringify({ model: "claude-sonnet-4-6", tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }], max_tokens: 9000, system: "You are a JSON API endpoint with a 90% ACCURACY MANDATE. You ONLY output valid JSON objects. Never include any text outside the JSON. For EVERY person you include, you must have verified them against at least 2 public sources (LinkedIn, Xing, company website, press). Never guess or fabricate names.", messages: [{ role: "user", content: "Research current Business Unit leaders at \"" + account.companyName + "\" (" + (account.industry || "unknown") + "). Today is " + new Date().toISOString().split("T")[0] + ".\n\nInclude: division/BU heads, SVPs running business lines, procurement/vendor management leaders, and anyone with P&L responsibility.\n\n90% ACCURACY VERIFICATION PROTOCOL:\n1. For EACH person, verify via: (a) LinkedIn: \"{name}\" site:linkedin.com \"" + account.companyName + "\" (b) Xing: \"{name}\" site:xing.com \"" + account.companyName + "\" (c) Company website: \"" + account.companyName + "\" Vorstand OR management board (d) Departure check: \"{name}\" leaves OR verlässt \"" + account.companyName + "\"\n2. ONLY include if confirmed via AT LEAST 2 sources. State sources in mandate field: 'VERIFIED: [source1] + [source2]'\n3. If only 1 source, prefix name with '⚠️ ' and note 'SINGLE SOURCE'\n4. If ZERO sources confirm → DO NOT INCLUDE. Never guess names.\n5. Search for departures explicitly — anyone who left in 24 months must NOT be included.\n6. Better to return 2-3 verified leaders than 6 guessed names.\n\nReturn this exact JSON structure:\n{\"buLeaders\": [{\"name\": \"Full name (VERIFIED)\", \"title\": \"Current title\", \"bu\": \"Business Unit name\", \"mandate\": \"VERIFIED: [LinkedIn + company website]. Their strategic mandate\", \"talentChallenge\": \"Their pay-equity / pay-transparency compliance challenge\", \"phenomAngle\": \"How to position ClearEqual\", \"linkedinUrl\": \"Actual LinkedIn URL or empty string\"}]}" }] }),
       }, 3, function(msg) { setEnrichStatus(msg); });
       var data = await resp.json();
       var rawText = (apiText(data) || "");
@@ -8708,7 +8781,7 @@ function BULeadersSection({ account, update, claudeApiKey }) {
       ),
       React.createElement("textarea", { value: newLeader.mandate, onChange: function(e) { setNewLeader(function(prev) { return { ...prev, mandate: e.target.value }; }); }, placeholder: "Strategic mandate and KPIs...", rows: 2,
         style: { width: "100%", padding: "8px 10px", border: "1px solid " + C.border, borderRadius: 6, fontSize: 12, fontFamily: "inherit", marginTop: 8, boxSizing: "border-box", resize: "vertical" } }),
-      React.createElement("textarea", { value: newLeader.talentChallenge, onChange: function(e) { setNewLeader(function(prev) { return { ...prev, talentChallenge: e.target.value }; }); }, placeholder: "Their talent/hiring challenge...", rows: 2,
+      React.createElement("textarea", { value: newLeader.talentChallenge, onChange: function(e) { setNewLeader(function(prev) { return { ...prev, talentChallenge: e.target.value }; }); }, placeholder: "Their pay-equity / compliance challenge...", rows: 2,
         style: { width: "100%", padding: "8px 10px", border: "1px solid " + C.border, borderRadius: 6, fontSize: 12, fontFamily: "inherit", marginTop: 8, boxSizing: "border-box", resize: "vertical" } }),
       React.createElement("textarea", { value: newLeader.phenomAngle, onChange: function(e) { setNewLeader(function(prev) { return { ...prev, phenomAngle: e.target.value }; }); }, placeholder: "How to position ClearEqual to this person...", rows: 2,
         style: { width: "100%", padding: "8px 10px", border: "1px solid " + C.border, borderRadius: 6, fontSize: 12, fontFamily: "inherit", marginTop: 8, boxSizing: "border-box", resize: "vertical" } }),
@@ -8745,7 +8818,7 @@ function BULeadersSection({ account, update, claudeApiKey }) {
           React.createElement("div", { style: { display: "grid", gap: 8, marginTop: 10 } },
             [
               { label: "\uD83C\uDFAF Mandate & KPIs", field: "mandate", ph: "Strategic mandate..." },
-              { label: "\uD83D\uDC65 Talent Challenge", field: "talentChallenge", ph: "Their hiring/talent challenge..." },
+              { label: "\uD83D\uDC65 Pay Equity Challenge", field: "talentChallenge", ph: "Their pay-equity / compliance challenge..." },
               { label: "\uD83E\uDDE9 ClearEqual Angle", field: "phenomAngle", ph: "How to position ClearEqual to this person..." },
             ].map(function(f) {
               return React.createElement("div", { key: f.field },
@@ -9045,7 +9118,7 @@ function DashboardHome({ accounts, completionScore, selectAccount, setActiveSect
   });
 
   // Department groups for org chart
-  var DEPT_ORDER = ["HR Leadership", "Talent Acquisition", "Talent Management", "Workforce Management", "IT / Digital", "AI Strategy", "Finance", "Procurement", "Other"];
+  var DEPT_ORDER = ["Reward & Total Rewards", "Legal & Compliance", "People / HR Leadership", "DE&I / Inclusion", "Finance", "People Analytics / HRIS", "Works Council / Employee Rep", "Other"];
   var deptGroups = {};
   DEPT_ORDER.forEach(function(d) { deptGroups[d] = []; });
   allExecs.forEach(function(e) {
@@ -9064,7 +9137,7 @@ function DashboardHome({ accounts, completionScore, selectAccount, setActiveSect
       (e.roleType || "").toLowerCase().includes(q);
   }).slice(0, 20) : [];
 
-  var deptColor = { "HR Leadership": "#7C3AED", "Talent Acquisition": "#3B82F6", "Talent Management": "#0D9488", "Workforce Management": "#F59E0B", "IT / Digital": "#DC2626", "AI Strategy": "#6366F1", "Finance": "#10B981", "Procurement": "#D97706", "Other": "#6B7280" };
+  var deptColor = { "Reward & Total Rewards": "#7C3AED", "Legal & Compliance": "#DC2626", "People / HR Leadership": "#DB2777", "DE&I / Inclusion": "#0D9488", "Finance": "#10B981", "People Analytics / HRIS": "#2563EB", "Works Council / Employee Rep": "#F59E0B", "Other": "#6B7280" };
 
   // Helper: mini progress ring
   var miniRing = function(score, size) {
@@ -9215,7 +9288,7 @@ function DashboardHome({ accounts, completionScore, selectAccount, setActiveSect
         type: "text",
         value: teamSearch,
         onChange: function(e) { setTeamSearch(e.target.value); setAddToAccountId(null); },
-        placeholder: "Search: e.g. procurement, CHRO, talent, BMW, CIO...",
+        placeholder: "Search: e.g. reward, CHRO, compliance, works council, DE&I...",
         style: { width: "100%", padding: "10px 14px", border: "1px solid #D1D5DB", borderRadius: 8, fontSize: 13, fontFamily: "inherit", boxSizing: "border-box", outline: "none", background: "#F9FAFB" },
         onFocus: function(e) { e.target.style.borderColor = "#0D9488"; e.target.style.background = "#fff"; },
         onBlur: function(e) { e.target.style.borderColor = "#D1D5DB"; e.target.style.background = "#F9FAFB"; },
@@ -9380,11 +9453,11 @@ const SUPER_SECTIONS = [
     { id: "revenue", label: "Revenue" },
     { id: "strategy", label: "Strategy" },
   ]},
-  { id: "talent", label: "Workforce & HR", icon: "\uD83D\uDC65", children: [
-    { id: "workforce", label: "Workforce Intel" },
-    { id: "hrtech", label: "HR Tech Stack" },
+  { id: "talent", label: "Pay Equity & Reward", icon: "\u2696\uFE0F", children: [
+    { id: "workforce", label: "Pay Equity Intel" },
+    { id: "hrtech", label: "Reward & HRIS Systems" },
     { id: "executives", label: "People" },
-    { id: "geopolitics", label: "Geo-Politics" },
+    { id: "geopolitics", label: "Regulatory & ESG" },
   ]},
   { id: "opportunity", label: "Pain & Opportunity", icon: "\uD83D\uDD0D", children: [
     { id: "bugrowth", label: "BU Growth & ClearEqual" },
@@ -9730,7 +9803,7 @@ function ProspectDashboard() {
   "revenue": "Most recent annual revenue with currency — MUST include the fiscal year (e.g. FY${currentYear - 1}). Do NOT use data older than ${currentYear - 2}",
   "revenueGrowth": "YoY growth % and trend",
   "employees": "Current headcount",
-  "openRoles": "Estimated open roles and hiring focus areas",
+  "openRoles": "Estimated open roles (relevant to pay-range-in-job-posting obligations)",
   "glassdoorRating": "Glassdoor rating / 5.0 if known",
   "coreBusiness": "Core business description, products/services, market position",
   "industryPosition": "Key competitors and market share",
@@ -9748,11 +9821,11 @@ function ProspectDashboard() {
   "costEfficiency": "Cost reduction programs, efficiency targets",
   "techBets": "Technology stack, digital transformation, AI initiatives",
   "regulatoryContext": "Key regulatory factors affecting the business",
-  "workforceScale": "Employee breakdown by division/region",
-  "hiringShape": "Hiring volume, pace, seasonal patterns",
-  "criticalRoles": "Hardest-to-fill roles and skill gaps",
-  "geoPatterns": "HQ location and key geographic hubs",
-  "talentPressure": "Employer brand strength, retention challenges, talent competition"
+  "workforceScale": "Workforce & pay structure: headcount by country/gender, pay grades/job levels, share above Directive reporting thresholds (250+/150+/100+)",
+  "hiringShape": "Pay & reward programme: fixed vs variable pay mix, bonus/equity, salary-band and job-architecture maturity, pay-progression criteria, transparency to employees",
+  "criticalRoles": "Highest-risk pay gaps & job families: known/likely gender and intersectional pay gaps, categories of workers with >5% unexplained gap, equal-pay litigation exposure",
+  "geoPatterns": "Multi-country reporting footprint: EU member states of operation, per-country transposition timelines and thresholds, works-council structures, existing national pay-gap reporting",
+  "talentPressure": "Regulatory exposure & deadlines: Directive 2023/970 readiness, next reporting deadline, CSRD/ESG pay disclosure, union/works-council pressure, public pay-gap or reputational exposure"
 }`;
         const d1p = callClaudeAPI(key, p1, 3000);
 
@@ -9760,13 +9833,13 @@ function ProspectDashboard() {
         const p2 = `You are a B2B sales strategist researching "${acc.companyName}" (industry: ${acc.industry || "unknown"}). CRITICAL: Today is ${new Date().toISOString().split("T")[0]}. Use the LATEST available data from ${currentYear - 1}-${currentYear}, not outdated information. Reference current leadership, recent strategic initiatives, and up-to-date market conditions. Return ONLY valid JSON. Use "" for unknown. Be specific to this company:
 {
   "hypothesis": "Core sales hypothesis: why this company needs an EU-native pay-equity compliance platform (Directive (EU) 2023/970) (2-3 sentences)",
-  "cioProblems": "CIO/CTO/People-Analytics challenges: fragmented HRIS/payroll/comp data, inability to compute mean & median pay gaps by category, EU AI Act exposure, GDPR-compliant retention",
+  "cioProblems": "Finance & People-Analytics/HRIS challenges: remediation budget exposure, fragmented HRIS/payroll/comp data, inability to compute mean & median pay gaps by category, EU AI Act exposure, GDPR-compliant retention",
   "chroProblems": "CHRO / Head of Reward challenges: pay-gap exposure, Article 9 reporting readiness, pay-structure justification, works-council negotiation, DE&I / fair-pay commitments",
   "businessPain": "Quantified compliance pain: unexplained pay gap %, Article 10 joint-assessment trigger risk, potential Art. 23 penalty (up to 5% of payroll), tribunal/damages exposure, consultancy-audit spend",
   "whyNow": "Why is now the right time to engage: Directive (EU) 2023/970 national transposition, reporting deadline, a new CHRO/Head of Reward, works-council pressure, or a public pay-gap disclosure",
   "problemHypothesis": "Problem hypothesis connecting company challenges to pay-equity compliance solution",
   "workflowAssessment": "Current HRIS / HCM / payroll / compensation-management stack and its ability to produce Article 9 pay-gap metrics",
-  "hrTechStack": "CRITICAL: ONLY include tools that are PUBLICLY CONFIRMED (press releases, job postings mentioning specific tools, vendor case studies, annual reports). Return EMPTY ARRAY [] if not confirmed. DO NOT GUESS. Format: [{category: ats/hcm/lms/perf/payroll/wfm/analytics/engagement, name: Exact vendor name, notes: Source of confirmation}]",
+  "hrTechStack": "CRITICAL: ONLY include tools that are PUBLICLY CONFIRMED (press releases, job postings mentioning specific tools, vendor case studies, annual reports). Return EMPTY ARRAY [] if not confirmed. DO NOT GUESS. Format: [{category: hris/payroll/comp/job-architecture/pay-gap-reporting/dei-analytics/analytics, name: Exact vendor name, notes: Source of confirmation}]",
   "highestOpportunity": "Highest-impact wedge: Article 9 disclosure automation, Article 10 joint-assessment workflow, salary-band governance, or works-council-ready reporting",
   "capabilityMatch": "Which platform capabilities map to which business needs",
   "proofPoints": "Relevant proof points or similar company case studies",
@@ -9777,12 +9850,12 @@ function ProspectDashboard() {
   "discoveryQuestions": "4 discovery questions to ask in a first meeting",
   "whyNowFraming": "Why-now framing for outreach timing",
   "nextSteps": "Recommended next steps: 3-4 actions with timeline",
-  "hyperCellTitle": "Provocative one-line headline about their talent challenge",
+  "hyperCellTitle": "Provocative one-line headline about their pay-equity / compliance challenge",
   "hyperCellNarrative": "2-3 sentence hyper-cell narrative with quantified opportunity",
-  "geoConflictImpact": "How geopolitical factors (conflicts, trade, regulation) affect this company",
-  "microGrowthArea": "Specific emerging growth area creating new talent needs",
-  "phenomGeoPlay": "How a pay-equity compliance platform addresses geopolitical talent challenges",
-  "geoTalentShift": "Talent market shifts caused by geopolitical or demographic changes"
+  "geoConflictImpact": "How regulatory factors (Directive 2023/970 transposition, CSRD/ESG, national pay-gap laws) affect this company across its countries",
+  "microGrowthArea": "Specific emerging compliance exposure: entities/countries newly crossing reporting thresholds or first reporting cycle",
+  "phenomGeoPlay": "How ClearEqual helps this company get ahead of the Directive and related regimes across its markets",
+  "geoTalentShift": "Regulatory & reporting shifts: per-country transposition, thresholds, deadlines, works-council and disclosure changes"
 }`;
         const d2p = callClaudeAPI(key, p2, 3500);
 
@@ -9808,16 +9881,16 @@ INCLUSION RULES:
 - Return 3-5 VERIFIED executives. 3 verified >> 8 guessed.
 
 {
-  "keySignals": ["signal 1 about hiring/growth", "signal 2 about leadership", "signal 3 about tech/AI", "signal 4 about financials", "signal 5 about workforce", "signal 6 about transformation", "signal 7 about market position", "signal 8 about talent pressure"],
-  "primarySponsor": "Name and title of the most relevant HR/People executive (VERIFIED current employee only)",
-  "secondaryContacts": "Name and title of CIO/CTO or other relevant executive (VERIFIED current employee only)",
+  "keySignals": ["signal 1 about pay-equity/reporting exposure", "signal 2 about leadership (Reward/HR/Legal)", "signal 3 about HRIS/payroll/comp systems", "signal 4 about financials", "signal 5 about workforce & pay structure", "signal 6 about transformation", "signal 7 about market position", "signal 8 about regulatory/compliance pressure"],
+  "primarySponsor": "Name and title of the most relevant Reward / People executive (VERIFIED current employee only)",
+  "secondaryContacts": "Name and title of CFO, General Counsel or other relevant executive (VERIFIED current employee only)",
   "leadNarrative": "One-sentence lead narrative for sales outreach",
   "discoveryAngle": "Key discovery angle: what to explore in first meeting",
   "proofPoint": "Most relevant customer case study or proof point",
   "executives": [
-    {"name": "Executive 1 full name (VERIFIED on LinkedIn/Xing)", "title": "Their exact current title", "roleType": "Primary Sponsor", "department": "HR Leadership", "background": "2-3 sentence career background + verification source", "priorities": "Their top priorities", "keyQuote": "A REAL public quote with source — or empty string if none found", "relevance": "Why they matter for this deal", "outreachAngles": "2 outreach angles to engage them", "linkedinUrl": "LinkedIn profile URL (https://linkedin.com/in/...) or empty string", "reportsTo": "Name of their direct manager"},
-    {"name": "Executive 2 full name (VERIFIED)", "title": "Their exact current title", "roleType": "Key Influencer", "department": "Talent Acquisition", "background": "2-3 sentence background + verification", "priorities": "Their top priorities", "keyQuote": "Real quote or empty string", "relevance": "Why they matter", "outreachAngles": "2 outreach angles", "linkedinUrl": "", "reportsTo": ""},
-    {"name": "Executive 3 full name (VERIFIED)", "title": "Their exact current title", "roleType": "Budget Authority", "department": "IT / Digital", "background": "2-3 sentence background + verification", "priorities": "Their top priorities", "keyQuote": "Real quote or empty string", "relevance": "Why they matter", "outreachAngles": "2 outreach angles", "linkedinUrl": "", "reportsTo": ""}
+    {"name": "Executive 1 full name (VERIFIED on LinkedIn/Xing)", "title": "Their exact current title", "roleType": "Primary Sponsor", "department": "Reward & Total Rewards", "background": "2-3 sentence career background + verification source", "priorities": "Their top priorities", "keyQuote": "A REAL public quote with source — or empty string if none found", "relevance": "Why they matter for this deal", "outreachAngles": "2 outreach angles to engage them", "linkedinUrl": "LinkedIn profile URL (https://linkedin.com/in/...) or empty string", "reportsTo": "Name of their direct manager"},
+    {"name": "Executive 2 full name (VERIFIED)", "title": "Their exact current title", "roleType": "Key Influencer", "department": "Legal & Compliance", "background": "2-3 sentence background + verification", "priorities": "Their top priorities", "keyQuote": "Real quote or empty string", "relevance": "Why they matter", "outreachAngles": "2 outreach angles", "linkedinUrl": "", "reportsTo": ""},
+    {"name": "Executive 3 full name (VERIFIED)", "title": "Their exact current title", "roleType": "Budget Authority", "department": "Finance", "background": "2-3 sentence background + verification", "priorities": "Their top priorities", "keyQuote": "Real quote or empty string", "relevance": "Why they matter", "outreachAngles": "2 outreach angles", "linkedinUrl": "", "reportsTo": ""}
   ],
   "challenges": [
     {"severity": "CRITICAL", "title": "Challenge title", "businessChallenge": "Description", "solution": "How pay-equity compliance platform solves it", "proofPoint": "Relevant proof point"},
@@ -9854,8 +9927,8 @@ DEEP ACCOUNT INTELLIGENCE ALREADY GATHERED:
 - Strategy: ${c4ctx.strategy}
 - Key Signals: ${c4ctx.keySignals}
 - Challenges: ${c4ctx.challenges}
-- Workforce Strategy: ${c4ctx.workforce}
-- Hiring Trends: ${c4ctx.hiring}
+- Workforce & Pay Structure: ${c4ctx.workforce}
+- Pay & Reward Trends: ${c4ctx.hiring}
 - Employees: ${acc.employees || "N/A"}, Open Roles: ${acc.openRoles || "N/A"}
 - Known Problems: ${c4ctx.problems}
 - Use Cases: ${c4ctx.useCases}
@@ -9868,16 +9941,16 @@ Return this exact JSON structure:
 {
   "fastestGrowingBU": "Name the SPECIFIC fastest-growing BU at ${acc.companyName} with growth rate, revenue contribution. Must match their actual reported segments above.",
   "buGrowthDrivers": "What drives this BU's growth — cite specific ${new Date().getFullYear()} events, acquisitions, or launches. Connect to the key signals above.",
-  "buTalentNeeds": "Specific roles, volumes, skill sets this BU needs. Reference their actual open roles (${acc.openRoles || "N/A"}) and hiring trends above.",
-  "phenomProductMatch": "Map 4-5 ClearEqual products to their SPECIFIC challenges listed above: '[Product] → [Their challenge] → [Expected impact with numbers]'",
-  "phenomQuickWins": "3 things ClearEqual delivers in FIRST 90 DAYS that directly address the challenges identified above.",
-  "phenomROIStory": "12-month ROI using actual numbers: ${acc.employees || "N"} employees, ${acc.openRoles || "N"} open roles. Specific $ amounts.",
-  "wowInsights": "5 insights connecting dots across the intelligence above that the CHRO wouldn't expect: (1) recent event most missed, (2) competitive talent threat, (3) hidden cost, (4) urgency connection between initiatives, (5) 6-12 month prediction. Each 2-3 sentences with data.",
+  "buTalentNeeds": "This BU's pay-equity exposure: headcount by country/gender, reporting thresholds crossed, likely unexplained gaps and job-architecture gaps. Reference the workforce & pay structure above.",
+  "phenomProductMatch": "Map 4-5 ClearEqual modules to their SPECIFIC pay-equity challenges listed above: '[Module] → [Their challenge] → [Expected impact with numbers]'",
+  "phenomQuickWins": "3 things ClearEqual delivers in FIRST 90 DAYS that directly address the pay-equity challenges identified above.",
+  "phenomROIStory": "12-month ROI using actual numbers: ${acc.employees || "N"} employees across their EU countries — remediation contained, consultancy-audit spend replaced, back-pay/litigation risk avoided. Specific € amounts.",
+  "wowInsights": "5 insights connecting dots across the intelligence above that the Head of Reward wouldn't expect: (1) recent event most missed, (2) pay-transparency/reputational risk, (3) hidden remediation cost, (4) urgency connection between initiatives, (5) 6-12 month prediction. Each 2-3 sentences with data.",
   "buLeaders": [
-    {"name": "Full name", "title": "Exact current title", "bu": "Business Unit name", "mandate": "Strategic mandate", "talentChallenge": "Hiring challenge", "phenomAngle": "How to position ClearEqual", "linkedinUrl": ""},
+    {"name": "Full name", "title": "Exact current title", "bu": "Business Unit name", "mandate": "Strategic mandate", "talentChallenge": "Pay-equity / compliance challenge", "phenomAngle": "How to position ClearEqual", "linkedinUrl": ""},
     {"name": "Second BU leader", "title": "Title", "bu": "BU", "mandate": "Mandate", "talentChallenge": "Challenge", "phenomAngle": "Angle", "linkedinUrl": ""},
     {"name": "Third leader", "title": "Title", "bu": "BU", "mandate": "Mandate", "talentChallenge": "Challenge", "phenomAngle": "Angle", "linkedinUrl": ""},
-    {"name": "Procurement/Vendor leader", "title": "Title", "bu": "Procurement", "mandate": "Mandate", "talentChallenge": "How they evaluate HR tech", "phenomAngle": "Angle", "linkedinUrl": ""}
+    {"name": "Procurement/Vendor leader", "title": "Title", "bu": "Procurement", "mandate": "Mandate", "talentChallenge": "How they evaluate reward / compliance tech", "phenomAngle": "Angle", "linkedinUrl": ""}
   ]
 }`;
         const d4 = await callClaudeAPI(key, p4, 4000);
